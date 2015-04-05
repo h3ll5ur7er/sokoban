@@ -1,0 +1,110 @@
+
+atlas.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+game.box.floor
+  rotate: false
+  xy: 1, 72
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+game.box.goal
+  rotate: false
+  xy: 131, 72
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+game.floor
+  rotate: false
+  xy: 261, 72
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+game.goal
+  rotate: false
+  xy: 391, 72
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+game.player.floor
+  rotate: false
+  xy: 521, 72
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+game.player.goal
+  rotate: false
+  xy: 651, 72
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+game.wall
+  rotate: false
+  xy: 781, 72
+  size: 128, 128
+  orig: 128, 128
+  offset: 0, 0
+  index: -1
+ui.checkbox.off
+  rotate: false
+  xy: 1, 38
+  size: 32, 32
+  split: 2, 2, 2, 2
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+ui.checkbox.on
+  rotate: false
+  xy: 911, 168
+  size: 32, 32
+  split: 2, 2, 2, 2
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+ui.checkbox.over
+  rotate: false
+  xy: 1, 4
+  size: 32, 32
+  split: 2, 2, 2, 2
+  orig: 32, 32
+  offset: 0, 0
+  index: -1
+ui.button.down
+  rotate: false
+  xy: 35, 61
+  size: 9, 9
+  split: 3, 3, 3, 3
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
+ui.button.up
+  rotate: false
+  xy: 911, 157
+  size: 9, 9
+  split: 3, 3, 3, 3
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
+ui.default.background
+  rotate: false
+  xy: 945, 199
+  size: 1, 1
+  split: 0, 0, 0, 0
+  orig: 1, 1
+  offset: 0, 0
+  index: -1
+ui.default.selection
+  rotate: false
+  xy: 1, 1
+  size: 1, 1
+  split: 0, 0, 0, 0
+  orig: 1, 1
+  offset: 0, 0
+  index: -1

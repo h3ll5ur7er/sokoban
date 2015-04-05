@@ -1,0 +1,544 @@
+package ch.bfh.sokoban.game;
+
+import ch.bfh.sokoban.GlobalAssets;
+import ch.bfh.sokoban.data.LevelPack;
+import ch.bfh.sokoban.pathfinding.AStarPathFinder;
+import ch.bfh.sokoban.pathfinding.Mover;
+import ch.bfh.sokoban.pathfinding.Path;
+import ch.bfh.sokoban.pathfinding.TileBasedMap;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
+import static ch.bfh.sokoban.game.Constants.*;
+
+import java.util.ArrayList;
+import java.util.Stack;
+
+public class Level extends Actor implements TileBasedMap
+{
+    private int width;
+    private int height;
+
+    private Stack<Commands> steps;
+    private Stack<Commands> undone;
+
+    private Tile[][] tiles;
+
+    boolean [][] visited;
+    Path currentPath;
+    int pathIndex;
+    int walkCounter;
+    int walkRate = 10;
+    boolean walking = false;
+
+
+    private Tile player;
+    private ArrayList<Tile> goals;
+
+    Table table;
+    Skin skin;
+
+    public Level(String name, int width, int height, String[] data, Skin skin)
+    {
+        this.width = width;
+        this.height = height;
+
+        this.skin = skin;
+
+        goals = new ArrayList<Tile>();
+
+        tiles = new Tile[height][];
+
+        steps = new Stack<Commands>();
+        undone = new Stack<Commands>();
+
+        for (int y = 0; y < data.length; y++)
+        {
+            tiles[y] = new Tile[width];
+            char[] chars = data[y].toCharArray();
+            for (int x = 0; x < data[y].length(); x++)
+            {
+                Tile t = new Tile(chars[x], x, y);
+                tiles[y][x] = t;
+                if(t.isPlayer())
+                {
+                    player = t;
+                }
+                if(t.isGoal())
+                {
+                    goals.add(t);
+                }
+            }
+        }
+
+        for (int x = 1; x < width-1; x++)
+        {
+            for (int y = 1; y < height-1; y++)
+            {
+                link(x,y);
+            }
+        }
+
+        for (int x = 1; x < width-1; x++)
+        {
+            for (int y = 1; y < height-1; y++)
+            {
+                link(x,y);
+            }
+        }
+
+        Table t = new Table(skin);
+
+        for (int y = height-1; y >= 0; y--)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                t.add(tiles[y][x]);
+            }
+            t.row();
+        }
+
+        t.invalidateHierarchy();
+
+        table = t;
+
+        Gdx.graphics.setTitle(name);
+    }
+
+    public Level(LevelPack.Level lvl, Skin skin)
+    {
+        this(lvl.name, lvl.width, lvl.height, lvl.data, skin);
+    }
+
+    public void up()
+    {
+        if(player.canMove(Directions.up))
+        {
+            player = player.move(Directions.up);
+            pushCommand(Commands.MoveUp);
+        }
+        else if (player.canPush(Directions.up))
+        {
+            player = player.push(Directions.up);
+            pushCommand(Commands.PushUp);
+        }
+    }
+
+    public void down()
+    {
+        if(player.canMove(Directions.down))
+        {
+            player = player.move(Directions.down);
+            pushCommand(Commands.MoveDown);
+        }
+        else if (player.canPush(Directions.down))
+        {
+            player = player.push(Directions.down);
+            pushCommand(Commands.PushDown);
+        }
+    }
+
+    public void left()
+    {
+        if(player.canMove(Directions.left))
+        {
+            player = player.move(Directions.left);
+            pushCommand(Commands.MoveLeft);
+        }
+        else if (player.canPush(Directions.left))
+        {
+            player = player.push(Directions.left);
+            pushCommand(Commands.PushLeft);
+        }
+    }
+
+    public void right()
+    {
+        if(player.canMove(Directions.right))
+        {
+            player = player.move(Directions.right);
+            pushCommand(Commands.MoveRight);
+        }
+        else if (player.canPush(Directions.right))
+        {
+            player = player.push(Directions.right);
+            pushCommand(Commands.PushRight);
+        }
+    }
+
+    public boolean undo()
+    {
+        if (steps.size() <1) return false;
+
+        Commands step = steps.pop();
+
+        switch(step)
+        {
+            case MoveUp:
+            case MoveDown:
+            case MoveLeft:
+            case MoveRight:
+                player = player.move(step.direction().reverse());
+                break;
+            case PushUp:
+            case PushDown:
+            case PushLeft:
+            case PushRight:
+                player = player.unpush(step.direction());
+                break;
+        }
+
+        undone.push(step);
+        return true;
+    }
+
+    public void redo()
+    {
+        if (undone.size() <1) return;
+
+        Commands step = undone.pop();
+
+        switch(step.direction())
+        {
+            case up:
+                up();
+                break;
+            case down:
+                down();
+                break;
+            case left:
+                left();
+                break;
+            case right:
+                right();
+                break;
+        }
+    }
+
+    public boolean isWalking()
+    {
+        return walking;
+    }
+
+    public Table getTable()
+    {
+        return table;
+    }
+
+    public boolean isCompleted()
+    {
+        return goals.stream().allMatch(Tile::isBox);
+    }
+
+    @Override
+    public void act(float delta)
+    {
+        super.act(delta);
+
+        if(walking) doStep();
+    }
+
+    private void pushCommand(Commands cmd)
+    {
+        if (undone.size()>0)
+        {
+            if(undone.peek() == cmd)
+            {
+                redo();
+            }
+            else
+            {
+                undone = new Stack<Commands>();
+                steps.push(cmd);
+            }
+        }
+        else
+        {
+            steps.push(cmd);
+        }
+    }
+
+    private void link(int x, int y)
+    {
+        tiles[y][x].up    = tiles[y+1][x];
+        tiles[y][x].down  = tiles[y-1][x];
+        tiles[y][x].left  = tiles[y]  [x-1];
+        tiles[y][x].right = tiles[y]  [x+1];
+    }
+
+    // PATHFINDING
+
+    public void tryMoveTo(int x, int y)
+    {
+        AStarPathFinder pathfinder = new AStarPathFinder(this, width*height, false);
+
+        visited = new boolean[height][width];
+
+        Path path = pathfinder.findPath(new FloorMover(), player.x, player.y, x, y);
+        if(path == null) return;
+        walkPath(path);
+    }
+
+    private void walkPath(Path path)
+    {
+        walkCounter = 1;
+        pathIndex = 1;
+        currentPath = path;
+        walking = true;
+    }
+
+    public void doStep()
+    {
+        walkCounter = (walkCounter+1)%walkRate;
+        if(walkCounter == 0)
+            step();
+    }
+
+    public void step()
+    {
+        if(pathIndex == currentPath.getLength())
+        {
+            walking = false;
+            return;
+        }
+
+        Path.Step step = currentPath.getStep(pathIndex++);
+        if(step.getX()<player.x) left();
+        else if(step.getX()>player.x) right();
+        else if(step.getY()<player.y) down();
+        else if(step.getY()>player.y) up();
+    }
+
+    @Override
+    public int getWidthInTiles()
+    {
+        return width;
+    }
+
+    @Override
+    public int getHeightInTiles()
+    {
+        return height;
+    }
+
+    @Override
+    public void pathFinderVisited(int x, int y)
+    {
+        visited[y][x] = true;
+    }
+
+    @Override
+    public boolean blocked(Mover mover, int x, int y)
+    {
+        Tile t = tiles[y][x];
+        //if(mover instanceof FloorMover)
+        return t.isBox() || t.isWall();
+    }
+
+    @Override
+    public float getCost(Mover mover, int sx, int sy, int tx, int ty)
+    {
+        //if(mover instanceof FloorMover)
+        return 1;
+    }
+
+    public class FloorMover implements Mover {}
+
+    // PATHFINDING
+
+    public enum Directions
+    {
+        up,down, left, right;
+        public Directions reverse()
+        {
+            switch(this)
+            {
+                case up:
+                    return down;
+                case down:
+                    return up;
+                case left:
+                    return right;
+                case right:
+                    return left;
+            }
+            return null;
+        }
+    }
+
+    public enum Commands
+    {
+        MoveUp, MoveDown, MoveLeft, MoveRight, PushUp, PushDown, PushLeft, PushRight;
+        Directions direction()
+        {
+            switch (this)
+            {
+                case MoveUp:
+                case PushUp:
+                    return Directions.up;
+                case MoveDown:
+                case PushDown:
+                    return Directions.down;
+                case MoveLeft:
+                case PushLeft:
+                    return Directions.left;
+                case MoveRight:
+                case PushRight:
+                    return Directions.right;
+            }
+            return null;
+        }
+    }
+
+    public class Tile extends Actor
+    {
+        int x, y;
+        private char textureId;
+        private Tile up, down, left, right;
+
+        public Tile(char textureId, int x, int y)
+        {
+            this.textureId = textureId;
+            this.x = x;
+            this.y = y;
+
+            setSize(30,30);
+            addListener(new ClickListener()
+            {
+                @Override
+                public void clicked(InputEvent event, float x, float y)
+                {
+                    super.clicked(event, x, y);
+                    Level.this.tryMoveTo(Tile.this.x, Tile.this.y);
+                }
+            });
+        }
+
+        private Tile get(Directions direction)
+        {
+            switch (direction)
+            {
+                case up:    return up;
+                case down:  return down;
+                case left:  return left;
+                case right: return right;
+                default:    return null;
+            }
+        }
+        public boolean isGoal()
+        {
+            return textureId == GOAL || textureId == PLAYER_GOAL || textureId == BOX_GOAL;
+        }
+        public boolean isPlayer()
+        {
+            return textureId == PLAYER_FLOOR || textureId == PLAYER_GOAL;
+        }
+        public boolean isBox()
+        {
+            return textureId == BOX_FLOOR || textureId == BOX_GOAL;
+        }
+        public boolean isWall()
+        {
+            return textureId == WALL;
+        }
+        public boolean canMove(Directions direction)
+        {
+            return !(get(direction).isBox() || get(direction).isWall());
+        }
+        public boolean canPush(Directions direction)
+        {
+            return get(direction).isBox() && get(direction).canMove(direction);
+        }
+        public Tile move(Directions direction)
+        {
+            get(direction).togglePlayer();
+            togglePlayer();
+            return get(direction);
+        }
+        public Tile push(Directions direction)
+        {
+            get(direction).get(direction).toggleBox();
+            get(direction).toggleBox();
+            return move(direction);
+        }
+        public Tile unpush(Directions direction)
+        {
+            move(direction.reverse());
+            toggleBox();
+            get(direction).toggleBox();
+            return get(direction.reverse());
+        }
+        private void togglePlayer()
+        {
+            switch(textureId)
+            {
+                case FLOOR:
+                    textureId = PLAYER_FLOOR;
+                    break;
+                case PLAYER_FLOOR:
+                    textureId = FLOOR;
+                    break;
+                case GOAL:
+                    textureId = PLAYER_GOAL;
+                    break;
+                case PLAYER_GOAL:
+                    textureId = GOAL;
+                    break;
+            }
+        }
+        private void toggleBox()
+        {
+            switch(textureId)
+            {
+                case FLOOR:
+                    textureId = BOX_FLOOR;
+                    break;
+                case BOX_FLOOR:
+                    textureId = FLOOR;
+                    break;
+                case GOAL:
+                    textureId = BOX_GOAL;
+                    break;
+                case BOX_GOAL:
+                    textureId = GOAL;
+                    break;
+            }
+        }
+
+        public String texture()
+        {
+            switch(textureId)
+            {
+                case FLOOR:
+                    return FLOOR_D;
+                case GOAL:
+                    return GOAL_D;
+                case PLAYER_FLOOR:
+                    return PLAYER_FLOOR_D;
+                case PLAYER_GOAL:
+                    return PLAYER_GOAL_D;
+                case BOX_FLOOR:
+                    return BOX_FLOOR_D;
+                case BOX_GOAL:
+                    return BOX_GOAL_D;
+                case WALL:
+                    return WALL_D;
+            }
+            return "";
+        }
+
+        @Override
+        public void draw(Batch batch, float parentAlpha)
+        {
+            super.draw(batch, parentAlpha);
+            batch.draw(Level.this.skin.getRegion(texture()), getX(), getY(), getWidth(), getHeight());
+        }
+    }
+}
