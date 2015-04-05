@@ -6,6 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
 import java.util.Arrays;
 
+/**
+ * Global manager for excessively used assets so they are loaded and destroyed once
+ * Implemented as a singleton
+ */
 public class GlobalAssets
 {
     private static GlobalAssets ourInstance = new GlobalAssets();
@@ -14,8 +18,6 @@ public class GlobalAssets
         return ourInstance;
     }
 
-    private TextureAtlas atlas1;
-    private TextureAtlas atlas2;
     private TextureAtlas atlas;
     private Skin skin;
 
@@ -25,23 +27,30 @@ public class GlobalAssets
 
     public void load(String atlasPath, String skinPath)
     {
-        //atlas1 = new TextureAtlas(Gdx.files.internal(atlas1Path));
-        //atlas2 = new TextureAtlas(Gdx.files.internal(atlas2Path));
         atlas  = new TextureAtlas(Gdx.files.internal(atlasPath));
 
         skin = new Skin(Gdx.files.internal(skinPath), atlas);
     }
 
+    /**
+     * @return DO NOT DISPOSE THE ATLAS, IT'S DONE @ LAUNCH / TERMINATION
+     **/
     public TextureAtlas getTextures()
     {
         return atlas;
     }
 
-    public TextureAtlas.AtlasRegion getTextures(String textureId)
+    /**
+     * @return DO NOT DISPOSE THE TEXTURE, IT'S DONE @ LAUNCH / TERMINATION
+     **/
+    public TextureAtlas.AtlasRegion getTexture(String textureId)
     {
         return atlas.findRegion(textureId);
     }
 
+    /**
+     * @return DO NOT DISPOSE THE SKIN, IT'S DONE @ LAUNCH / TERMINATION
+     **/
     public Skin getSkin()
     {
         return skin;

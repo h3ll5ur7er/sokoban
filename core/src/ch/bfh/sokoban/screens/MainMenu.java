@@ -16,16 +16,23 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+/**
+ * Main menu of the game
+ * - Play
+ *   Takes the user to the levelSelection screen
+ * - Editor
+ *   Takes the user to the editor where he can create his own levels
+ * - Exit
+ *   Closes the application
+ */
 public class MainMenu extends MyScreenAdapter
 {
-    Stage stage;
     Table table;
 
     @Override
     public void show()
     {
         super.show();
-        stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
         table = new Table(skin);

@@ -41,7 +41,7 @@ public class AStarPathFinder implements PathFinder
     private AStarHeuristic heuristic;
 
     /**
-     * Create a path finder with the default heuristic - closest to target.
+     * Create a path finder with the default heuristic - Manhattan (dx+dy).
      *
      * @param map               The map to be searched
      * @param maxSearchDistance The maximum depth we'll search before giving up
@@ -49,7 +49,7 @@ public class AStarPathFinder implements PathFinder
      */
     public AStarPathFinder(TileBasedMap map, int maxSearchDistance, boolean allowDiagMovement)
     {
-        this(map, maxSearchDistance, allowDiagMovement, new EuclideanHeuristic());
+        this(map, maxSearchDistance, allowDiagMovement, new ManhattanHeuristic());
     }
 
     /**

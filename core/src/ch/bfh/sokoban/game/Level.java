@@ -1,6 +1,5 @@
 package ch.bfh.sokoban.game;
 
-import ch.bfh.sokoban.GlobalAssets;
 import ch.bfh.sokoban.data.LevelPack;
 import ch.bfh.sokoban.pathfinding.AStarPathFinder;
 import ch.bfh.sokoban.pathfinding.Mover;
@@ -8,8 +7,6 @@ import ch.bfh.sokoban.pathfinding.Path;
 import ch.bfh.sokoban.pathfinding.TileBasedMap;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
@@ -21,6 +18,14 @@ import static ch.bfh.sokoban.game.Constants.*;
 import java.util.ArrayList;
 import java.util.Stack;
 
+/**
+ * The level class contains all the game logic:
+ * -  Creation,
+ * -  Movement
+ * -  Pathfinding for Automove
+ * THE MONSTER (so far.. to be refactored)
+ *
+ **/
 public class Level extends Actor implements TileBasedMap
 {
     private int width;
@@ -37,7 +42,6 @@ public class Level extends Actor implements TileBasedMap
     int walkCounter;
     int walkRate = 10;
     boolean walking = false;
-
 
     private Tile player;
     private ArrayList<Tile> goals;
@@ -242,9 +246,17 @@ public class Level extends Actor implements TileBasedMap
     {
         super.act(delta);
 
-        if(walking) doStep();
+        if(walking) doAutomoveTimerStep();
     }
-
+    /**
+     * Helper method that intelligently+ pushes a performed command to the steps stack
+     * +) if the performed command is on top of the undone stack redo is called instead of pushing it to the steps stack.
+     *    if not, the undone stack gets cleared and the command is pushed to the steps stack
+     *
+     * Note 1: this is one of the core functions of the undo/redo functionality
+     *
+     * Note 2: this works since undo and redo are not handled as commands
+     **/
     private void pushCommand(Commands cmd)
     {
         if (undone.size()>0)
@@ -265,6 +277,9 @@ public class Level extends Actor implements TileBasedMap
         }
     }
 
+    /**
+     * Helper method that links a cell of the grid to its neighbors
+     **/
     private void link(int x, int y)
     {
         tiles[y][x].up    = tiles[y+1][x];
@@ -275,6 +290,13 @@ public class Level extends Actor implements TileBasedMap
 
     // PATHFINDING
 
+    /**
+     * Try to find a path on floor from player's position to the given tile coordinates using a*
+     * Automoves there if there is a valid path, does nothing if not
+     *
+     * @param x Target tile x-coordinate
+     * @param y Target tile y-coordinate
+     **/
     public void tryMoveTo(int x, int y)
     {
         AStarPathFinder pathfinder = new AStarPathFinder(this, width*height, false);
@@ -286,6 +308,10 @@ public class Level extends Actor implements TileBasedMap
         walkPath(path);
     }
 
+    /**
+     * Starts automove on given path
+     * @param path path to move on
+     **/
     private void walkPath(Path path)
     {
         walkCounter = 1;
@@ -294,14 +320,23 @@ public class Level extends Actor implements TileBasedMap
         walking = true;
     }
 
-    public void doStep()
+    /**
+     * Increments walkCounter, modulo it with the walkRate and step ahead on the current path if it hits 0
+     **/
+    public void doAutomoveTimerStep()
     {
         walkCounter = (walkCounter+1)%walkRate;
         if(walkCounter == 0)
-            step();
+            doStepOnCurrentPath();
     }
 
-    public void step()
+    /**
+     * What could a method with such a name do.. Why do you even read the javadoc of it?
+     *
+     *
+     * Ah yeah, it ends automove if the target is reached.
+     **/
+    private void doStepOnCurrentPath()
     {
         if(pathIndex == currentPath.getLength())
         {
@@ -316,24 +351,36 @@ public class Level extends Actor implements TileBasedMap
         else if(step.getY()>player.y) up();
     }
 
+    /**
+     * @see ch.bfh.sokoban.pathfinding.TileBasedMap#getWidthInTiles()
+     **/
     @Override
     public int getWidthInTiles()
     {
         return width;
     }
 
+    /**
+     * @see ch.bfh.sokoban.pathfinding.TileBasedMap#getHeightInTiles()
+     **/
     @Override
     public int getHeightInTiles()
     {
         return height;
     }
 
+    /**
+     * @see ch.bfh.sokoban.pathfinding.TileBasedMap#pathFinderVisited(int, int)
+     **/
     @Override
     public void pathFinderVisited(int x, int y)
     {
         visited[y][x] = true;
     }
 
+    /**
+     * @see ch.bfh.sokoban.pathfinding.TileBasedMap#blocked(ch.bfh.sokoban.pathfinding.Mover, int, int)
+     **/
     @Override
     public boolean blocked(Mover mover, int x, int y)
     {
@@ -342,6 +389,9 @@ public class Level extends Actor implements TileBasedMap
         return t.isBox() || t.isWall();
     }
 
+    /**
+     * @see ch.bfh.sokoban.pathfinding.TileBasedMap#getCost(ch.bfh.sokoban.pathfinding.Mover, int, int, int, int)
+     **/
     @Override
     public float getCost(Mover mover, int sx, int sy, int tx, int ty)
     {
@@ -349,13 +399,24 @@ public class Level extends Actor implements TileBasedMap
         return 1;
     }
 
+    /**
+     * Mover used for Pathfinding supposed to move on floor only
+     * (since there is only one mover so far the if's are commented out but can be used as soon as we go ahead to the solver..)
+     **/
     public class FloorMover implements Mover {}
 
     // PATHFINDING
 
+    /**
+     * The directions movement is allowed
+     */
     public enum Directions
     {
         up,down, left, right;
+
+        /**
+         * @return the opposite of given direction
+         */
         public Directions reverse()
         {
             switch(this)
@@ -373,9 +434,17 @@ public class Level extends Actor implements TileBasedMap
         }
     }
 
+
+    /**
+     * All move/push commands possible
+     */
     public enum Commands
     {
         MoveUp, MoveDown, MoveLeft, MoveRight, PushUp, PushDown, PushLeft, PushRight;
+
+        /**
+         * @return reduce the command to a direction
+         */
         Directions direction()
         {
             switch (this)
@@ -397,6 +466,17 @@ public class Level extends Actor implements TileBasedMap
         }
     }
 
+    /**
+     * The tile class represents a cell of the grid the level is composed of.
+     * It's implemented as a gdx actor so clickListeners can be attached easily and it alines nice within the gui table.
+     * Each cell knows its four neighbors.
+     *
+     * The underlaying data stays the char of the original level data, since a char is small in size and easy to handle.
+     * Each cell has functionalities to move, push and unpush to a given direction
+     * Each cell also has a clickListener to start pathfinding/automove
+     *
+     * THE SUBMONSTER (so far.. to be refactored)
+     */
     public class Tile extends Actor
     {
         int x, y;
@@ -409,7 +489,8 @@ public class Level extends Actor implements TileBasedMap
             this.x = x;
             this.y = y;
 
-            setSize(30,30);
+            setSize(Constants.TILE_WIDTH, Constants.TILE_HEIGHT);
+
             addListener(new ClickListener()
             {
                 @Override

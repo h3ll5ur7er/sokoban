@@ -10,13 +10,39 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Splash extends MyScreenAdapter
+/**
+ * Splash screen that fades in and out a image and navigates to a given screen
+ **/
+public class Splash<T extends MyScreenAdapter> extends MyScreenAdapter
 {
-    SpriteBatch batch;
-    Texture tex;
-    Sprite sprite;
-    TweenManager mgr;
+    private SpriteBatch batch;
+    private Texture tex;
+    private Sprite sprite;
+    private TweenManager mgr;
+    private String imagePath;
+    private float fade;
+    private float pause;
+    private Class<T> target;
 
+    /**
+     * Creates a new splash screen, that shows given image for given time and
+     * navigates to given screen after the animation has terminated
+     * @param imagePath image to show
+     * @param fade seconds to fade in and out (2x in total)
+     * @param pause time to show the splash bevore fading out
+     * @param target target screen to navigate to
+     */
+    public Splash(String imagePath, float fade, float pause, Class<T> target)
+    {
+        this.imagePath = imagePath;
+        this.fade = fade;
+        this.pause = pause;
+        this.target = target;
+    }
+
+    /**
+     * Launches the tween animation as soon as the screen shows
+     */
     @Override
     public void show()
     {
@@ -25,7 +51,7 @@ public class Splash extends MyScreenAdapter
 
         mgr  = new TweenManager();
 
-        tex = new Texture("img/splash.png");
+        tex = new Texture(imagePath);
         sprite = new Sprite(tex);
         sprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -36,14 +62,31 @@ public class Splash extends MyScreenAdapter
                 .target(0)
                 .start(mgr);
         Tween
-                .to(sprite, SpriteAccessor.alpha, 2)
+                .to(sprite, SpriteAccessor.alpha, fade)
                 .target(1)
-                .repeatYoyo(1, 0.5f)
+                .repeatYoyo(1, pause)
                 .setCallback(
-                        (t,s) -> new MainMenu().activate())
+                        (t, s) ->
+                        {
+                            try
+                            {
+                                //Create a new instance of the target screen and navigate to it;
+                                target.newInstance().activate();
+                            }
+                            catch (InstantiationException | IllegalAccessException e)
+                            {
+                                e.printStackTrace();
+
+                                assert false; //Die if navigation fails
+                            }
+                        }
+                )
                 .start(mgr);
     }
 
+    /**
+     * Simply rendering the image, tweenMgr does the magic for us
+     **/
     @Override
     public void render(float delta)
     {
@@ -60,13 +103,14 @@ public class Splash extends MyScreenAdapter
     @Override
     public void resize(int width, int height)
     {
-        sprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        sprite.setSize(width, height);
     }
 
     @Override
     public void dispose()
     {
+        super.dispose();
         tex.dispose();
-        //batch.dispose();
+        batch.dispose();
     }
 }

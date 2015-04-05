@@ -1,5 +1,8 @@
 package ch.bfh.sokoban.data;
 
+/**
+ * LevelPack is a simple data structure to hold the levels loaded from json/sql/whatever
+ **/
 public class LevelPack
 {
     public Level[][] levelPack;

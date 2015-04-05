@@ -3,6 +3,9 @@ package ch.bfh.sokoban.tweens;
 import aurelienribon.tweenengine.TweenAccessor;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
+/**
+ * TweenAccessor for fading sprites
+ **/
 public class SpriteAccessor implements TweenAccessor<Sprite>
 {
     public static final int alpha = 0;

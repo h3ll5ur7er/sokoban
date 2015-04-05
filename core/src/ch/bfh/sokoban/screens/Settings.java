@@ -7,12 +7,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 
+/**
+ * TODO
+ */
 public class Settings extends MyScreenAdapter
 {
-    Stage stage;
     Table table;
-    TextureAtlas atlas;
-    Skin skin;
     @Override
     public void show()
     {

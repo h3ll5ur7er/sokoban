@@ -11,26 +11,36 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import static com.badlogic.gdx.Input.Keys.*;
-
+/**
+ * Game generates a level from the provided data, presents it to the user and gets user input
+ **/
 public class Game extends MyScreenAdapter
 {
-    private Stage stage;
     private Table table;
     private Level level;
     private LevelPack.Level leveldata;
 
+
+    /**
+     * Create a new Game
+     * @param level level to generate
+     **/
     public Game(LevelPack.Level level)
     {
         leveldata = level;
     }
 
+    /**
+     * Load the level and build up the gui
+     **/
     @Override
     public void show()
     {
         super.show();
-        stage = new Stage();
 
+        stage = new Stage();
         Gdx.input.setInputProcessor(stage);
+
         table = new Table(skin);
         table.setBounds(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -63,8 +73,6 @@ public class Game extends MyScreenAdapter
         table.add().colspan(3);
         table.add(btnBack);
 
-        //table.addActor();
-
         table.invalidateHierarchy();
 
         stage.addActor(level);
@@ -73,6 +81,10 @@ public class Game extends MyScreenAdapter
         Gdx.graphics.setTitle(leveldata.name);
     }
 
+    /**
+     * Handle user input and draw the scene
+     * @param delta deltaTime
+     */
     @Override
     public void render(float delta)
     {
@@ -85,15 +97,12 @@ public class Game extends MyScreenAdapter
         stage.act(delta);
         stage.draw();
     }
-    @Override
-    public void dispose()
-    {
-    }
 
+    /**
+     * Handle user input
+     */
     private void getUserInput()
     {
-
-
         if(level.isWalking()) return;
         if(pressed(W, UP)){ level.up(); }
         if(pressed(A, LEFT)){ level.left(); }
@@ -103,6 +112,11 @@ public class Game extends MyScreenAdapter
         if(pressed(ESCAPE)){ while(level.undo()){} }
     }
 
+    /**
+     * Helper that connects the key.pressed value with a OR
+     * @param keys keys
+     * @return any of them pressed
+     */
     private boolean pressed(int...keys)
     {
         boolean pressed = false;

@@ -13,9 +13,11 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
 
+/**
+ * Screen to select a level to play
+ */
 public class LevelSelection extends MyScreenAdapter
 {
-    Stage stage;
     Table table;
 
     List<Difficulty> list1;
@@ -23,11 +25,13 @@ public class LevelSelection extends MyScreenAdapter
 
     LevelPack lvls;
 
+    /**
+     * Load levelPack from json and build up the gui
+     */
     @Override
     public void show()
     {
         super.show();
-        stage = new Stage();
 
         lvls = new Json().fromJson(LevelPack.class, Gdx.files.internal("lvl/levels.json"));
         table = new Table(skin);
@@ -44,7 +48,7 @@ public class LevelSelection extends MyScreenAdapter
 
         table.setBounds(0,0, 1200, 720);
 
-        list1.setItems(Difficulty.Hard, Difficulty.Nuts, Difficulty.Sick, Difficulty.Insane);
+        list1.setItems(Difficulty.values());
 
         list2.setItems("1", "2", "3", "4", "5", "6", "7", "8", "9");
 
@@ -68,6 +72,9 @@ public class LevelSelection extends MyScreenAdapter
         stage.addActor(table);
     }
 
+    /**
+     * @return the action performed by the play button
+     */
     private ClickListener playListener()
     {
         return new ClickListener()
@@ -80,6 +87,9 @@ public class LevelSelection extends MyScreenAdapter
         };
     }
 
+    /**
+     * @return the action performed by the back button
+     */
     private ClickListener backListener()
     {
         return new ClickListener()
@@ -103,13 +113,9 @@ public class LevelSelection extends MyScreenAdapter
         stage.draw();
     }
 
-
-    @Override
-    public void dispose()
-    {
-        stage.dispose();
-    }
-
+    /**
+     * The difficulties available in the current levelPack (To be done dynamic as soon as the levelpack is in a db and not in a file)
+     */
     public static enum Difficulty
     {
         Hard  (0, "Too Hard",        "hard"),
