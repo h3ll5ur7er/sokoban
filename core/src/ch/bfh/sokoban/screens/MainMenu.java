@@ -109,9 +109,4 @@ public class MainMenu extends MyScreenAdapter
         stage.draw();
     }
 
-    @Override
-    public void dispose()
-    {
-        stage.dispose();
-    }
 }

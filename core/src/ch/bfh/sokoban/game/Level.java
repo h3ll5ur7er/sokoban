@@ -5,6 +5,9 @@ import ch.bfh.sokoban.pathfinding.AStarPathFinder;
 import ch.bfh.sokoban.pathfinding.Mover;
 import ch.bfh.sokoban.pathfinding.Path;
 import ch.bfh.sokoban.pathfinding.TileBasedMap;
+import ch.bfh.sokoban.screens.LevelSelection;
+import ch.bfh.sokoban.screens.MainMenu;
+import ch.bfh.sokoban.screens.Splash;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -121,6 +124,9 @@ public class Level extends Actor implements TileBasedMap
         this(lvl.name, lvl.width, lvl.height, lvl.data, skin);
     }
 
+    /**
+     * Up command, move up, push up or do nothing if blocked
+     **/
     public void up()
     {
         if(player.canMove(Directions.up))
@@ -135,6 +141,9 @@ public class Level extends Actor implements TileBasedMap
         }
     }
 
+    /**
+     * Down command, move down, push down or do nothing if blocked
+     **/
     public void down()
     {
         if(player.canMove(Directions.down))
@@ -149,6 +158,9 @@ public class Level extends Actor implements TileBasedMap
         }
     }
 
+    /**
+     * Left command, move left, push left or do nothing if blocked
+     **/
     public void left()
     {
         if(player.canMove(Directions.left))
@@ -163,6 +175,9 @@ public class Level extends Actor implements TileBasedMap
         }
     }
 
+    /**
+     * Right command, move right, push right or do nothing if blocked
+     **/
     public void right()
     {
         if(player.canMove(Directions.right))
@@ -177,6 +192,9 @@ public class Level extends Actor implements TileBasedMap
         }
     }
 
+    /**
+     * Undoes the last command
+     **/
     public boolean undo()
     {
         if (steps.size() <1) return false;
@@ -203,6 +221,10 @@ public class Level extends Actor implements TileBasedMap
         return true;
     }
 
+
+    /**
+     * Redoes the last undone command
+     **/
     public void redo()
     {
         if (undone.size() <1) return;
@@ -226,16 +248,26 @@ public class Level extends Actor implements TileBasedMap
         }
     }
 
+    /**
+     * @return indicates if the player is automoving.
+     */
     public boolean isWalking()
     {
         return walking;
     }
 
+    /**
+     * @return getter for the table to add to the gui of the gamescreen
+     */
     public Table getTable()
     {
         return table;
     }
 
+
+    /**
+     * @return indicates if the level is completed
+     */
     public boolean isCompleted()
     {
         return goals.stream().allMatch(Tile::isBox);
@@ -247,6 +279,10 @@ public class Level extends Actor implements TileBasedMap
         super.act(delta);
 
         if(walking) doAutomoveTimerStep();
+
+
+        //TODO: Change pic
+        if(isCompleted()) new Splash<LevelSelection>("img/splash.png", 1, .2f, LevelSelection.class).activate();
     }
     /**
      * Helper method that intelligently+ pushes a performed command to the steps stack

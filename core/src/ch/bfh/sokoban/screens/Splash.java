@@ -73,7 +73,7 @@ public class Splash<T extends MyScreenAdapter> extends MyScreenAdapter
                                 //Create a new instance of the target screen and navigate to it;
                                 target.newInstance().activate();
                             }
-                            catch (InstantiationException | IllegalAccessException e)
+                            catch (Exception e)
                             {
                                 e.printStackTrace();
 
@@ -111,6 +111,5 @@ public class Splash<T extends MyScreenAdapter> extends MyScreenAdapter
     {
         super.dispose();
         tex.dispose();
-        batch.dispose();
     }
 }
