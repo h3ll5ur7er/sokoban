@@ -2,8 +2,8 @@ package ch.bfh.sokoban.game;
 
 public class Constants
 {
-    public static final char FLOOR = '.';
-    public static final char GOAL = ',';
+    public static final char FLOOR = ' ';
+    public static final char GOAL = '.';
     public static final char PLAYER_FLOOR = '@';
     public static final char PLAYER_GOAL = '+';
     public static final char BOX_FLOOR = '$';

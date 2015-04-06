@@ -281,9 +281,19 @@ public class Level extends Actor implements TileBasedMap
         if(walking) doAutomoveTimerStep();
 
 
-        //TODO: Change pic
-        if(isCompleted()) new Splash<LevelSelection>("img/splash.png", 1, .2f, LevelSelection.class).activate();
     }
+
+    /**
+     * @param completed level completed
+     **/
+    public void terminate(boolean completed)
+    {
+        if(completed)
+            new Splash<LevelSelection>("img/levelCompleted.png", 1, .2f, LevelSelection.class).activate();
+        else
+            new LevelSelection().activate();
+    }
+
     /**
      * Helper method that intelligently+ pushes a performed command to the steps stack
      * +) if the performed command is on top of the undone stack redo is called instead of pushing it to the steps stack.
@@ -362,7 +372,7 @@ public class Level extends Actor implements TileBasedMap
     public void doAutomoveTimerStep()
     {
         walkCounter = (walkCounter+1)%walkRate;
-        if(walkCounter == 0)
+        if (walkCounter == 0)
             doStepOnCurrentPath();
     }
 

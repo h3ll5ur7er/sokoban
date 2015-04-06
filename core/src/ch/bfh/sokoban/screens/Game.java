@@ -19,6 +19,8 @@ public class Game extends MyScreenAdapter
     private Table table;
     private Level level;
     private LevelPack.Level leveldata;
+    boolean completed = false;
+    int navigationCountdown = 30;
 
 
     /**
@@ -103,13 +105,23 @@ public class Game extends MyScreenAdapter
      */
     private void getUserInput()
     {
-        if(level.isWalking()) return;
-        if(pressed(W, UP)){ level.up(); }
-        if(pressed(A, LEFT)){ level.left(); }
-        if(pressed(S, DOWN)){ level.down(); }
-        if(pressed(D, RIGHT)){ level.right(); }
-        if(pressed(BACKSPACE)){ level.undo(); }
-        if(pressed(ESCAPE)){ while(level.undo()){} }
+        if(level.isCompleted())
+        {
+            if (navigationCountdown>0)
+                navigationCountdown--;
+            else
+                level.terminate(true);
+        }
+        else
+        {
+            if(level.isWalking()) return;
+            if(pressed(W, UP)){ level.up(); }
+            if(pressed(A, LEFT)){ level.left(); }
+            if(pressed(S, DOWN)){ level.down(); }
+            if(pressed(D, RIGHT)){ level.right(); }
+            if(pressed(BACKSPACE)){ level.undo(); }
+            if(pressed(ESCAPE)){ while(level.undo()){} }
+        }
     }
 
     /**
