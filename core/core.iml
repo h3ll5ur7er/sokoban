@@ -28,6 +28,5 @@
     <orderEntry type="library" exported="" name="Gradle: com.badlogicgames.gdx:gdx:1.5.5" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.badlogicgames.gdx:gdx-freetype:1.5.5" level="project" />
     <orderEntry type="library" exported="" name="Gradle: com.badlogicgames.gdx:gdx-controllers:1.5.5" level="project" />
-    <orderEntry type="library" name="tween-engine-api-sources" level="project" />
   </component>
 </module>

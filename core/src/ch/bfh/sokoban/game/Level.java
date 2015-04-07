@@ -44,6 +44,7 @@ public class Level extends Actor implements TileBasedMap
     int pathIndex;
     int walkCounter;
     int walkRate = 10;
+    boolean moving = false;
     boolean walking = false;
 
     private Tile player;
@@ -129,6 +130,7 @@ public class Level extends Actor implements TileBasedMap
      **/
     public void up()
     {
+        moving = true;
         if(player.canMove(Directions.up))
         {
             player = player.move(Directions.up);
@@ -139,6 +141,7 @@ public class Level extends Actor implements TileBasedMap
             player = player.push(Directions.up);
             pushCommand(Commands.PushUp);
         }
+        moving = false;
     }
 
     /**
@@ -146,6 +149,7 @@ public class Level extends Actor implements TileBasedMap
      **/
     public void down()
     {
+        moving = true;
         if(player.canMove(Directions.down))
         {
             player = player.move(Directions.down);
@@ -156,6 +160,7 @@ public class Level extends Actor implements TileBasedMap
             player = player.push(Directions.down);
             pushCommand(Commands.PushDown);
         }
+        moving = false;
     }
 
     /**
@@ -163,6 +168,7 @@ public class Level extends Actor implements TileBasedMap
      **/
     public void left()
     {
+        moving = true;
         if(player.canMove(Directions.left))
         {
             player = player.move(Directions.left);
@@ -173,6 +179,7 @@ public class Level extends Actor implements TileBasedMap
             player = player.push(Directions.left);
             pushCommand(Commands.PushLeft);
         }
+        moving = false;
     }
 
     /**
@@ -180,6 +187,7 @@ public class Level extends Actor implements TileBasedMap
      **/
     public void right()
     {
+        moving = true;
         if(player.canMove(Directions.right))
         {
             player = player.move(Directions.right);
@@ -190,6 +198,7 @@ public class Level extends Actor implements TileBasedMap
             player = player.push(Directions.right);
             pushCommand(Commands.PushRight);
         }
+        moving = false;
     }
 
     /**
@@ -249,11 +258,11 @@ public class Level extends Actor implements TileBasedMap
     }
 
     /**
-     * @return indicates if the player is automoving.
+     * @return indicates if the player is automoving or player movement.
      */
     public boolean isWalking()
     {
-        return walking;
+        return walking || moving;
     }
 
     /**
