@@ -125,7 +125,7 @@ public class Game extends MyScreenAdapter
     }
 
     /**
-     * Helper that connects the key.pressed value with a OR
+     * Helper that connects the key.pressed value with an OR
      * @param keys keys
      * @return any of them pressed
      */
