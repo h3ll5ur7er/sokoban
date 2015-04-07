@@ -18,6 +18,8 @@ import com.badlogic.gdx.utils.Json;
  */
 public class LevelSelection extends MyScreenAdapter
 {
+    private static int selectedDifficulty, selectedLevel;
+
     Table table;
 
     List<Difficulty> list1;
@@ -49,8 +51,10 @@ public class LevelSelection extends MyScreenAdapter
         table.setBounds(0,0, 1200, 720);
 
         list1.setItems(Difficulty.values());
+        list1.setSelectedIndex(selectedDifficulty>0?selectedDifficulty:0);
 
         list2.setItems("1", "2", "3", "4", "5", "6", "7", "8", "9");
+        list2.setSelectedIndex(selectedLevel>0?selectedLevel:0);
 
         btnPlay.addListener(playListener());
         btnPlay.pad(15);
@@ -82,6 +86,9 @@ public class LevelSelection extends MyScreenAdapter
             @Override
             public void clicked(InputEvent event, float x, float y)
             {
+                selectedDifficulty = list1.getSelectedIndex();
+                selectedLevel = list2.getSelectedIndex();
+
                 new Game(lvls.levelPack[list1.getSelected().numeric][list2.getSelectedIndex()]).activate();
             }
         };
@@ -97,6 +104,9 @@ public class LevelSelection extends MyScreenAdapter
             @Override
             public void clicked(InputEvent event, float x, float y)
             {
+                selectedDifficulty = list1.getSelectedIndex();
+                selectedLevel = list2.getSelectedIndex();
+
                 new MainMenu().activate();
             }
         };
