@@ -1,8 +1,7 @@
 package ch.bfh.sokoban.screens;
 
-import ch.bfh.sokoban.data.LevelPack;
+import ch.bfh.sokoban.data.LevelData;
 import ch.bfh.sokoban.game.Level;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -21,7 +20,7 @@ public class Game extends MyScreenAdapter
     private Table tableScreen;
     private Table tableMenu;
     private Level level;
-    private LevelPack.Level leveldata;
+    private LevelData leveldata;
     boolean completed = false;
     int navigationCountdown = 30;
     
@@ -35,7 +34,7 @@ public class Game extends MyScreenAdapter
      * Create a new Game
      * @param level level to generate
      **/
-    public Game(LevelPack.Level level)
+    public Game(LevelData level)
     {
         leveldata = level;
     }
@@ -57,7 +56,6 @@ public class Game extends MyScreenAdapter
         
         tableMenu = new Table(skin);
         tableMenu.setBounds(Gdx.graphics.getWidth()-200,0, 200, Gdx.graphics.getHeight());
-        
 
         this.level = new Level(leveldata, skin);
 
@@ -69,8 +67,8 @@ public class Game extends MyScreenAdapter
         lblPushes.setText(""+level.getPushCount());        
         lblUndoRedo = new Label("",skin, "small"); 
         lblUndoRedo.setText(""+level.getUndoRedoCount());
-        
-        TextButton btnBack = new TextButton("BACK", skin);
+
+        TextButton btnBack = new TextButton(Settings.get("BackButtonText"), skin, Settings.get("BackButtonSize"));
         btnBack.pad(20);
         btnBack.addListener(new ClickListener()
         {
@@ -93,7 +91,7 @@ public class Game extends MyScreenAdapter
         });
         
         tableScreen.add();
-        tableScreen.add(leveldata.name).colspan(2);
+        tableScreen.add(leveldata.id).colspan(2);
         tableScreen.add();
         tableScreen.row();
 
@@ -142,7 +140,7 @@ public class Game extends MyScreenAdapter
         stage.addActor(tableScreen);
         stage.addActor(tableMenu);
 
-        Gdx.graphics.setTitle(leveldata.name);
+        Gdx.graphics.setTitle(leveldata.id);
     }
 
     /**
@@ -181,13 +179,13 @@ public class Game extends MyScreenAdapter
         }
         else
         {
-            if(level.isWalking()) return;
-            if(pressed(W, UP)){ level.up(); }
-            if(pressed(A, LEFT)){ level.left(); }
-            if(pressed(S, DOWN)){ level.down(); }
-            if(pressed(D, RIGHT)){ level.right(); }
-            if(pressed(BACKSPACE)){ level.undo(); }
-            if(pressed(ESCAPE)){ while(level.undo()){} }
+            if(level.isWalking()){}
+            else if(pressed(W, UP)){ level.up(); }
+            else if(pressed(A, LEFT)){ level.left(); }
+            else if(pressed(S, DOWN)){ level.down(); }
+            else if(pressed(D, RIGHT)){ level.right(); }
+            else if(pressed(BACKSPACE)){ level.undo(); }
+            else if(pressed(ESCAPE)){ while(level.undo()){} }
         }
     }
 

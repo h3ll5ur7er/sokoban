@@ -45,6 +45,18 @@
   {
     "default": { "font": "black32", "fontColor": "black", "messageFontColor": "gray", "background": "ui.default.background", "cursor": "ui.default.selection" }
   },
+  "com.badlogic.gdx.scenes.scene2d.ui.Slider$SliderStyle":
+  {
+    "default-horizontal": { "background": "ui.default.background", "knob": "ui.button.up" }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle":
+  {
+    "default": { "titleFont" : "black16", "background" : "ui.default.selection" }
+  },
+  "com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle":
+  {
+    "default": { "font":"white32", "fontColor":"white", "scrollStyle":"default", "listStyle":"default" }
+  },
   "com.badlogic.gdx.scenes.scene2d.ui.Image":
   {
     "floor": { "drawable" : "game.floor" },

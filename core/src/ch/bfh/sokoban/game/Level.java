@@ -1,12 +1,12 @@
 package ch.bfh.sokoban.game;
 
-import ch.bfh.sokoban.data.LevelPack;
+import ch.bfh.sokoban.data.LevelData;
 import ch.bfh.sokoban.pathfinding.AStarPathFinder;
 import ch.bfh.sokoban.pathfinding.Mover;
 import ch.bfh.sokoban.pathfinding.Path;
 import ch.bfh.sokoban.pathfinding.TileBasedMap;
 import ch.bfh.sokoban.screens.LevelSelection;
-import ch.bfh.sokoban.screens.MainMenu;
+import ch.bfh.sokoban.screens.Settings;
 import ch.bfh.sokoban.screens.Splash;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -16,10 +16,10 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
-import static ch.bfh.sokoban.game.Constants.*;
-
 import java.util.ArrayList;
 import java.util.Stack;
+
+import static ch.bfh.sokoban.game.Constants.*;
 
 /**
  * The level class contains all the game logic:
@@ -33,6 +33,7 @@ public class Level extends Actor implements TileBasedMap
 {
     private int width;
     private int height;
+    int tileSize;
 
     private Stack<Commands> steps;
     private Stack<Commands> undone;
@@ -46,7 +47,8 @@ public class Level extends Actor implements TileBasedMap
     int walkRate = 10;
     boolean moving = false;
     boolean walking = false;
-    
+    boolean undoing = false;
+
     private int moves = 0;
     private int pushes = 0;
     private int undoRedo = 0;
@@ -62,6 +64,8 @@ public class Level extends Actor implements TileBasedMap
     {
         this.width = width;
         this.height = height;
+
+        tileSize = Integer.parseInt(Settings.get("TileSize"));
 
         this.skin = skin;
 
@@ -125,9 +129,9 @@ public class Level extends Actor implements TileBasedMap
         Gdx.graphics.setTitle(name);
     }
 
-    public Level(LevelPack.Level lvl, Skin skin)
+    public Level(LevelData lvl, Skin skin)
     {
-        this(lvl.name, lvl.width, lvl.height, lvl.data, skin);
+        this(lvl.id, lvl.width, lvl.height, lvl.data, skin);
     }
 
     /**
@@ -149,6 +153,7 @@ public class Level extends Actor implements TileBasedMap
             pushes++;
         }
         moving = false;
+        undoing = false;
     }
 
     /**
@@ -170,6 +175,7 @@ public class Level extends Actor implements TileBasedMap
             pushes++;
         }
         moving = false;
+        undoing = false;
     }
 
     /**
@@ -191,6 +197,7 @@ public class Level extends Actor implements TileBasedMap
             pushes++;
         }
         moving = false;
+        undoing = false;
     }
 
     /**
@@ -212,6 +219,7 @@ public class Level extends Actor implements TileBasedMap
             pushes++;
         }
         moving = false;
+        undoing = false;
     }
 
     /**
@@ -220,7 +228,7 @@ public class Level extends Actor implements TileBasedMap
     public boolean undo()
     {
         if (steps.size() <1) return false;
-
+        undoing = true;
         Commands step = steps.pop();
 
         switch(step)
@@ -251,7 +259,7 @@ public class Level extends Actor implements TileBasedMap
     public void redo()
     {
         if (undone.size() <1) return;
-
+        undoing = true;
         Commands step = undone.pop();
 
         switch(step.direction())
@@ -313,15 +321,13 @@ public class Level extends Actor implements TileBasedMap
     public void terminate(boolean completed)
     {
         if(completed)
-            new Splash<LevelSelection>("img/levelCompleted.png", 1, .2f, LevelSelection.class).activate();
+            new Splash<LevelSelection>("CompletedSplashScreen", 1, .2f, LevelSelection.class).activate();
         else
             new LevelSelection().activate();
     }
 
     /**
-     * Helper method that intelligently+ pushes a performed command to the steps stack
-     * +) if the performed command is on top of the undone stack redo is called instead of pushing it to the steps stack.
-     *    if not, the undone stack gets cleared and the command is pushed to the steps stack
+     * Helper method that  pushes a performed command to the steps stack
      *
      * Note 1: this is one of the core functions of the undo/redo functionality
      *
@@ -331,15 +337,8 @@ public class Level extends Actor implements TileBasedMap
     {
         if (undone.size()>0)
         {
-            if(undone.peek() == cmd)
-            {
-                redo();
-            }
-            else
-            {
-                undone = new Stack<Commands>();
-                steps.push(cmd);
-            }
+            undone = new Stack<Commands>();
+            steps.push(cmd);
         }
         else
         {
@@ -468,7 +467,15 @@ public class Level extends Actor implements TileBasedMap
         //if(mover instanceof FloorMover)
         return 1;
     }
-    
+
+    /**
+     * Mover used for Pathfinding supposed to move on floor only
+     * (since there is only one mover so far the if's are commented out but can be used as soon as we go ahead to the solver..)
+     **/
+    public class FloorMover implements Mover {}
+
+    // PATHFINDING
+
     /**
      * Returns the current score
      * @return current score
@@ -500,14 +507,6 @@ public class Level extends Actor implements TileBasedMap
     public int getUndoRedoCount(){
     	return this.undoRedo;
     }
-
-    /**
-     * Mover used for Pathfinding supposed to move on floor only
-     * (since there is only one mover so far the if's are commented out but can be used as soon as we go ahead to the solver..)
-     **/
-    public class FloorMover implements Mover {}
-
-    // PATHFINDING
 
     /**
      * The directions movement is allowed
@@ -591,7 +590,7 @@ public class Level extends Actor implements TileBasedMap
             this.x = x;
             this.y = y;
 
-            setSize(Constants.TILE_WIDTH, Constants.TILE_HEIGHT);
+            setSize(tileSize, tileSize);
 
             addListener(new ClickListener()
             {

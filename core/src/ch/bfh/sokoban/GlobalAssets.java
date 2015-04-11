@@ -1,10 +1,9 @@
 package ch.bfh.sokoban;
 
+import ch.bfh.sokoban.screens.Settings;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-
-import java.util.Arrays;
 
 /**
  * Global manager for excessively used assets so they are loaded and destroyed once
@@ -27,9 +26,9 @@ public class GlobalAssets
 
     public void load(String atlasPath, String skinPath)
     {
-        atlas  = new TextureAtlas(Gdx.files.internal(atlasPath));
+        atlas  = new TextureAtlas(Gdx.files.internal(Settings.get(atlasPath)));
 
-        skin = new Skin(Gdx.files.internal(skinPath), atlas);
+        skin = new Skin(Gdx.files.internal(Settings.get(skinPath)), atlas);
     }
 
     /**

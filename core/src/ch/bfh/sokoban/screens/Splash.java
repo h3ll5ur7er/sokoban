@@ -26,7 +26,7 @@ public class Splash<T extends MyScreenAdapter> extends MyScreenAdapter
     /**
      * Creates a new splash screen, that shows given image for given time and
      * navigates to given screen after the animation has terminated
-     * @param imagePath image to show
+     * @param imagePath settings key for the image
      * @param fade seconds to fade in and out (2x in total)
      * @param pause time to show the splash bevore fading out
      * @param target target screen to navigate to
@@ -50,7 +50,7 @@ public class Splash<T extends MyScreenAdapter> extends MyScreenAdapter
 
         mgr  = new TweenManager();
 
-        tex = new Texture(imagePath);
+        tex = new Texture(Settings.get(imagePath));
         sprite = new Sprite(tex);
         sprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 

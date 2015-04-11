@@ -1,12 +1,10 @@
 package ch.bfh.sokoban;
 
+import ch.bfh.sokoban.game.LevelManager;
 import ch.bfh.sokoban.screens.MainMenu;
+import ch.bfh.sokoban.screens.Settings;
 import ch.bfh.sokoban.screens.Splash;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.Array;
 
 /**
  * Main class of the game core
@@ -20,9 +18,10 @@ public class Sokoban extends Game
 	@Override
 	public void create ()
     {
-        GlobalAssets.getInstance().load("lvl/atlas.pack", "lvl/game_style.json");
-
-        new Splash<MainMenu>("img/splash.png", 1, 1, MainMenu.class).activate();
+        Settings.load();
+        GlobalAssets.getInstance().load("DefaultTextureAtlas", "DefaultSkin");
+        LevelManager.instance().load();
+        new Splash<MainMenu>("StartSplashScreen", 1, 1, MainMenu.class).activate();
 	}
 
     @Override
@@ -54,5 +53,6 @@ public class Sokoban extends Game
     {
         super.dispose();
         GlobalAssets.getInstance().dispose();
+        Settings.save();
     }
 }

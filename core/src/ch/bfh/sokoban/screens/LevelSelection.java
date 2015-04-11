@@ -1,31 +1,32 @@
 package ch.bfh.sokoban.screens;
 
-import ch.bfh.sokoban.GlobalAssets;
-import ch.bfh.sokoban.data.LevelPack;
-import ch.bfh.sokoban.screens.Game;
+import ch.bfh.sokoban.data.LevelData;
+import ch.bfh.sokoban.data.LevelPackData;
+import ch.bfh.sokoban.game.LevelManager;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Json;
+
+import java.util.Arrays;
 
 /**
  * Screen to select a level to play
  */
 public class LevelSelection extends MyScreenAdapter
 {
-    private static int selectedDifficulty, selectedLevel;
+    private static int selectedPack, selectedLevel;
 
     Table table;
 
-    List<Difficulty> list1;
-    List<String> list2;
-
-    LevelPack lvls;
+    List<LevelPackData> list1;
+    List<LevelData> list2;
 
     /**
      * Load levelPack from json and build up the gui
@@ -35,26 +36,37 @@ public class LevelSelection extends MyScreenAdapter
     {
         super.show();
 
-        lvls = new Json().fromJson(LevelPack.class, Gdx.files.internal("lvl/levels.json"));
         table = new Table(skin);
-        list1 = new List<Difficulty>(skin);
-        list2 = new List<String>(skin);
+        list1 = new List<LevelPackData>(skin);
+        list2 = new List<LevelData>(skin);
 
         ScrollPane scroll1 = new ScrollPane(list1, skin);
         ScrollPane scroll2 = new ScrollPane(list2, skin);
 
         TextButton btnPlay = new TextButton("PLAY", skin);
-        TextButton btnBack = new TextButton("BACK", skin, "small");
+        TextButton btnBack = new TextButton(Settings.get("BackButtonText"), skin, Settings.get("BackButtonSize"));
 
         Gdx.input.setInputProcessor(stage);
 
         table.setBounds(0,0, 1200, 720);
 
-        list1.setItems(Difficulty.values());
-        list1.setSelectedIndex(selectedDifficulty>0?selectedDifficulty:0);
+        Object[] packObjects = LevelManager.instance().getLevelPacks().toArray();
+        LevelPackData[] packs = Arrays.copyOf(packObjects, packObjects.length, LevelPackData[].class);
 
-        list2.setItems("1", "2", "3", "4", "5", "6", "7", "8", "9");
-        list2.setSelectedIndex(selectedLevel>0?selectedLevel:0);
+        list1.setItems(packs);
+        list1.setSelectedIndex(selectedPack >0? selectedPack :0);
+        list1.addListener(new ChangeListener()
+        {
+            @Override
+            public void changed(ChangeEvent event, Actor actor)
+            {
+                selectedLevel = 0;
+                refreshLevels();
+            }
+        });
+
+
+        refreshLevels();
 
         btnPlay.addListener(playListener());
         btnPlay.pad(15);
@@ -65,6 +77,10 @@ public class LevelSelection extends MyScreenAdapter
         table.add().width(300);
         table.add("SELECT LEVEL").width(600).colspan(2);
         table.add().width(300).row();
+
+        table.add("Levelpack").width(300);
+        table.add("Level").width(300);
+        table.add().width(600).colspan(2).row();
 
         table.add(scroll1).width(300);
         table.add(scroll2).width(300);
@@ -77,6 +93,15 @@ public class LevelSelection extends MyScreenAdapter
     }
 
     /**
+     * Refreshes the list showing the content of selected levelpack in list2
+     **/
+    private void refreshLevels()
+    {
+        list2.setItems(list1.getSelected().levels);
+        list2.setSelectedIndex(selectedLevel>0||selectedLevel<list1.getSelected().levels.length?selectedLevel:0);
+    }
+
+    /**
      * @return the action performed by the play button
      */
     private ClickListener playListener()
@@ -86,10 +111,11 @@ public class LevelSelection extends MyScreenAdapter
             @Override
             public void clicked(InputEvent event, float x, float y)
             {
-                selectedDifficulty = list1.getSelectedIndex();
+                //read leveldata from db
+                selectedPack = list1.getSelectedIndex();
                 selectedLevel = list2.getSelectedIndex();
 
-                new Game(lvls.levelPack[list1.getSelected().numeric][list2.getSelectedIndex()]).activate();
+                new Game(list2.getSelected()).activate();
             }
         };
     }
@@ -104,7 +130,7 @@ public class LevelSelection extends MyScreenAdapter
             @Override
             public void clicked(InputEvent event, float x, float y)
             {
-                selectedDifficulty = list1.getSelectedIndex();
+                selectedPack = list1.getSelectedIndex();
                 selectedLevel = list2.getSelectedIndex();
 
                 new MainMenu().activate();
@@ -121,36 +147,5 @@ public class LevelSelection extends MyScreenAdapter
 
         stage.act(delta);
         stage.draw();
-    }
-
-    /**
-     * The difficulties available in the current levelPack (To be done dynamic as soon as the levelpack is in a db and not in a file)
-     */
-    public static enum Difficulty
-    {
-        Hard  (0, "Too Hard",        "hard"),
-        Nuts  (1, "Completely Nuts", "nuts"),
-        Sick  (2, "Totally Sick",    "sick"),
-        Insane(3, "Horribly Insane", "insane");
-
-        private final int numeric;
-        private final String display, asset;
-
-        Difficulty(int numeric, String display, String asset)
-        {
-            this.numeric = numeric;
-            this.display = display;
-            this.asset = asset;
-        }
-
-        public String getAssetName()
-        {
-            return asset;
-        }
-
-        @Override
-        public String toString() {
-            return display;
-        }
     }
 }

@@ -17,7 +17,4 @@ public class Constants
     public static final String BOX_FLOOR_D = "game.box.floor";
     public static final String BOX_GOAL_D = "game.box.goal";
     public static final String WALL_D = "game.wall";
-
-    public static final int TILE_WIDTH = 50;
-    public static final int TILE_HEIGHT = 50;
 }
