@@ -26,7 +26,10 @@ public class Game extends MyScreenAdapter
     int navigationCountdown = 30;
     
     // Timer
-
+    Label lblScore = null;
+    Label lblMoves = null;
+    Label lblPushes = null;
+    Label lblUndoRedo = null;
 
     /**
      * Create a new Game
@@ -45,6 +48,7 @@ public class Game extends MyScreenAdapter
     {
         super.show();
 
+        
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
@@ -57,6 +61,15 @@ public class Game extends MyScreenAdapter
 
         this.level = new Level(leveldata, skin);
 
+        lblScore = new Label("",skin, "small"); 
+        lblScore.setText(""+level.getScore());
+        lblMoves = new Label("",skin, "small"); 
+        lblMoves.setText(""+level.getMoveCount());
+        lblPushes = new Label("",skin, "small"); 
+        lblPushes.setText(""+level.getPushCount());        
+        lblUndoRedo = new Label("",skin, "small"); 
+        lblUndoRedo.setText(""+level.getUndoRedoCount());
+        
         TextButton btnBack = new TextButton("BACK", skin);
         btnBack.pad(20);
         btnBack.addListener(new ClickListener()
@@ -99,13 +112,13 @@ public class Game extends MyScreenAdapter
         
         tableMenu.add(new Label("Score:", skin)).colspan(2).center();
         tableMenu.row();
-        tableMenu.add(new Label(""+level.getScore(), skin)).colspan(2).center();
+        tableMenu.add(lblScore).colspan(2).center();
         tableMenu.row();
         tableMenu.add(new Label("Moves:   ", skin, "small"));
         tableMenu.add(new Label("Pushes:", skin, "small"));
         tableMenu.row();
-        tableMenu.add(new Label(level.getMoveCount()+"",skin, "small")).center();
-        tableMenu.add(new Label(level.getPushCount()+"",skin, "small")).center();
+        tableMenu.add(lblMoves).center();
+        tableMenu.add(lblPushes).center();
         tableMenu.row();
         tableMenu.add();
         tableMenu.row();
@@ -114,7 +127,7 @@ public class Game extends MyScreenAdapter
         tableMenu.row();
         tableMenu.add(new Label("Undo/Redo's:", skin, "small")).colspan(2).center();
         tableMenu.row();
-        tableMenu.add(new Label("" + level.getUndoRedoCount(), skin, "small")).colspan(2).center();
+        tableMenu.add(lblUndoRedo).colspan(2).center();
         tableMenu.row();
         tableMenu.add();
         tableMenu.row();
@@ -144,9 +157,14 @@ public class Game extends MyScreenAdapter
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-
+        lblScore.setText(""+level.getScore());
+		lblMoves.setText(""+level.getMoveCount());
+		lblPushes.setText(""+level.getPushCount());
+		lblUndoRedo.setText(""+level.getUndoRedoCount());
         stage.act(delta);
         stage.draw();
+        
+        
     }
 
     /**
