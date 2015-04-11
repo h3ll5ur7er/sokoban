@@ -2,10 +2,12 @@ package ch.bfh.sokoban.screens;
 
 import ch.bfh.sokoban.data.LevelPack;
 import ch.bfh.sokoban.game.Level;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -16,11 +18,18 @@ import static com.badlogic.gdx.Input.Keys.*;
  **/
 public class Game extends MyScreenAdapter
 {
-    private Table table;
+    private Table tableScreen;
+    private Table tableMenu;
     private Level level;
     private LevelPack.Level leveldata;
     boolean completed = false;
     int navigationCountdown = 30;
+    
+    private int steps = 0;
+    private int pushes = 0;
+    private int undoRedo = 0;
+    private int score = 0;
+    // Timer
 
 
     /**
@@ -43,12 +52,16 @@ public class Game extends MyScreenAdapter
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
-        table = new Table(skin);
-        table.setBounds(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        tableScreen = new Table(skin);
+        tableScreen.setBounds(0,0, Gdx.graphics.getWidth()-200, Gdx.graphics.getHeight());
+        
+        tableMenu = new Table(skin);
+        tableMenu.setBounds(Gdx.graphics.getWidth()-200,0, 200, Gdx.graphics.getHeight());
+        
 
         this.level = new Level(leveldata, skin);
 
-        TextButton btnBack = new TextButton("BACK", skin, "small");
+        TextButton btnBack = new TextButton("BACK", skin);
         btnBack.pad(20);
         btnBack.addListener(new ClickListener()
         {
@@ -58,27 +71,67 @@ public class Game extends MyScreenAdapter
                 new LevelSelection().activate();
             }
         });
+        
+        TextButton btnSave = new TextButton("SAVE", skin);
+        btnSave.pad(20);
+        btnSave.addListener(new ClickListener()
+        {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                // Save data
+            }
+        });
+        
+        tableScreen.add();
+        tableScreen.add(leveldata.name).colspan(2);
+        tableScreen.add();
+        tableScreen.row();
 
-        table.add();
-        table.add(leveldata.name).colspan(2);
-        table.add();
-        table.row();
+        tableScreen.add().colspan(4);
+        tableScreen.row();
 
-        table.add().colspan(4);
-        table.row();
+        tableScreen.add();
+        tableScreen.add(level.getTable()).colspan(2).expandX().expandY();
+        tableScreen.add();
+        tableScreen.row();
 
-        table.add();
-        table.add(level.getTable()).colspan(2).expandX().expandY();
-        table.add();
-        table.row();
+        /*tableScreen.add().colspan(3);
+        tableScreen.add(btnBack);*/
 
-        table.add().colspan(3);
-        table.add(btnBack);
-
-        table.invalidateHierarchy();
+        tableScreen.invalidateHierarchy();
+        
+        tableMenu.add(new Label("Score:", skin)).colspan(2).center();
+        tableMenu.row();
+        tableMenu.add(new Label(""+score, skin)).colspan(2).center();
+        tableMenu.row();
+        tableMenu.add(new Label("Moves:   ", skin, "small"));
+        tableMenu.add(new Label("Pushes:", skin, "small"));
+        tableMenu.row();
+        tableMenu.add(new Label(steps+"",skin, "small")).center();
+        tableMenu.add(new Label(pushes+"",skin, "small")).center();
+        tableMenu.row();
+        tableMenu.add();
+        tableMenu.row();
+        tableMenu.row();
+        tableMenu.add();
+        tableMenu.row();
+        tableMenu.add(new Label("Undo/Redo's:", skin, "small")).colspan(2).center();
+        tableMenu.row();
+        tableMenu.add(new Label("" + undoRedo, skin, "small")).colspan(2).center();
+        tableMenu.row();
+        tableMenu.add();
+        tableMenu.row();
+        tableMenu.add(btnSave).colspan(2).center();
+        tableMenu.row();
+        tableMenu.add();
+        tableMenu.row();
+        tableMenu.add(btnBack).colspan(2).center();
+        tableMenu.invalidateHierarchy();
 
         stage.addActor(level);
-        stage.addActor(table);
+        stage.addActor(tableScreen);
+        stage.addActor(tableMenu);
 
         Gdx.graphics.setTitle(leveldata.name);
     }
