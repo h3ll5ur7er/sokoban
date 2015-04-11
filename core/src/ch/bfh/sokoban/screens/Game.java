@@ -25,10 +25,6 @@ public class Game extends MyScreenAdapter
     boolean completed = false;
     int navigationCountdown = 30;
     
-    private int steps = 0;
-    private int pushes = 0;
-    private int undoRedo = 0;
-    private int score = 0;
     // Timer
 
 
@@ -103,13 +99,13 @@ public class Game extends MyScreenAdapter
         
         tableMenu.add(new Label("Score:", skin)).colspan(2).center();
         tableMenu.row();
-        tableMenu.add(new Label(""+score, skin)).colspan(2).center();
+        tableMenu.add(new Label(""+level.getScore(), skin)).colspan(2).center();
         tableMenu.row();
         tableMenu.add(new Label("Moves:   ", skin, "small"));
         tableMenu.add(new Label("Pushes:", skin, "small"));
         tableMenu.row();
-        tableMenu.add(new Label(steps+"",skin, "small")).center();
-        tableMenu.add(new Label(pushes+"",skin, "small")).center();
+        tableMenu.add(new Label(level.getMoveCount()+"",skin, "small")).center();
+        tableMenu.add(new Label(level.getPushCount()+"",skin, "small")).center();
         tableMenu.row();
         tableMenu.add();
         tableMenu.row();
@@ -118,7 +114,7 @@ public class Game extends MyScreenAdapter
         tableMenu.row();
         tableMenu.add(new Label("Undo/Redo's:", skin, "small")).colspan(2).center();
         tableMenu.row();
-        tableMenu.add(new Label("" + undoRedo, skin, "small")).colspan(2).center();
+        tableMenu.add(new Label("" + level.getUndoRedoCount(), skin, "small")).colspan(2).center();
         tableMenu.row();
         tableMenu.add();
         tableMenu.row();

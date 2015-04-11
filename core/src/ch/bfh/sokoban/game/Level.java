@@ -46,6 +46,11 @@ public class Level extends Actor implements TileBasedMap
     int walkRate = 10;
     boolean moving = false;
     boolean walking = false;
+    
+    private int moves = 0;
+    private int pushes = 0;
+    private int undoRedo = 0;
+    private int score = 0;
 
     private Tile player;
     private ArrayList<Tile> goals;
@@ -135,11 +140,13 @@ public class Level extends Actor implements TileBasedMap
         {
             player = player.move(Directions.up);
             pushCommand(Commands.MoveUp);
+            moves++;
         }
         else if (player.canPush(Directions.up))
         {
             player = player.push(Directions.up);
             pushCommand(Commands.PushUp);
+            pushes++;
         }
         moving = false;
     }
@@ -154,11 +161,13 @@ public class Level extends Actor implements TileBasedMap
         {
             player = player.move(Directions.down);
             pushCommand(Commands.MoveDown);
+            moves++;
         }
         else if (player.canPush(Directions.down))
         {
             player = player.push(Directions.down);
             pushCommand(Commands.PushDown);
+            pushes++;
         }
         moving = false;
     }
@@ -173,11 +182,13 @@ public class Level extends Actor implements TileBasedMap
         {
             player = player.move(Directions.left);
             pushCommand(Commands.MoveLeft);
+            moves++;
         }
         else if (player.canPush(Directions.left))
         {
             player = player.push(Directions.left);
             pushCommand(Commands.PushLeft);
+            pushes++;
         }
         moving = false;
     }
@@ -192,11 +203,13 @@ public class Level extends Actor implements TileBasedMap
         {
             player = player.move(Directions.right);
             pushCommand(Commands.MoveRight);
+            moves++;
         }
         else if (player.canPush(Directions.right))
         {
             player = player.push(Directions.right);
             pushCommand(Commands.PushRight);
+            pushes++;
         }
         moving = false;
     }
@@ -227,6 +240,7 @@ public class Level extends Actor implements TileBasedMap
         }
 
         undone.push(step);
+        undoRedo++;
         return true;
     }
 
@@ -255,6 +269,7 @@ public class Level extends Actor implements TileBasedMap
                 right();
                 break;
         }
+        undoRedo++;
     }
 
     /**
@@ -452,6 +467,38 @@ public class Level extends Actor implements TileBasedMap
     {
         //if(mover instanceof FloorMover)
         return 1;
+    }
+    
+    /**
+     * Returns the current score
+     * @return current score
+     */
+    public int getScore(){
+    	return this.score;
+    }
+    
+    /**
+     * Returns the amount of moves done
+     * @return movement count
+     */
+    public int getMoveCount(){
+    	return this.moves;
+    }
+    
+    /**
+     * Returns the amount of pushes done
+     * @return pushes count
+     */
+    public int getPushCount(){
+    	return this.pushes;
+    }
+    
+    /**
+     * Returns the amount of undo/Redo's done
+     * @return undo/redo count
+     */
+    public int getUndoRedoCount(){
+    	return this.undoRedo;
     }
 
     /**
