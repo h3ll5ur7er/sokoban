@@ -2,8 +2,8 @@ package ch.bfh.sokoban.game;
 
 import ch.bfh.sokoban.GlobalAssets;
 import ch.bfh.sokoban.data.LevelData;
-import ch.bfh.sokoban.data.LevelPackDataCollection;
 import ch.bfh.sokoban.data.LevelPackData;
+import ch.bfh.sokoban.data.LevelPackDataCollection;
 import ch.bfh.sokoban.data.SlcParser;
 import ch.bfh.sokoban.screens.Settings;
 import com.badlogic.gdx.Gdx;
@@ -14,6 +14,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * The LevelManager handles the levelPacks
@@ -126,5 +127,21 @@ public class LevelManager
         });
         d.show((Stage) Gdx.input.getInputProcessor());
         System.out.println(title + " : " + content);
+    }
+
+    public void conv()
+    {
+        for(LevelPackData lp : data.levelPacks)
+        {
+            if(lp.identifier.equals(""))
+                lp.identifier = UUID.randomUUID().toString();
+            for (LevelData l : lp.levels)
+            {
+                if(l.id.equals(""))
+                {
+                    l.id = UUID.randomUUID().toString();
+                }
+            }
+        }
     }
 }

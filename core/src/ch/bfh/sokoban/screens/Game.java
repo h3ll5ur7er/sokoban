@@ -2,6 +2,7 @@ package ch.bfh.sokoban.screens;
 
 import ch.bfh.sokoban.data.LevelData;
 import ch.bfh.sokoban.game.Level;
+import ch.bfh.sokoban.utils.Lan;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -68,7 +69,7 @@ public class Game extends MyScreenAdapter
         lblUndoRedo = new Label("",skin, "small"); 
         lblUndoRedo.setText(""+level.getUndoRedoCount());
 
-        TextButton btnBack = new TextButton(Settings.get("BackButtonText"), skin, Settings.get("BackButtonSize"));
+        TextButton btnBack = new TextButton(Lan.g("Back"), skin, Settings.get("BackButtonSize"));
         btnBack.pad(20);
         btnBack.addListener(new ClickListener()
         {
@@ -79,7 +80,7 @@ public class Game extends MyScreenAdapter
             }
         });
         
-        TextButton btnSave = new TextButton("SAVE", skin, Settings.get("SaveButtonSize"));
+        TextButton btnSave = new TextButton(Lan.g("Save"), skin, Settings.get("SaveButtonSize"));
         btnSave.pad(22);
         btnSave.addListener(new ClickListener()
         {
@@ -91,7 +92,7 @@ public class Game extends MyScreenAdapter
         });
         
         tableScreen.add();
-        tableScreen.add(leveldata.id).colspan(2);
+        tableScreen.add(leveldata.name).colspan(2);
         tableScreen.add();
         tableScreen.row();
 
@@ -108,12 +109,12 @@ public class Game extends MyScreenAdapter
 
         tableScreen.invalidateHierarchy();
         
-        tableMenu.add(new Label("Score:", skin)).colspan(2).center();
+        tableMenu.add(new Label(Lan.g("Score")+":", skin)).colspan(2).center();
         tableMenu.row();
         tableMenu.add(lblScore).colspan(2).center();
         tableMenu.row();
-        tableMenu.add(new Label("Moves:   ", skin, "small"));
-        tableMenu.add(new Label("Pushes:", skin, "small"));
+        tableMenu.add(new Label(Lan.g("Moves")+":   ", skin, "small"));
+        tableMenu.add(new Label(Lan.g("Pushes")+":", skin, "small"));
         tableMenu.row();
         tableMenu.add(lblMoves).center();
         tableMenu.add(lblPushes).center();
@@ -123,7 +124,7 @@ public class Game extends MyScreenAdapter
         tableMenu.row();
         tableMenu.add();
         tableMenu.row();
-        tableMenu.add(new Label("Undo/Redo's:", skin, "small")).colspan(2).center();
+        tableMenu.add(new Label(Lan.g("UndoRedo")+":", skin, "small")).colspan(2).center();
         tableMenu.row();
         tableMenu.add(lblUndoRedo).colspan(2).center();
         tableMenu.row();
@@ -140,7 +141,7 @@ public class Game extends MyScreenAdapter
         stage.addActor(tableScreen);
         stage.addActor(tableMenu);
 
-        Gdx.graphics.setTitle(leveldata.id);
+        Gdx.graphics.setTitle(leveldata.name);
     }
 
     /**

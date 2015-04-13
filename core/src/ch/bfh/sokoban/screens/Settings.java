@@ -2,6 +2,7 @@ package ch.bfh.sokoban.screens;
 
 import ch.bfh.sokoban.Sokoban;
 import ch.bfh.sokoban.game.LevelManager;
+import ch.bfh.sokoban.utils.Lan;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
@@ -21,8 +22,6 @@ public class Settings extends MyScreenAdapter
     Label tileSizeDisplay;
 
     SelectBox<String> languagesBox;
-
-    Label selectedLanguageDisplay;
 
 
     @Override
@@ -49,19 +48,16 @@ public class Settings extends MyScreenAdapter
 
         tileSizeDisplay = new Label(Integer.toString(tileSize), skin);
 
-
         languagesBox = new SelectBox<String>(skin);
         languagesBox.setItems("Deutsch", "Français", "English");
         languagesBox.setSelected(get("SelectedLanguage"));
-        selectedLanguageDisplay = new Label(languagesBox.getSelected(), skin);
-        languagesBox.addListener(e->
+        languagesBox.addListener(e ->
         {
-            selectedLanguageDisplay.setText(languagesBox.getSelected());
             set("SelectedLanguage", languagesBox.getSelected());
             return true;
         });
 
-        TextButton btnAdd = new TextButton(get("AddPackButtonText"), skin);
+        TextButton btnAdd = new TextButton(Lan.g("AddLevelPack"), skin);
         btnAdd.pad(20);
         btnAdd.addListener(new ClickListener()
         {
@@ -86,7 +82,7 @@ public class Settings extends MyScreenAdapter
             }
         });
 
-        TextButton btnReset = new TextButton(get("ResetPackButtonText"), skin);
+        TextButton btnReset = new TextButton(Lan.g("ResetLevelPacks"), skin);
         btnReset.pad(20);
         btnReset.addListener(new ClickListener()
         {
@@ -97,7 +93,7 @@ public class Settings extends MyScreenAdapter
             }
         });
 
-        TextButton btnBack = new TextButton(get("BackButtonText"), skin);
+        TextButton btnBack = new TextButton(Lan.g("Back"), skin);
         btnBack.pad(20);
         btnBack.addListener(new ClickListener()
         {
@@ -112,22 +108,22 @@ public class Settings extends MyScreenAdapter
 
         table.add().width(table.getWidth()/5);
         table.add().width(table.getWidth() / 5);
-        table.add(get("SettingsTitle")).width(table.getWidth() / 5);
+        table.add(Lan.g("Settings")).width(table.getWidth() / 5);
         table.add().width(table.getWidth() / 5);
         table.add().width(table.getWidth()/5);
         table.row();
 
         table.add();
-        table.add(get("TileSizeLabelText"), "small");
+        table.add(Lan.g("TileSize"), "small");
         table.add(tileSizeSlider).expandX().expandY();
         table.add(tileSizeDisplay).pad(10);
         table.add();
         table.row();
 
         table.add();
-        table.add(get("LanguageLabelText"), "small");
+        table.add(get(Lan.g("Language")), "small");
         table.add(languagesBox);
-        table.add(selectedLanguageDisplay);
+        table.add(Lan.g("RestartRequired"));
         table.add();
         table.row();
 
@@ -172,6 +168,26 @@ public class Settings extends MyScreenAdapter
             return Manager.getInstance().map.get(key);
         return null;
     }
+    public static int getInt(String key)
+    {
+        return Integer.parseInt(get(key));
+    }
+    public static long getLong(String key)
+    {
+        return Long.parseLong(get(key));
+    }
+    public static float getFloat(String key)
+    {
+        return Float.parseFloat(get(key));
+    }
+    public static double getDouble(String key)
+    {
+        return Integer.parseInt(get(key));
+    }
+    public static boolean has(String key)
+    {
+        return Manager.getInstance().map.containsKey(key);
+    }
     public static void set(String key, String value)
     {
         Manager.getInstance().map.put(key, value);
@@ -188,6 +204,7 @@ public class Settings extends MyScreenAdapter
 
     private static class Manager
     {
+        private static final String settingsPath = "SokobanSettings.config";
         private ObjectMap<String, String> map = new ObjectMap<String, String>();
 
         //SINGLETON
@@ -221,29 +238,17 @@ public class Settings extends MyScreenAdapter
             Settings.set("StartSplashScreen", "img/splash.png");
             Settings.set("CompletedSplashScreen", "img/levelCompleted.png");
             Settings.set("LevelDataExternalPath", "SokobanLevelData.jsld");
-            Settings.set("SettingsExternalPath", "SokobanSettings.config");
-            Settings.set("PlayButtonText", "PLAY");
-            Settings.set("EditorButtonText", "EDITOR");
-            Settings.set("SettingsButtonText", "SETTINGS");
-            Settings.set("SettingsTitle", "Settings");
-            Settings.set("ExitButtonText", "EXIT");
-            Settings.set("BackButtonText", "BACK");
             Settings.set("BackButtonSize", "small");
-            Settings.set("PlayButtonText", "PLAY");
             Settings.set("PlayButtonSize", "small");
-            Settings.set("SaveButtonText", "SAVE");
             Settings.set("SaveButtonSize", "small");
-            Settings.set("AddPackButtonText", "Add LevelPack");
-            Settings.set("ResetPackButtonText", "Reset LevelPacks");
-            Settings.set("TileSizeLabelText", "Tile size");
-            Settings.set("LanguageLabelText", "Language");
             Settings.set("TileSize", "50");
+            Settings.set("EULA", "0");
         }
         public static void save()
         {
             try
             {
-                PropertiesUtils.store(getInstance().map, Gdx.files.external("SokobanSettings.config").writer(false), Sokoban.TITLE);
+                PropertiesUtils.store(getInstance().map, Gdx.files.external(settingsPath).writer(false), Sokoban.TITLE);
             }
             catch (IOException e)
             {
@@ -254,8 +259,8 @@ public class Settings extends MyScreenAdapter
         {
             try
             {
-                if(Gdx.files.external(Sokoban.TITLE).exists())
-                    PropertiesUtils.load(getInstance().map, Gdx.files.external("SokobanSettings.config").reader());
+                if(Gdx.files.external(settingsPath).exists())
+                    PropertiesUtils.load(getInstance().map, Gdx.files.external(settingsPath).reader());
                 else
                 {
                     create();

@@ -1,12 +1,14 @@
 package ch.bfh.sokoban.screens;
 
 import ch.bfh.sokoban.Sokoban;
+import ch.bfh.sokoban.utils.Lan;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 /**
@@ -21,6 +23,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 public class MainMenu extends MyScreenAdapter
 {
     Table table;
+    private static boolean eulaShown = false;
 
     @Override
     public void show()
@@ -31,22 +34,22 @@ public class MainMenu extends MyScreenAdapter
         table = new Table(skin);
         table.setBounds(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        TextButton btnPlay = new TextButton("PLAY", skin);
+        TextButton btnPlay = new TextButton(Lan.g("Play"), skin);
         btnPlay.pad(20);
         btnPlay.setSize(300, 100);
         btnPlay.addListener(playListener());
 
-        TextButton btnEdit = new TextButton("EDIT", skin);
+        TextButton btnEdit = new TextButton(Lan.g("Editor"), skin);
         btnEdit.pad(22);
         btnEdit.setSize(300, 100);
         btnEdit.addListener(editorListener());
 
-        TextButton btnSettings = new TextButton("SETTINGS", skin);
+        TextButton btnSettings = new TextButton(Lan.g("Settings"), skin);
         btnSettings.pad(22);
         btnSettings.setSize(300, 100);
         btnSettings.addListener(settingsListener());
 
-        TextButton btnExit = new TextButton("EXIT", skin);
+        TextButton btnExit = new TextButton(Lan.g("Exit"), skin);
         btnExit.pad(24);
         btnExit.setSize(300, 100);
         btnExit.addListener(exitListener());
@@ -67,6 +70,38 @@ public class MainMenu extends MyScreenAdapter
         table.layout();
 
         stage.addActor(table);
+
+        if(Settings.get("EULA").equals("True")) return;
+
+        if(eulaShown) return;
+        eulaShown = true;
+
+        Dialog eulaDialog = new Dialog(Lan.g("EulaTitle"), skin);
+
+        Label eulaText = new Label(Lan.g("EULA"), skin);
+        eulaText.setWrap(true);
+
+        CheckBox notShowEula = new CheckBox(Lan.g("NotShowAgain"), skin);
+        notShowEula.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                Settings.set("EULA", notShowEula.isChecked() ? "True" : "False");
+            }
+        });
+
+        TextButton btnClose = new TextButton(Lan.g("Exit"), skin);
+        btnClose.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                eulaDialog.remove();
+            }
+        });
+
+        eulaDialog.getContentTable().add(new ScrollPane(eulaText)).width(700).height(500).expandX().expandY();
+        eulaDialog.getButtonTable().add(btnClose);
+        eulaDialog.getButtonTable().add(notShowEula);
+        eulaDialog.show(stage);
     }
 
     private ClickListener playListener()

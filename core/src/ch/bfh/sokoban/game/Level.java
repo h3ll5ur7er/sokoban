@@ -65,7 +65,7 @@ public class Level extends Actor implements TileBasedMap
         this.width = width;
         this.height = height;
 
-        tileSize = Integer.parseInt(Settings.get("TileSize"));
+        tileSize = Settings.getInt("TileSize");
 
         this.skin = skin;
 
@@ -131,7 +131,7 @@ public class Level extends Actor implements TileBasedMap
 
     public Level(LevelData lvl, Skin skin)
     {
-        this(lvl.id, lvl.width, lvl.height, lvl.data, skin);
+        this(lvl.name, lvl.width, lvl.height, lvl.data, skin);
     }
 
     /**
@@ -338,12 +338,9 @@ public class Level extends Actor implements TileBasedMap
         if (undone.size()>0)
         {
             undone = new Stack<Commands>();
-            steps.push(cmd);
         }
-        else
-        {
-            steps.push(cmd);
-        }
+        steps.push(cmd);
+
     }
 
     /**
@@ -564,6 +561,52 @@ public class Level extends Actor implements TileBasedMap
                     return Directions.right;
             }
             return null;
+        }
+        public static Commands fromChar(char c)
+        {
+            switch (c)
+            {
+                case 'u':
+                    return MoveUp;
+                case 'U':
+                    return PushUp;
+                case 'd':
+                    return MoveDown;
+                case 'D':
+                    return PushDown;
+                case 'l':
+                    return MoveLeft;
+                case 'L':
+                    return PushLeft;
+                case 'r':
+                    return MoveRight;
+                case 'R':
+                    return PushRight;
+                default : return null;
+            }
+        }
+        public static char toChar(Commands c)
+        {
+            switch(c)
+            {
+                case MoveUp:
+                    return 'u';
+                case MoveDown:
+                    return 'd';
+                case MoveLeft:
+                    return 'l';
+                case MoveRight:
+                    return 'r';
+                case PushUp:
+                    return 'U';
+                case PushDown:
+                    return 'D';
+                case PushLeft:
+                    return 'L';
+                case PushRight:
+                    return 'R';
+                default : return '\0';
+            }
         }
     }
 

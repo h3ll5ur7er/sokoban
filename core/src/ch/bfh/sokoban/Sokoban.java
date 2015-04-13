@@ -4,6 +4,7 @@ import ch.bfh.sokoban.game.LevelManager;
 import ch.bfh.sokoban.screens.MainMenu;
 import ch.bfh.sokoban.screens.Settings;
 import ch.bfh.sokoban.screens.Splash;
+import ch.bfh.sokoban.utils.Lan;
 import com.badlogic.gdx.Game;
 
 /**
@@ -21,6 +22,8 @@ public class Sokoban extends Game
         Settings.load();
         GlobalAssets.getInstance().load("DefaultTextureAtlas", "DefaultSkin");
         LevelManager.instance().load();
+        Lan.init();
+
         new Splash<MainMenu>("StartSplashScreen", 1, 1, MainMenu.class).activate();
 	}
 

@@ -3,6 +3,7 @@ package ch.bfh.sokoban.screens;
 import ch.bfh.sokoban.data.LevelData;
 import ch.bfh.sokoban.data.LevelPackData;
 import ch.bfh.sokoban.game.LevelManager;
+import ch.bfh.sokoban.utils.Lan;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -43,8 +44,8 @@ public class LevelSelection extends MyScreenAdapter
         ScrollPane scroll1 = new ScrollPane(list1, skin);
         ScrollPane scroll2 = new ScrollPane(list2, skin);
 
-        TextButton btnPlay = new TextButton(Settings.get("PlayButtonText"), skin, Settings.get("PlayButtonSize"));
-        TextButton btnBack = new TextButton(Settings.get("BackButtonText"), skin, Settings.get("BackButtonSize"));
+        TextButton btnPlay = new TextButton(Lan.g("Play"), skin, Settings.get("PlayButtonSize"));
+        TextButton btnBack = new TextButton(Lan.g("Back"), skin, Settings.get("BackButtonSize"));
 
         Gdx.input.setInputProcessor(stage);
 
@@ -75,7 +76,7 @@ public class LevelSelection extends MyScreenAdapter
         btnBack.pad(10);
 
         table.add().width(300);
-        table.add("SELECT LEVEL").width(600).colspan(2);
+        table.add(Lan.g("SelectLevel")).width(600).colspan(2);
         table.add().width(300).row();
 
         table.add("Levelpack").width(300);

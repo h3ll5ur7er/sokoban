@@ -30,7 +30,7 @@ public class SlcParser
         try
         {
             //Workaround:
-            //Replace all '<L>%%%</L>' tags with '<L>-%%%-</L>' so spaces at the beginning are not trimmed
+            //Replace all '<L>%%%</L>' tags with '<L>-%%%-</L>' so spaces at the beginning/ending are not trimmed
             String data = Gdx.files.absolute(path).readString();
             data = data.replace("<L>","<L>-").replace("</L>", "-</L>");
             XmlReader.Element root = new XmlReader().parse(data);
@@ -41,7 +41,7 @@ public class SlcParser
                                     e ->
                                     {
                                         Object[] o = Arrays.stream(e.getChildrenByName("L").toArray())
-                                                .map(x->foo(foo(x).getText().substring(1, x.getText().length()-1)))
+                                                .map(x->x.getText().substring(1, x.getText().length()-1))
                                                 .map(x ->
                                                 {
                                                     while (x.length() < e.getInt("Width"))
