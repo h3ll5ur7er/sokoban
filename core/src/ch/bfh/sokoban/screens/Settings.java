@@ -229,6 +229,10 @@ public class Settings extends MyScreenAdapter
             Settings.set("ExitButtonText", "EXIT");
             Settings.set("BackButtonText", "BACK");
             Settings.set("BackButtonSize", "small");
+            Settings.set("PlayButtonText", "PLAY");
+            Settings.set("PlayButtonSize", "small");
+            Settings.set("SaveButtonText", "SAVE");
+            Settings.set("SaveButtonSize", "small");
             Settings.set("AddPackButtonText", "Add LevelPack");
             Settings.set("ResetPackButtonText", "Reset LevelPacks");
             Settings.set("TileSizeLabelText", "Tile size");

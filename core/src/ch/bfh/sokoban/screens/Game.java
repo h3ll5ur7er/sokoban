@@ -79,8 +79,8 @@ public class Game extends MyScreenAdapter
             }
         });
         
-        TextButton btnSave = new TextButton("SAVE", skin);
-        btnSave.pad(20);
+        TextButton btnSave = new TextButton("SAVE", skin, Settings.get("SaveButtonSize"));
+        btnSave.pad(22);
         btnSave.addListener(new ClickListener()
         {
             @Override

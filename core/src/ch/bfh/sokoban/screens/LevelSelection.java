@@ -43,7 +43,7 @@ public class LevelSelection extends MyScreenAdapter
         ScrollPane scroll1 = new ScrollPane(list1, skin);
         ScrollPane scroll2 = new ScrollPane(list2, skin);
 
-        TextButton btnPlay = new TextButton("PLAY", skin);
+        TextButton btnPlay = new TextButton(Settings.get("PlayButtonText"), skin, Settings.get("PlayButtonSize"));
         TextButton btnBack = new TextButton(Settings.get("BackButtonText"), skin, Settings.get("BackButtonSize"));
 
         Gdx.input.setInputProcessor(stage);
@@ -88,6 +88,7 @@ public class LevelSelection extends MyScreenAdapter
         table.add(btnBack).width(300).bottom().right()
             .expandX().expandY();
         table.invalidateHierarchy();
+        // table.debug();
 
         stage.addActor(table);
     }
