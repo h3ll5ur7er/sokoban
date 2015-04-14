@@ -2,7 +2,6 @@ package ch.bfh.sokoban.screens;
 
 import ch.bfh.sokoban.Sokoban;
 import ch.bfh.sokoban.utils.Lan;
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -71,6 +70,11 @@ public class MainMenu extends MyScreenAdapter
 
         stage.addActor(table);
 
+        showEulaIfNeeded();
+    }
+
+    private void showEulaIfNeeded()
+    {
         if(Settings.get("EULA").equals("True")) return;
 
         if(eulaShown) return;
@@ -111,7 +115,7 @@ public class MainMenu extends MyScreenAdapter
             @Override
             public void clicked(InputEvent event, float x, float y)
             {
-                ((Game)Gdx.app.getApplicationListener()).setScreen(new LevelSelection());
+                new LevelSelection().activate();
             }
         };
     }

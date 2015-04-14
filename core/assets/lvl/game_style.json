@@ -51,7 +51,7 @@
   },
   "com.badlogic.gdx.scenes.scene2d.ui.Window$WindowStyle":
   {
-    "default": { "titleFont" : "black16", "background" : "ui.default.selection" }
+    "default": { "titleFont" : "white32", "background" : "ui.button.up" }
   },
   "com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle":
   {

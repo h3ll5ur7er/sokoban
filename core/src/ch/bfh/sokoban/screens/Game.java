@@ -1,5 +1,6 @@
 package ch.bfh.sokoban.screens;
 
+import ch.bfh.sokoban.Sokoban;
 import ch.bfh.sokoban.data.LevelData;
 import ch.bfh.sokoban.game.Level;
 import ch.bfh.sokoban.utils.Lan;
@@ -24,7 +25,7 @@ public class Game extends MyScreenAdapter
     private LevelData leveldata;
     boolean completed = false;
     int navigationCountdown = 30;
-    
+
     // Timer
     Label lblScore = null;
     Label lblMoves = null;
@@ -48,25 +49,25 @@ public class Game extends MyScreenAdapter
     {
         super.show();
 
-        
+
         stage = new Stage();
         Gdx.input.setInputProcessor(stage);
 
         tableScreen = new Table(skin);
         tableScreen.setBounds(0,0, Gdx.graphics.getWidth()-200, Gdx.graphics.getHeight());
-        
+
         tableMenu = new Table(skin);
         tableMenu.setBounds(Gdx.graphics.getWidth()-200,0, 200, Gdx.graphics.getHeight());
 
         this.level = new Level(leveldata, skin);
 
-        lblScore = new Label("",skin, "small"); 
+        lblScore = new Label("",skin, "small");
         lblScore.setText(""+level.getScore());
-        lblMoves = new Label("",skin, "small"); 
+        lblMoves = new Label("",skin, "small");
         lblMoves.setText(""+level.getMoveCount());
-        lblPushes = new Label("",skin, "small"); 
-        lblPushes.setText(""+level.getPushCount());        
-        lblUndoRedo = new Label("",skin, "small"); 
+        lblPushes = new Label("",skin, "small");
+        lblPushes.setText(""+level.getPushCount());
+        lblUndoRedo = new Label("",skin, "small");
         lblUndoRedo.setText(""+level.getUndoRedoCount());
 
         TextButton btnBack = new TextButton(Lan.g("Back"), skin, Settings.get("BackButtonSize"));
@@ -79,7 +80,7 @@ public class Game extends MyScreenAdapter
                 new LevelSelection().activate();
             }
         });
-        
+
         TextButton btnSave = new TextButton(Lan.g("Save"), skin, Settings.get("SaveButtonSize"));
         btnSave.pad(22);
         btnSave.addListener(new ClickListener()
@@ -88,9 +89,11 @@ public class Game extends MyScreenAdapter
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 // Save data
+
+                String data = leveldata.id+":"+level.serialze(':');
             }
         });
-        
+
         tableScreen.add();
         tableScreen.add(leveldata.name).colspan(2);
         tableScreen.add();
@@ -108,7 +111,7 @@ public class Game extends MyScreenAdapter
         tableScreen.add(btnBack);*/
 
         tableScreen.invalidateHierarchy();
-        
+
         tableMenu.add(new Label(Lan.g("Score")+":", skin)).colspan(2).center();
         tableMenu.row();
         tableMenu.add(lblScore).colspan(2).center();
@@ -141,7 +144,7 @@ public class Game extends MyScreenAdapter
         stage.addActor(tableScreen);
         stage.addActor(tableMenu);
 
-        Gdx.graphics.setTitle(leveldata.name);
+        Gdx.graphics.setTitle(Sokoban.TITLE+" - "+leveldata.name);
     }
 
     /**
@@ -157,13 +160,13 @@ public class Game extends MyScreenAdapter
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         lblScore.setText(""+level.getScore());
-		lblMoves.setText(""+level.getMoveCount());
-		lblPushes.setText(""+level.getPushCount());
-		lblUndoRedo.setText(""+level.getUndoRedoCount());
+        lblMoves.setText(""+level.getMoveCount());
+        lblPushes.setText(""+level.getPushCount());
+        lblUndoRedo.setText(""+level.getUndoRedoCount());
         stage.act(delta);
         stage.draw();
-        
-        
+
+
     }
 
     /**

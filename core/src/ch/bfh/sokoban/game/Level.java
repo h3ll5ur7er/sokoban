@@ -473,6 +473,21 @@ public class Level extends Actor implements TileBasedMap
 
     // PATHFINDING
 
+    public String serialze(char c)
+    {
+        String data = "";
+        for (int u = 0; u < steps.size(); u++)
+        {
+            data+=steps.pop().toChar();
+        }
+        data +=":";
+        for (int r = 0; r < undone.size(); r++)
+        {
+            data+=undone.pop();
+        }
+        return data;
+    }
+
     /**
      * Returns the current score
      * @return current score
@@ -561,6 +576,10 @@ public class Level extends Actor implements TileBasedMap
                     return Directions.right;
             }
             return null;
+        }
+        public char toChar()
+        {
+            return toChar(this);
         }
         public static Commands fromChar(char c)
         {

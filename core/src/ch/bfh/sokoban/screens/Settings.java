@@ -6,9 +6,11 @@ import ch.bfh.sokoban.utils.Lan;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ObjectMap;
 import com.badlogic.gdx.utils.PropertiesUtils;
@@ -23,7 +25,6 @@ public class Settings extends MyScreenAdapter
 
     SelectBox<String> languagesBox;
 
-
     @Override
     public void show()
     {
@@ -37,13 +38,13 @@ public class Settings extends MyScreenAdapter
         Slider tileSizeSlider = new Slider(20, 80, 1, false, skin);
         tileSizeSlider.setValue(tileSize = Integer.parseInt(get("TileSize")));
         tileSizeSlider.addListener(
-            (e)->
-            {
-                Integer ts = ((int) tileSizeSlider.getValue());
-                tileSizeDisplay.setText(ts.toString());
-                set("TileSize", ts.toString());
-                return true;
-            }
+                (e)->
+                {
+                    Integer ts = ((int) tileSizeSlider.getValue());
+                    tileSizeDisplay.setText(ts.toString());
+                    set("TileSize", ts.toString());
+                    return true;
+                }
         );
 
         tileSizeDisplay = new Label(Integer.toString(tileSize), skin);
@@ -105,6 +106,15 @@ public class Settings extends MyScreenAdapter
             }
         });
 
+        CheckBox notShowEula = new CheckBox(Lan.g("Show"), skin);
+        notShowEula.addListener(new ChangeListener()
+        {
+            @Override
+            public void changed(ChangeEvent event, Actor actor)
+            {
+                Settings.set("EULA", notShowEula.isChecked() ? "False" : "True");
+            }
+        });
 
         table.add().width(table.getWidth()/5);
         table.add().width(table.getWidth() / 5);
@@ -121,7 +131,7 @@ public class Settings extends MyScreenAdapter
         table.row();
 
         table.add();
-        table.add(get(Lan.g("Language")), "small");
+        table.add(Lan.g("Language"), "small");
         table.add(languagesBox);
         table.add(Lan.g("RestartRequired"));
         table.add();
@@ -131,6 +141,20 @@ public class Settings extends MyScreenAdapter
         table.add();
         table.add(btnAdd);
         table.add(btnReset);
+        table.add();
+        table.row();
+
+        table.add();
+        table.add(Lan.g("ShowEulaOnStartup"));
+        table.add(notShowEula);
+        table.add();
+        table.add();
+        table.row();
+
+        table.add();
+        table.add();
+        table.add();
+        table.add();
         table.add();
         table.row();
 
@@ -243,6 +267,13 @@ public class Settings extends MyScreenAdapter
             Settings.set("SaveButtonSize", "small");
             Settings.set("TileSize", "50");
             Settings.set("EULA", "0");
+            //TODO
+            Settings.set("MenuTitle", Sokoban.TITLE + " v"+Sokoban.VERSION);
+            Settings.set("LvlSelTitle", Sokoban.TITLE+" - "+"Level Selection");
+            // Settings.set("LevelTitle", Sokoban.TITLE+" - "+"value"); 	directly set in Game-Screen
+            Settings.set("EditTitle", Sokoban.TITLE+" - "+"Level Editor");
+            Settings.set("SettingsTitle", Sokoban.TITLE+" - "+"Settings");
+
         }
         public static void save()
         {

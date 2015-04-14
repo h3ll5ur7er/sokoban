@@ -87,11 +87,12 @@ public class LevelSelection extends MyScreenAdapter
         table.add(scroll2).width(300);
         table.add(btnPlay).width(300);
         table.add(btnBack).width(300).bottom().right()
-            .expandX().expandY();
+                .expandX().expandY();
         table.invalidateHierarchy();
         // table.debug();
 
         stage.addActor(table);
+
     }
 
     /**
