@@ -94,7 +94,7 @@ public class Settings extends MyScreenAdapter
             }
         });
 
-        TextButton btnBack = new TextButton(Lan.g("Back"), skin);
+        TextButton btnBack = new TextButton(Lan.g("Back"), skin, Settings.get("BackButtonSize"));
         btnBack.pad(20);
         btnBack.addListener(new ClickListener()
         {
@@ -106,21 +106,20 @@ public class Settings extends MyScreenAdapter
             }
         });
 
-        CheckBox notShowEula = new CheckBox(Lan.g("Show"), skin);
-        notShowEula.addListener(new ChangeListener()
-        {
+        CheckBox notShowEula = new CheckBox(Lan.g("ShowEulaOnStartup"), skin);
+        notShowEula.addListener(new ChangeListener() {
             @Override
-            public void changed(ChangeEvent event, Actor actor)
-            {
+            public void changed(ChangeEvent event, Actor actor) {
                 Settings.set("EULA", notShowEula.isChecked() ? "False" : "True");
             }
         });
 
-        table.add().width(table.getWidth()/5);
-        table.add().width(table.getWidth() / 5);
-        table.add(Lan.g("Settings")).width(table.getWidth() / 5);
-        table.add().width(table.getWidth() / 5);
-        table.add().width(table.getWidth()/5);
+        float w = table.getWidth() / 5;
+        table.add().width(w);
+        table.add().width(w);
+        table.add(Lan.g("Settings")).width(w);
+        table.add().width(w);
+        table.add().width(w);
         table.row();
 
         table.add();
@@ -131,28 +130,28 @@ public class Settings extends MyScreenAdapter
         table.row();
 
         table.add();
+        table.add();
+        table.add(btnAdd).pad(10).expandX().expandY();
+        table.add(btnReset).pad(10).expandX().expandY();
+        table.add();
+        table.row();
+
+        table.add();
+        table.add();
+        table.add(notShowEula).pad(10).expandX().expandY();
+        table.add();
+        table.add();
+        table.row();
+
+        table.add();
         table.add(Lan.g("Language"), "small");
-        table.add(languagesBox);
+        table.add(languagesBox).pad(10).expandX().expandY();
         table.add(Lan.g("RestartRequired"));
         table.add();
         table.row();
 
         table.add();
         table.add();
-        table.add(btnAdd);
-        table.add(btnReset);
-        table.add();
-        table.row();
-
-        table.add();
-        table.add(Lan.g("ShowEulaOnStartup"));
-        table.add(notShowEula);
-        table.add();
-        table.add();
-        table.row();
-
-        table.add();
-        table.add();
         table.add();
         table.add();
         table.add();
@@ -162,9 +161,10 @@ public class Settings extends MyScreenAdapter
         table.add();
         table.add();
         table.add();
-        table.add(btnBack);
+        table.add(btnBack).bottom().right();
         table.row();
 
+        table.debug();
 
         table.invalidateHierarchy();
 
