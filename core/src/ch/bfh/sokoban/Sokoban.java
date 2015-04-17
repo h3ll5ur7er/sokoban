@@ -4,6 +4,7 @@ import ch.bfh.sokoban.game.LevelManager;
 import ch.bfh.sokoban.screens.MainMenu;
 import ch.bfh.sokoban.screens.Settings;
 import ch.bfh.sokoban.screens.Splash;
+import ch.bfh.sokoban.utils.Highscore;
 import ch.bfh.sokoban.utils.Lan;
 import com.badlogic.gdx.Game;
 
@@ -55,6 +56,7 @@ public class Sokoban extends Game
     public void dispose()
     {
         super.dispose();
+        Highscore.save();
         GlobalAssets.getInstance().dispose();
         Settings.save();
     }

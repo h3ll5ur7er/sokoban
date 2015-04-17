@@ -6,7 +6,8 @@
     "gray":  { "r": 0.3, "g": 0.3, "b": 0.3, "a": 1 },
     "red":   { "r": 1, "g": 0, "b": 0, "a": 1 },
     "green": { "r": 0, "g": 1, "b": 0, "a": 1 },
-    "blue":  { "r": 0, "g": 0, "b": 1, "a": 1 }
+    "blue":  { "r": 0, "g": 0, "b": 1, "a": 1 },
+    "lime":  { "r": 0.5, "g": 1, "b": 0, "a": 1 }
   },
   "com.badlogic.gdx.graphics.g2d.BitmapFont":
   {
@@ -15,13 +16,15 @@
     "white32": { "file": "font/white32.fnt" },
     "black32": { "file": "font/black32.fnt" },
     "white16": { "file": "font/white16.fnt" },
-    "black16": { "file": "font/black16.fnt" }
+    "black16": { "file": "font/black16.fnt" },
+    "lcd":     { "file": "font/lcd.fnt" }
   },
   "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle":
   {
     "default": { "font": "white32", "fontColor": "white"},
     "big":     { "font": "white64", "fontColor": "white"},
-    "small":   { "font": "white16", "fontColor": "white"}
+    "small":   { "font": "white16", "fontColor": "white"},
+    "lcd":     { "font": "lcd", "fontColor": "lime"}
   },
     "com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle":
   {

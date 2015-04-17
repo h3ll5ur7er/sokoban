@@ -123,30 +123,30 @@ public class Settings extends MyScreenAdapter
         table.row();
 
         table.add();
-        table.add(Lan.g("TileSize"), "small");
-        table.add(tileSizeSlider).expandX().expandY();
-        table.add(tileSizeDisplay).pad(10);
+        table.add(Lan.g("TileSize"), "small").left();
+        table.add(tileSizeSlider).expandX().expandY().left();
+        table.add(tileSizeDisplay).pad(10).left();
         table.add();
         table.row();
 
         table.add();
-        table.add();
-        table.add(btnAdd).pad(10).expandX().expandY();
-        table.add(btnReset).pad(10).expandX().expandY();
-        table.add();
-        table.row();
-
-        table.add();
-        table.add();
-        table.add(notShowEula).pad(10).expandX().expandY();
-        table.add();
+        table.add("LevelPacks", "small").left();
+        table.add(btnAdd).pad(10).expandX().expandY().left();
+        table.add(btnReset).pad(10).expandX().expandY().left();
         table.add();
         table.row();
 
         table.add();
-        table.add(Lan.g("Language"), "small");
-        table.add(languagesBox).pad(10).expandX().expandY();
-        table.add(Lan.g("RestartRequired"));
+        table.add(Lan.g("ShowEulaTitle"), "small").left();
+        table.add(notShowEula).pad(10).expandX().expandY().left();
+        table.add();
+        table.add();
+        table.row();
+
+        table.add();
+        table.add(Lan.g("Language"), "small").left();
+        table.add(languagesBox).pad(10).expandX().expandY().left();
+        table.add(Lan.g("RestartRequired")).left();
         table.add();
         table.row();
 
@@ -164,7 +164,7 @@ public class Settings extends MyScreenAdapter
         table.add(btnBack).bottom().right();
         table.row();
 
-        table.debug();
+        //table.debug();
 
         table.invalidateHierarchy();
 

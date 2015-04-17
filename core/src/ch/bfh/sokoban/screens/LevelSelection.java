@@ -3,15 +3,13 @@ package ch.bfh.sokoban.screens;
 import ch.bfh.sokoban.data.LevelData;
 import ch.bfh.sokoban.data.LevelPackData;
 import ch.bfh.sokoban.game.LevelManager;
+import ch.bfh.sokoban.utils.Highscore;
 import ch.bfh.sokoban.utils.Lan;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.List;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
@@ -25,6 +23,8 @@ public class LevelSelection extends MyScreenAdapter
     private static int selectedPack, selectedLevel;
 
     Table table;
+
+    Container<Table> highscoresContainer = new Container<Table>();
 
     List<LevelPackData> list1;
     List<LevelData> list2;
@@ -65,6 +65,12 @@ public class LevelSelection extends MyScreenAdapter
                 refreshLevels();
             }
         });
+        list2.addListener(new ChangeListener() {
+            @Override
+            public void changed(ChangeEvent event, Actor actor) {
+                refreshHighscores();
+            }
+        });
 
 
         refreshLevels();
@@ -75,6 +81,11 @@ public class LevelSelection extends MyScreenAdapter
         btnBack.addListener(backListener());
         btnBack.pad(10);
 
+        Table inner = new Table(skin);
+        inner.add(btnPlay).row();
+        inner.add(btnBack);
+
+
         table.add().width(300);
         table.add(Lan.g("SelectLevel")).width(600).colspan(2);
         table.add().width(300).row();
@@ -83,13 +94,20 @@ public class LevelSelection extends MyScreenAdapter
         table.add("Level").width(300);
         table.add().width(600).colspan(2).row();
 
+
         table.add(scroll1).width(300);
-        table.add(scroll2).width(300);
-        table.add(btnPlay).width(300);
-        table.add(btnBack).width(300).bottom().right()
-                .expandX().expandY();
+        table.add(scroll2).width(300).expandY();
+        table.add(inner).width(300);
+        //table.add("highscore").width(300).row();
+        table.add(highscoresContainer).width(300).row();
+
+        //table.add().width(300);
+        //table.add().width(300);
+        //table.add(btnPlay).width(300);
+        //table.add(btnBack).width(300).bottom().right()
+        //        .expandX().expandY();
         table.invalidateHierarchy();
-        // table.debug();
+        table.debug();
 
         stage.addActor(table);
 
@@ -102,6 +120,14 @@ public class LevelSelection extends MyScreenAdapter
     {
         list2.setItems(list1.getSelected().levels);
         list2.setSelectedIndex(selectedLevel>0||selectedLevel<list1.getSelected().levels.length?selectedLevel:0);
+    }
+
+    /**
+     * Refreshes the list showing the content of selected levelpack in list2
+     **/
+    private void refreshHighscores()
+    {
+        highscoresContainer.setActor(Highscore.getTable(list2.getSelected().id));
     }
 
     /**
