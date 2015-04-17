@@ -265,6 +265,7 @@ public class Settings extends MyScreenAdapter
             Settings.set("BackButtonSize", "small");
             Settings.set("PlayButtonSize", "small");
             Settings.set("SaveButtonSize", "small");
+            Settings.set("NextButtonSize", "small");
             Settings.set("TileSize", "50");
             Settings.set("EULA", "0");
             //TODO
@@ -290,7 +291,7 @@ public class Settings extends MyScreenAdapter
         {
             try
             {
-                if(Gdx.files.external(settingsPath).exists())
+                if(false && Gdx.files.external(settingsPath).exists())
                     PropertiesUtils.load(getInstance().map, Gdx.files.external(settingsPath).reader());
                 else
                 {

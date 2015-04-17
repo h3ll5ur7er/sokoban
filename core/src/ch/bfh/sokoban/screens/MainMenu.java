@@ -127,7 +127,7 @@ public class MainMenu extends MyScreenAdapter
             @Override
             public void clicked(InputEvent event, float x, float y)
             {
-
+            	new LevelEditor().activate();
             }
         };
     }
