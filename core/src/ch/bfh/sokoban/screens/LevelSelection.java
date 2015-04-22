@@ -2,8 +2,8 @@ package ch.bfh.sokoban.screens;
 
 import ch.bfh.sokoban.data.LevelData;
 import ch.bfh.sokoban.data.LevelPackData;
-import ch.bfh.sokoban.game.LevelManager;
 import ch.bfh.sokoban.game.Highscore;
+import ch.bfh.sokoban.game.LevelManager;
 import ch.bfh.sokoban.utils.Lan;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
@@ -138,7 +138,6 @@ public class LevelSelection extends MyScreenAdapter
             @Override
             public void clicked(InputEvent event, float x, float y)
             {
-                //read leveldata from db
                 selectedPack = list1.getSelectedIndex();
                 selectedLevel = list2.getSelectedIndex();
 

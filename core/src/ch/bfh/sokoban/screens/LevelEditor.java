@@ -1,36 +1,19 @@
 package ch.bfh.sokoban.screens;
 
-import static ch.bfh.sokoban.game.Constants.BOX_FLOOR;
-import static ch.bfh.sokoban.game.Constants.BOX_FLOOR_D;
-import static ch.bfh.sokoban.game.Constants.BOX_GOAL;
-import static ch.bfh.sokoban.game.Constants.BOX_GOAL_D;
-import static ch.bfh.sokoban.game.Constants.FLOOR;
-import static ch.bfh.sokoban.game.Constants.FLOOR_D;
-import static ch.bfh.sokoban.game.Constants.GOAL;
-import static ch.bfh.sokoban.game.Constants.GOAL_D;
-import static ch.bfh.sokoban.game.Constants.PLAYER_FLOOR;
-import static ch.bfh.sokoban.game.Constants.PLAYER_FLOOR_D;
-import static ch.bfh.sokoban.game.Constants.PLAYER_GOAL;
-import static ch.bfh.sokoban.game.Constants.PLAYER_GOAL_D;
-import static ch.bfh.sokoban.game.Constants.WALL;
-import static ch.bfh.sokoban.game.Constants.WALL_D;
-
-import java.util.LinkedList;
-
 import ch.bfh.sokoban.game.Constants;
+import ch.bfh.sokoban.game.LevelManager;
 import ch.bfh.sokoban.utils.Lan;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+
+import java.util.LinkedList;
+
+import static ch.bfh.sokoban.game.Constants.*;
 
 /**
  *	The Editor to create own levels
@@ -650,15 +633,17 @@ public class LevelEditor extends MyScreenAdapter {
      */
     public void saveLevel()
     {
-    	char[][] myLevel = new char[levelCreation.size()][levelCreation.get(0).size()];
+        String[] levelData = new String[levelCreation.get(0).size()];
+    	char[][] myLevel = new char[levelCreation.get(0).size()][levelCreation.size()];
         for(int y = 0; y<levelCreation.get(0).size();y++)
         {
         	for(int x = 0; x<levelCreation.size();x++)
         	{
-        		myLevel[x][y] = levelCreation.get(x).get(y).textureId;
+        		myLevel[y][x] = levelCreation.get(x).get(y).textureId;
         	}
+            levelData[y] = new String(myLevel[y]);
         }
-    	// TODO save array into json file
+        LevelManager.instance().addCustomLevel(levelCreation.size(), levelCreation.get(0).size(), levelData);
     }
     
     /**

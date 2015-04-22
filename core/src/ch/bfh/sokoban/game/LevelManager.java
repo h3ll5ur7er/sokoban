@@ -1,19 +1,19 @@
 package ch.bfh.sokoban.game;
 
 import ch.bfh.sokoban.GlobalAssets;
-import ch.bfh.sokoban.data.LevelData;
-import ch.bfh.sokoban.data.LevelPackData;
-import ch.bfh.sokoban.data.LevelPackDataCollection;
-import ch.bfh.sokoban.data.SlcParser;
+import ch.bfh.sokoban.data.*;
+import ch.bfh.sokoban.screens.MainMenu;
 import ch.bfh.sokoban.screens.Settings;
 import ch.bfh.sokoban.security.Pseudo;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -24,6 +24,7 @@ import java.util.UUID;
 public class LevelManager
 {
     private LevelPackDataCollection data;
+    private CustomLevelDataCollection custom;
 
     //SINGLETON
     private static final Object padlock = new Object();
@@ -52,20 +53,39 @@ public class LevelManager
     {
         if(Gdx.files.external(Settings.get("LevelDataExternalPath")).exists())
         {
-            String content = Gdx.files.external(Settings.get("LevelDataExternalPath")).readString();
-
-            data = new Json().fromJson(LevelPackDataCollection.class, Pseudo.decrypt(content));
+            data = new Json()
+                    .fromJson(
+                            LevelPackDataCollection.class,
+                            Pseudo.decrypt(
+                                    Gdx.files.external(Settings.get("LevelDataExternalPath"))
+                                            .readString()));
         }
         else
+        {
             reset();
+        }
+
+        if(Gdx.files.external(Settings.get("CustomLevelDataExternalPath")).exists())
+        {
+            custom = new Json()
+                    .fromJson(
+                            CustomLevelDataCollection.class,
+                            Pseudo.decrypt(
+                                    Gdx.files.external(Settings.get("CustomLevelDataExternalPath"))
+                                            .readString()));
+        }
+        else
+        {
+            custom = new CustomLevelDataCollection();
+        }
     }
     /**
      * saves the current levelData to the default location
      **/
     public void save()
     {
-        String json = new Json().toJson(data);
-         Gdx.files.external(Settings.get("LevelDataExternalPath")).writeString(Pseudo.crypt(json), false);
+         Gdx.files.external(Settings.get("LevelDataExternalPath")).writeString(Pseudo.crypt(new Json().toJson(data)), false);
+         Gdx.files.external(Settings.get("CustomLevelDataExternalPath")).writeString(Pseudo.crypt(new Json().toJson(custom)), false);
     }
 
     /**
@@ -98,12 +118,37 @@ public class LevelManager
         }
     }
 
+    public void addCustomLevel(int width, int height, String[] data)
+    {
+        Gdx.input.getTextInput(new Input.TextInputListener()
+        {
+            @Override
+            public void input(String text)
+            {
+                custom.levels.add(new LevelData(text, width, height, data));
+                new MainMenu().activate();
+            }
+
+            @Override
+            public void canceled() {
+                addCustomLevel(width, height, data);
+            }
+        }, "Enter a name for the level", "", "Name");
+    }
+
     /**
      * @return get all LevelPacks
      */
     public List<LevelPackData> getLevelPacks()
     {
-        return data.levelPacks;
+        List<LevelPackData> packs = new ArrayList<>();
+
+        if(custom.levels.size()>0)
+            packs.add(custom.toLevelPack());
+
+        packs.addAll(data.levelPacks);
+
+        return packs;
     }
 
     /**

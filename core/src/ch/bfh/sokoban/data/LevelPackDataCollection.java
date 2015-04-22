@@ -13,12 +13,12 @@ public class LevelPackDataCollection
 
     public LevelPackDataCollection()
     {
+        this.levelPacks = new ArrayList<>();
     }
 
     public LevelPackDataCollection(LevelPackData... levelpacks)
     {
         this.levelPacks = new ArrayList<LevelPackData>();
         Collections.addAll(this.levelPacks, levelpacks);
-
     }
 }

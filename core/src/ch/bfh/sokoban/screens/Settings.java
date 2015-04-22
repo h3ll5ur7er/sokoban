@@ -223,7 +223,7 @@ public class Settings extends MyScreenAdapter
 
     private static class Manager
     {
-        private static final String settingsPath = "SokobanSettings.config";
+        private static final String settingsPath = "SokobanSettings";
         private ObjectMap<String, String> map = new ObjectMap<String, String>();
 
         //SINGLETON
@@ -257,6 +257,7 @@ public class Settings extends MyScreenAdapter
             Settings.set("StartSplashScreen", "img/splash.png");
             Settings.set("CompletedSplashScreen", "img/levelCompleted.png");
             Settings.set("LevelDataExternalPath", "SokobanLevelData.jsld");
+            Settings.set("CustomLevelDataExternalPath", "SokobanCustomLevelData.jscd");
             Settings.set("BackButtonSize", "small");
             Settings.set("PlayButtonSize", "small");
             Settings.set("SaveButtonSize", "small");

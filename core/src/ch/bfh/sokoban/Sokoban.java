@@ -57,8 +57,9 @@ public class Sokoban extends Game
     public void dispose()
     {
         super.dispose();
-        Highscore.save();
         GlobalAssets.getInstance().dispose();
+        Highscore.save();
         Settings.save();
+        LevelManager.instance().save();
     }
 }
