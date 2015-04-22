@@ -7,7 +7,6 @@ import ch.bfh.sokoban.utils.Lan;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -48,10 +47,6 @@ public class Game extends MyScreenAdapter
     public void show()
     {
         super.show();
-
-
-        stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
 
         tableScreen = new Table(skin);
         tableScreen.setBounds(0,0, Gdx.graphics.getWidth()-200, Gdx.graphics.getHeight());

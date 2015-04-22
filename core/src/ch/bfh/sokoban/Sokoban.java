@@ -1,9 +1,10 @@
 package ch.bfh.sokoban;
 
+import ch.bfh.sokoban.game.Highscore;
 import ch.bfh.sokoban.game.LevelManager;
-import ch.bfh.sokoban.screens.MainMenu;
 import ch.bfh.sokoban.screens.Settings;
 import ch.bfh.sokoban.screens.Splash;
+import ch.bfh.sokoban.screens.Title;
 import ch.bfh.sokoban.utils.Lan;
 import com.badlogic.gdx.Game;
 
@@ -24,7 +25,8 @@ public class Sokoban extends Game
         LevelManager.instance().load();
         Lan.init();
 
-        new Splash<MainMenu>("StartSplashScreen", 1, 1, MainMenu.class).activate();
+        //new Splash<MainMenu>("StartSplashScreen", 1, 1, MainMenu.class).activate();
+        new Splash("StartSplashScreen", 1.0f, 1.0f, Splash.class, "StartSplashScreen", 1.0f, 1.0f, Title.class).activate();
 	}
 
     @Override
@@ -55,6 +57,7 @@ public class Sokoban extends Game
     public void dispose()
     {
         super.dispose();
+        Highscore.save();
         GlobalAssets.getInstance().dispose();
         Settings.save();
     }

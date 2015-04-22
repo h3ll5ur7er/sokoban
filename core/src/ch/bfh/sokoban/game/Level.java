@@ -9,6 +9,7 @@ import ch.bfh.sokoban.screens.LevelSelection;
 import ch.bfh.sokoban.screens.Settings;
 import ch.bfh.sokoban.screens.Splash;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -34,6 +35,7 @@ public class Level extends Actor implements TileBasedMap
     private int width;
     private int height;
     int tileSize;
+    private final String levelId;
 
     private Stack<Commands> steps;
     private Stack<Commands> undone;
@@ -48,6 +50,8 @@ public class Level extends Actor implements TileBasedMap
     boolean moving = false;
     boolean walking = false;
     boolean undoing = false;
+    boolean gettingTextInput = false;
+    boolean terminating = false;
 
     private int moves = 0;
     private int pushes = 0;
@@ -60,8 +64,9 @@ public class Level extends Actor implements TileBasedMap
     Table table;
     Skin skin;
 
-    public Level(String name, int width, int height, String[] data, Skin skin)
+    public Level(String id, String name, int width, int height, String[] data, Skin skin)
     {
+        this.levelId = id;
         this.width = width;
         this.height = height;
 
@@ -131,7 +136,7 @@ public class Level extends Actor implements TileBasedMap
 
     public Level(LevelData lvl, Skin skin)
     {
-        this(lvl.name, lvl.width, lvl.height, lvl.data, skin);
+        this(lvl.id, lvl.name, lvl.width, lvl.height, lvl.data, skin);
     }
 
     /**
@@ -139,6 +144,7 @@ public class Level extends Actor implements TileBasedMap
      **/
     public void up()
     {
+        if(terminating) return;
         moving = true;
         if(player.canMove(Directions.up))
         {
@@ -161,6 +167,7 @@ public class Level extends Actor implements TileBasedMap
      **/
     public void down()
     {
+        if(terminating) return;
         moving = true;
         if(player.canMove(Directions.down))
         {
@@ -183,6 +190,7 @@ public class Level extends Actor implements TileBasedMap
      **/
     public void left()
     {
+        if(terminating) return;
         moving = true;
         if(player.canMove(Directions.left))
         {
@@ -205,6 +213,7 @@ public class Level extends Actor implements TileBasedMap
      **/
     public void right()
     {
+        if(terminating) return;
         moving = true;
         if(player.canMove(Directions.right))
         {
@@ -227,6 +236,7 @@ public class Level extends Actor implements TileBasedMap
      **/
     public boolean undo()
     {
+        if(terminating) return false;
         if (steps.size() <1) return false;
         undoing = true;
         Commands step = steps.pop();
@@ -258,6 +268,7 @@ public class Level extends Actor implements TileBasedMap
      **/
     public void redo()
     {
+        if(terminating) return;
         if (undone.size() <1) return;
         undoing = true;
         Commands step = undone.pop();
@@ -302,7 +313,7 @@ public class Level extends Actor implements TileBasedMap
      */
     public boolean isCompleted()
     {
-        return goals.stream().allMatch(Tile::isBox);
+        return terminating || goals.stream().allMatch(Tile::isBox);
     }
 
     @Override
@@ -321,7 +332,34 @@ public class Level extends Actor implements TileBasedMap
     public void terminate(boolean completed)
     {
         if(completed)
-            new Splash<LevelSelection>("CompletedSplashScreen", 1, .2f, LevelSelection.class).activate();
+        {
+            if(terminating)
+            {
+                new Splash("CompletedSplashScreen", 1.0f, .2f, LevelSelection.class).activate();
+            }
+            if (gettingTextInput) return;
+            if(Highscore.get(levelId).isHighscore(getScore()))
+            {
+                gettingTextInput = true;
+                Gdx.input.getTextInput(new Input.TextInputListener() {
+                    @Override
+                    public void input(String text)
+                    {
+                        terminating = true;
+                        Highscore.get(levelId).add(levelId, getScore(), text.substring(0, 3).toUpperCase());
+                    }
+
+                    @Override
+                    public void canceled()
+                    {
+                        terminating = true;
+                        Highscore.get(levelId).add(levelId, getScore(), "AAA");
+                    }
+                }, "You earned a Highscore!", "", "Please enter your name (3 digits only, the rest will be ignored)");
+                ;
+            }
+
+        }
         else
             new LevelSelection().activate();
     }
@@ -493,7 +531,8 @@ public class Level extends Actor implements TileBasedMap
      * @return current score
      */
     public int getScore(){
-    	return this.score;
+    	//return this.score;
+        return 10*getUndoRedoCount()+5*getPushCount()+getMoveCount();
     }
     
     /**

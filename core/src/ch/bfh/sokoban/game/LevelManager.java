@@ -6,6 +6,7 @@ import ch.bfh.sokoban.data.LevelPackData;
 import ch.bfh.sokoban.data.LevelPackDataCollection;
 import ch.bfh.sokoban.data.SlcParser;
 import ch.bfh.sokoban.screens.Settings;
+import ch.bfh.sokoban.security.Pseudo;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -50,7 +51,11 @@ public class LevelManager
     public void load()
     {
         if(Gdx.files.external(Settings.get("LevelDataExternalPath")).exists())
-            data = new Json().fromJson(LevelPackDataCollection.class, Gdx.files.external(Settings.get("LevelDataExternalPath")));
+        {
+            String content = Gdx.files.external(Settings.get("LevelDataExternalPath")).readString();
+
+            data = new Json().fromJson(LevelPackDataCollection.class, Pseudo.decrypt(content));
+        }
         else
             reset();
     }
@@ -59,7 +64,8 @@ public class LevelManager
      **/
     public void save()
     {
-        new Json().toJson(data, Gdx.files.external(Settings.get("LevelDataExternalPath")));
+        String json = new Json().toJson(data);
+         Gdx.files.external(Settings.get("LevelDataExternalPath")).writeString(Pseudo.crypt(json), false);
     }
 
     /**
