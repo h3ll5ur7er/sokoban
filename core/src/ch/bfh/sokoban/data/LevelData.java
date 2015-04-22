@@ -16,7 +16,7 @@ public class LevelData
         id  = UUID.randomUUID().toString();
     }
 
-    public LevelData(String id, String name, int width, int height, String...data)
+    public LevelData(String name, String id, int width, int height, String...data)
     {
         this.id = id != ""?id:UUID.randomUUID().toString();
         this.name = name;

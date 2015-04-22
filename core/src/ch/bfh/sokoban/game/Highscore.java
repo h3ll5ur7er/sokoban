@@ -1,13 +1,12 @@
-package ch.bfh.sokoban.utils;
+package ch.bfh.sokoban.game;
 
 import ch.bfh.sokoban.GlobalAssets;
+import ch.bfh.sokoban.security.Pseudo;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.PropertiesUtils;
 
-import java.io.IOException;
-import java.util.Base64;
 import java.util.Random;
 
 public class Highscore
@@ -20,35 +19,22 @@ public class Highscore
     private Highscore()
     {
         map = new ObjectMap<String, LevelHighScore>();
-        ObjectMap<String, String> storage = new ObjectMap<>();
-        try
-        {
-            PropertiesUtils.load(storage, Gdx.files.external("SokobanHighscores").reader());
-            load(storage);
-        }
-        catch (Exception e)
-        {
-            e.printStackTrace();
-        }
+
+        FileHandle file = Gdx.files.external("SokobanHighscores");
+        if(file.exists())
+            load(Pseudo.loadMap(file));
     }
 
     public static void save()
     {
-        try
-        {
-            PropertiesUtils.store(instance().store(), Gdx.files.external("SokobanHighscores").writer(false),null);
-        }
-        catch (IOException e)
-        {
-            e.printStackTrace();
-        }
+        Pseudo.storeMap(instance().store(), Gdx.files.external("SokobanHighscores"));
     }
 
     private void load(ObjectMap<String, String> data)
     {
         for (String key : data.keys())
         {
-            map.put(key, LevelHighScore.deserialize(new String(Base64.getDecoder().decode(data.get(key)))));
+            map.put(key, LevelHighScore.deserialize(data.get(key)));
         }
     }
     private ObjectMap<String, String> store()
@@ -56,7 +42,7 @@ public class Highscore
         ObjectMap<String, String> data = new ObjectMap<String, String>();
         for (String key : map.keys())
         {
-            data.put(key, Base64.getEncoder().encodeToString(map.get(key).serialize().getBytes()));
+            data.put(key, map.get(key).serialize());
         }
         return data;
     }
@@ -120,8 +106,8 @@ public class Highscore
         public LevelHighScore(String id)
         {
             levelId = id;
-            s1 = new Score(id, 999997, randomName());
-            s2 = new Score(id, 999998, randomName());
+            s1 = new Score(id, 999999, randomName());
+            s2 = new Score(id, 999999, randomName());
             s3 = new Score(id, 999999, randomName());
         }
         private String randomName()
@@ -157,7 +143,6 @@ public class Highscore
         }
         public Score get(int i)
         {
-            System.out.println("getting "+i);
             switch(i)
             {
                 case 0:
@@ -220,11 +205,6 @@ public class Highscore
         {
             String[] params = data.split(":");
             return new Score(params[0], Integer.parseInt(params[2]), params[1]);
-        }
-
-        @Override
-        public String toString() {
-            return name + "   " + score;
         }
     }
 }

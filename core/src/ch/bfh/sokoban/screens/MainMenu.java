@@ -28,7 +28,6 @@ public class MainMenu extends MyScreenAdapter
     public void show()
     {
         super.show();
-        Gdx.input.setInputProcessor(stage);
 
         table = new Table(skin);
         table.setBounds(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

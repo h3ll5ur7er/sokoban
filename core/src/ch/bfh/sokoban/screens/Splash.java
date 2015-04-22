@@ -9,10 +9,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+import java.util.Arrays;
+
 /**
  * Splash screen that fades in and out a image and navigates to a given screen
  **/
-public class Splash<T extends MyScreenAdapter> extends MyScreenAdapter
+public class Splash extends MyScreenAdapter
 {
     private SpriteBatch batch;
     private Texture tex;
@@ -21,7 +23,8 @@ public class Splash<T extends MyScreenAdapter> extends MyScreenAdapter
     private String imagePath;
     private float fade;
     private float pause;
-    private Class<T> target;
+    private Class target;
+    private Object[] targetScreenParameters;
 
     /**
      * Creates a new splash screen, that shows given image for given time and
@@ -31,12 +34,30 @@ public class Splash<T extends MyScreenAdapter> extends MyScreenAdapter
      * @param pause time to show the splash bevore fading out
      * @param target target screen to navigate to
      */
-    public Splash(String imagePath, float fade, float pause, Class<T> target)
+    public Splash(String imagePath, Float fade, Float pause, Class target)
     {
         this.imagePath = imagePath;
         this.fade = fade;
         this.pause = pause;
         this.target = target;
+        this.targetScreenParameters = null;
+    }
+
+    /**
+     * Creates a new splash screen, that shows given image for given time and
+     * navigates to given screen after the animation has terminated
+     * @param imagePath settings key for the image
+     * @param fade seconds to fade in and out (2x in total)
+     * @param pause time to show the splash bevore fading out
+     * @param target target screen to navigate to
+     */
+    public Splash(String imagePath, Float fade, Float pause, Class target, Object...targetScreenParameters)
+    {
+        this.imagePath = imagePath;
+        this.fade = fade;
+        this.pause = pause;
+        this.target = target;
+        this.targetScreenParameters = targetScreenParameters;
     }
 
     /**
@@ -67,13 +88,21 @@ public class Splash<T extends MyScreenAdapter> extends MyScreenAdapter
                 .setCallback(
                         (t, s) ->
                         {
-                            try
-                            {
+                            try {
                                 //Create a new instance of the target screen and navigate to it;
-                                target.newInstance().activate();
-                            }
-                            catch (Exception e)
-                            {
+                                if (targetScreenParameters == null)
+                                {
+                                    ((Class<MyScreenAdapter>)target).newInstance().activate();
+                                }
+                                else
+                                {
+                                    Object[] params = Arrays.stream(targetScreenParameters).map(Object::getClass).toArray();
+                                    Class[] parameterTypes = Arrays.copyOf(params, params.length, Class[].class);
+
+                                    MyScreenAdapter screen = (MyScreenAdapter) target.getConstructor(parameterTypes).newInstance(targetScreenParameters);
+                                    screen.activate();
+                                }
+                            } catch (Exception e) {
                                 e.printStackTrace();
 
                                 assert false; //Die if navigation fails

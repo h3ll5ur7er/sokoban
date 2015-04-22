@@ -8,7 +8,6 @@ import ch.bfh.sokoban.pathfinding.TileBasedMap;
 import ch.bfh.sokoban.screens.LevelSelection;
 import ch.bfh.sokoban.screens.Settings;
 import ch.bfh.sokoban.screens.Splash;
-import ch.bfh.sokoban.utils.Highscore;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -336,7 +335,7 @@ public class Level extends Actor implements TileBasedMap
         {
             if(terminating)
             {
-                new Splash<LevelSelection>("CompletedSplashScreen", 1, .2f, LevelSelection.class).activate();
+                new Splash("CompletedSplashScreen", 1.0f, .2f, LevelSelection.class).activate();
             }
             if (gettingTextInput) return;
             if(Highscore.get(levelId).isHighscore(getScore()))

@@ -30,6 +30,8 @@ public abstract class MyScreenAdapter extends ScreenAdapter
         atlas = GlobalAssets.getInstance().getTextures();
         skin = GlobalAssets.getInstance().getSkin();
         stage = new Stage();
+
+        Gdx.input.setInputProcessor(stage);
     }
 
     @Override

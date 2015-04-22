@@ -2,20 +2,17 @@ package ch.bfh.sokoban.screens;
 
 import ch.bfh.sokoban.Sokoban;
 import ch.bfh.sokoban.game.LevelManager;
+import ch.bfh.sokoban.security.Pseudo;
 import ch.bfh.sokoban.utils.Lan;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ObjectMap;
-import com.badlogic.gdx.utils.PropertiesUtils;
-
-import java.io.IOException;
 
 public class Settings extends MyScreenAdapter
 {
@@ -29,8 +26,6 @@ public class Settings extends MyScreenAdapter
     public void show()
     {
         super.show();
-        stage = new Stage();
-        Gdx.input.setInputProcessor(stage);
         table = new Table(skin);
         table.setBounds(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
@@ -277,29 +272,15 @@ public class Settings extends MyScreenAdapter
         }
         public static void save()
         {
-            try
-            {
-                PropertiesUtils.store(getInstance().map, Gdx.files.external(settingsPath).writer(false), Sokoban.TITLE);
-            }
-            catch (IOException e)
-            {
-                System.err.println("Error writing properties");
-            }
+            Pseudo.storeMap(getInstance().map, Gdx.files.external(settingsPath));
         }
         public static void load()
         {
-            try
+            if(Gdx.files.external(settingsPath).exists())
+                getInstance().map = Pseudo.loadMap(Gdx.files.external(settingsPath));
+            else
             {
-                if(Gdx.files.external(settingsPath).exists())
-                    PropertiesUtils.load(getInstance().map, Gdx.files.external(settingsPath).reader());
-                else
-                {
-                    create();
-                }
-            }
-            catch (IOException e)
-            {
-                System.err.println("Error reading properties");
+                create();
             }
         }
     }
