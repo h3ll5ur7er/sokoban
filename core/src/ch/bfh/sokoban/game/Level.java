@@ -346,6 +346,8 @@ public class Level extends Actor implements TileBasedMap
                     public void input(String text)
                     {
                         terminating = true;
+                        while(text.length()<3)
+                            text+=' ';
                         Highscore.get(levelId).add(levelId, getScore(), text.substring(0, 3).toUpperCase());
                     }
 

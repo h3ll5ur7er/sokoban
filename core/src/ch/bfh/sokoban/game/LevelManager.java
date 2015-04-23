@@ -2,7 +2,6 @@ package ch.bfh.sokoban.game;
 
 import ch.bfh.sokoban.GlobalAssets;
 import ch.bfh.sokoban.data.*;
-import ch.bfh.sokoban.screens.MainMenu;
 import ch.bfh.sokoban.screens.Settings;
 import ch.bfh.sokoban.security.Pseudo;
 import com.badlogic.gdx.Gdx;
@@ -126,7 +125,7 @@ public class LevelManager
             public void input(String text)
             {
                 custom.levels.add(new LevelData(text, width, height, data));
-                new MainMenu().activate();
+                save();
             }
 
             @Override

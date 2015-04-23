@@ -77,7 +77,7 @@ public class LevelSelection extends MyScreenAdapter
         btnPlay.pad(15);
 
         btnBack.addListener(backListener());
-        btnBack.pad(10);
+        btnBack.pad(13);
 
         Table inner = new Table(skin);
         inner.add(btnPlay).row();

@@ -643,7 +643,9 @@ public class LevelEditor extends MyScreenAdapter {
         	}
             levelData[y] = new String(myLevel[y]);
         }
+
         LevelManager.instance().addCustomLevel(levelCreation.size(), levelCreation.get(0).size(), levelData);
+        new Title().activate();
     }
     
     /**
