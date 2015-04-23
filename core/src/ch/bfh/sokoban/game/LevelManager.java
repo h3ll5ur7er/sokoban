@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Dialog;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -102,7 +103,9 @@ public class LevelManager
      **/
     public void importSlc(String absolutePath)
     {
+        Instant startTime = java.time.Instant.now();
         LevelPackData lpd = new SlcParser(absolutePath).parse();
+        System.out.println("Imported " + absolutePath + " in "+java.time.Duration.between(startTime, Instant.now()).toMillis()+" ms");
         if(lpd == null)
         {
             notifyUser("Error", "Failed to load "+ absolutePath);

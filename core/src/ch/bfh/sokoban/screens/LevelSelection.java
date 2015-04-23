@@ -53,7 +53,7 @@ public class LevelSelection extends MyScreenAdapter
         LevelPackData[] packs = Arrays.copyOf(packObjects, packObjects.length, LevelPackData[].class);
 
         list1.setItems(packs);
-        list1.setSelectedIndex(selectedPack >0? selectedPack :0);
+        list1.setSelectedIndex(selectedPack >0? selectedPack<packs.length?selectedPack:0:0);
         list1.addListener(new ChangeListener()
         {
             @Override
