@@ -144,8 +144,7 @@ public class LevelManager
     public List<LevelPackData> getLevelPacks()
     {
         List<LevelPackData> packs = new ArrayList<>();
-
-        if(custom.levels.size()>0)
+        if(custom != null && custom.levels.size()>0)
             packs.add(custom.toLevelPack());
 
         packs.addAll(data.levelPacks);
