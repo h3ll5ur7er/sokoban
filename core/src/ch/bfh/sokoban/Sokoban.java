@@ -15,7 +15,7 @@ import com.badlogic.gdx.Game;
 public class Sokoban extends Game
 {
     public static final String TITLE = "Sokoban";
-    public static final String VERSION = "0.2 ALPHA";
+    public static final String VERSION = "0.5 BETA";
 
 	@Override
 	public void create ()
