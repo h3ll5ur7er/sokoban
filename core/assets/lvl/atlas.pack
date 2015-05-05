@@ -5,56 +5,56 @@ filter: Nearest,Nearest
 repeat: none
 game.box.floor
   rotate: false
-  xy: 1, 72
-  size: 128, 128
-  orig: 128, 128
+  xy: 1, 12
+  size: 100, 100
+  orig: 100, 100
   offset: 0, 0
   index: -1
 game.box.goal
   rotate: false
-  xy: 131, 72
-  size: 128, 128
-  orig: 128, 128
+  xy: 103, 12
+  size: 100, 100
+  orig: 100, 100
   offset: 0, 0
   index: -1
 game.floor
   rotate: false
-  xy: 261, 72
-  size: 128, 128
-  orig: 128, 128
+  xy: 205, 12
+  size: 100, 100
+  orig: 100, 100
   offset: 0, 0
   index: -1
 game.goal
   rotate: false
-  xy: 391, 72
-  size: 128, 128
-  orig: 128, 128
+  xy: 307, 12
+  size: 100, 100
+  orig: 100, 100
   offset: 0, 0
   index: -1
 game.player.floor
   rotate: false
-  xy: 521, 72
-  size: 128, 128
-  orig: 128, 128
+  xy: 409, 12
+  size: 100, 100
+  orig: 100, 100
   offset: 0, 0
   index: -1
 game.player.goal
   rotate: false
-  xy: 651, 72
-  size: 128, 128
-  orig: 128, 128
+  xy: 511, 12
+  size: 100, 100
+  orig: 100, 100
   offset: 0, 0
   index: -1
 game.wall
   rotate: false
-  xy: 781, 72
-  size: 128, 128
-  orig: 128, 128
+  xy: 613, 12
+  size: 100, 100
+  orig: 100, 100
   offset: 0, 0
   index: -1
 ui.checkbox.off
   rotate: false
-  xy: 1, 38
+  xy: 715, 80
   size: 32, 32
   split: 2, 2, 2, 2
   orig: 32, 32
@@ -62,7 +62,7 @@ ui.checkbox.off
   index: -1
 ui.checkbox.on
   rotate: false
-  xy: 911, 168
+  xy: 715, 46
   size: 32, 32
   split: 2, 2, 2, 2
   orig: 32, 32
@@ -70,7 +70,7 @@ ui.checkbox.on
   index: -1
 ui.checkbox.over
   rotate: false
-  xy: 1, 4
+  xy: 749, 80
   size: 32, 32
   split: 2, 2, 2, 2
   orig: 32, 32
@@ -78,7 +78,7 @@ ui.checkbox.over
   index: -1
 ui.button.down
   rotate: false
-  xy: 35, 61
+  xy: 1, 1
   size: 9, 9
   split: 3, 3, 3, 3
   orig: 9, 9
@@ -86,7 +86,7 @@ ui.button.down
   index: -1
 ui.button.up
   rotate: false
-  xy: 911, 157
+  xy: 715, 35
   size: 9, 9
   split: 3, 3, 3, 3
   orig: 9, 9
@@ -94,7 +94,7 @@ ui.button.up
   index: -1
 ui.default.background
   rotate: false
-  xy: 945, 199
+  xy: 749, 77
   size: 1, 1
   split: 0, 0, 0, 0
   orig: 1, 1
@@ -102,7 +102,7 @@ ui.default.background
   index: -1
 ui.default.selection
   rotate: false
-  xy: 1, 1
+  xy: 783, 111
   size: 1, 1
   split: 0, 0, 0, 0
   orig: 1, 1
