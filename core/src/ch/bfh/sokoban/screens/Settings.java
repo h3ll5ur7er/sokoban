@@ -254,7 +254,8 @@ public class Settings extends MyScreenAdapter
             Settings.set("DefaultTextureAtlas", "lvl/atlas.pack");
             Settings.set("DefaultSkin", "lvl/game_style.json");
             Settings.set("DefaultLevelCollectionPath","lvl/defaultLevels.json");
-            Settings.set("StartSplashScreen", "img/splash.png");
+            Settings.set("StartERKSplashScreen", "img/ERKsplash.png");
+            Settings.set("StartBFHSplashScreen", "img/BFHsplash.png");
             Settings.set("CompletedSplashScreen", "img/levelCompleted.png");
             Settings.set("LevelDataExternalPath", "SokobanLevelData.jsld");
             Settings.set("CustomLevelDataExternalPath", "SokobanCustomLevelData.jscd");

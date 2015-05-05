@@ -70,7 +70,7 @@ public class Splash extends MyScreenAdapter
         batch = new SpriteBatch();
 
         mgr  = new TweenManager();
-
+        System.out.println("imgPathtext: "+ imagePath + ", imgPath: "+Settings.get(imagePath));
         tex = new Texture(Settings.get(imagePath));
         sprite = new Sprite(tex);
         sprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());

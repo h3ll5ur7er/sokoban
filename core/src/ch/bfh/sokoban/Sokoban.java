@@ -26,7 +26,7 @@ public class Sokoban extends Game
         Lan.init();
 
         //new Splash<MainMenu>("StartSplashScreen", 1, 1, MainMenu.class).activate();
-        new Splash("StartSplashScreen", 1.0f, 1.0f, Splash.class, "StartSplashScreen", 1.0f, 1.0f, Title.class).activate();
+        new Splash("StartERKSplashScreen", 1.0f, 1.0f, Splash.class, "StartBFHSplashScreen", 1.0f, 1.0f, Title.class).activate();
 	}
 
     @Override
