@@ -256,6 +256,7 @@ public class Settings extends MyScreenAdapter
             Settings.set("DefaultLevelCollectionPath","lvl/defaultLevels.json");
             Settings.set("StartERKSplashScreen", "img/ERKsplash.png");
             Settings.set("StartBFHSplashScreen", "img/BFHsplash.png");
+            Settings.set("StartScreen", "img/startbackground.png");
             Settings.set("CompletedSplashScreen", "img/levelCompleted.png");
             Settings.set("LevelDataExternalPath", "SokobanLevelData.jsld");
             Settings.set("CustomLevelDataExternalPath", "SokobanCustomLevelData.jscd");

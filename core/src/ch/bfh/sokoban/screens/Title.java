@@ -4,18 +4,30 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import static com.badlogic.gdx.Input.Keys.*;
 
 public class Title extends MyScreenAdapter
 {
+	private SpriteBatch batch;
+	Texture bg;
+	Sprite sprite;
+	
     @Override
     public void show()
     {
         super.show();
-
+        
+        System.out.println(System.getProperty("user.dir"));
+        batch = new SpriteBatch();
+        bg = new Texture(Settings.get("StartScreen"));
+        sprite = new Sprite(bg);
+    	sprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         //TODO add gui
 
         InputDetectorMultiplexer inputDetectorMultiplexer = new InputDetectorMultiplexer(
@@ -45,7 +57,11 @@ public class Title extends MyScreenAdapter
     {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
+        
+        batch.begin();
+        //batch.draw(bg, 0, 0);
+        sprite.draw(batch);
+        batch.end();
 
         stage.act(delta);
         stage.draw();
