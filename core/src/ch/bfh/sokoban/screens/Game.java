@@ -4,8 +4,11 @@ import ch.bfh.sokoban.Sokoban;
 import ch.bfh.sokoban.data.LevelData;
 import ch.bfh.sokoban.game.Level;
 import ch.bfh.sokoban.utils.Lan;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -48,6 +51,11 @@ public class Game extends MyScreenAdapter
     {
         super.show();
 
+        //load background
+        bg = new Texture(Settings.get("GameScreen"));
+        sprite = new Sprite(bg);
+    	sprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        
         tableScreen = new Table(skin);
         tableScreen.setBounds(0,0, Gdx.graphics.getWidth()-200, Gdx.graphics.getHeight());
 
@@ -153,6 +161,10 @@ public class Game extends MyScreenAdapter
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        
+        batch.begin();
+        sprite.draw(batch);
+        batch.end();
 
         lblScore.setText(""+level.getScore());
         lblMoves.setText(""+level.getMoveCount());
