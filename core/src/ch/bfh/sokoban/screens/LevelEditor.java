@@ -3,9 +3,12 @@ package ch.bfh.sokoban.screens;
 import ch.bfh.sokoban.game.Constants;
 import ch.bfh.sokoban.game.LevelManager;
 import ch.bfh.sokoban.utils.Lan;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
@@ -62,6 +65,12 @@ public class LevelEditor extends MyScreenAdapter {
     public void show()
     {
         super.show();
+        
+        //load background
+        bg = new Texture(Settings.get("LevelEditorScreen"));
+        sprite = new Sprite(bg);
+    	sprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+    	
         Gdx.input.setInputProcessor(stage);
         Label title = new Label(Lan.g("LevelEditor"), skin, "big");
         Label desc = new Label(Lan.g("DescStep1"), skin, "small");
@@ -243,7 +252,7 @@ public class LevelEditor extends MyScreenAdapter {
         mainTable.add(scroll).size(Gdx.graphics.getWidth()-300, Gdx.graphics.getHeight()-title.getHeight());
         mainTable.add(navigationTable).bottom();
         mainTable.invalidateHierarchy();
-        mainTable.debug();
+        // mainTable.debug();
 
         stage.addActor(mainTable);
     }
@@ -254,6 +263,10 @@ public class LevelEditor extends MyScreenAdapter {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        batch.begin();
+        sprite.draw(batch);
+        batch.end();
+        
         stage.act(delta);
         stage.draw();
     }

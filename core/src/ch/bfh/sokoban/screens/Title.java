@@ -14,21 +14,16 @@ import static com.badlogic.gdx.Input.Keys.*;
 
 public class Title extends MyScreenAdapter
 {
-	private SpriteBatch batch;
-	Texture bg;
-	Sprite sprite;
 	
     @Override
     public void show()
     {
         super.show();
         
-        System.out.println(System.getProperty("user.dir"));
-        batch = new SpriteBatch();
+        //load background
         bg = new Texture(Settings.get("StartScreen"));
         sprite = new Sprite(bg);
     	sprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        //TODO add gui
 
         InputDetectorMultiplexer inputDetectorMultiplexer = new InputDetectorMultiplexer(
                                                                 new InputDetector(
@@ -59,7 +54,6 @@ public class Title extends MyScreenAdapter
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         
         batch.begin();
-        //batch.draw(bg, 0, 0);
         sprite.draw(batch);
         batch.end();
 
