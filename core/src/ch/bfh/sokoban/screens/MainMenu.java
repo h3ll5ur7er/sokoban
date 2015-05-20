@@ -62,15 +62,15 @@ public class MainMenu extends MyScreenAdapter
 
 
 
-        table.add(Sokoban.TITLE);           //Sokoban
-        table.row();                        //-------
-        table.add(btnPlay);                 //|PLAY|
-        table.row();                        //-------
-        table.add(btnEdit);                 //|EDIT|
-        table.row();                        //-------
-        table.add(btnSettings);             //|SETTINGS|
-        table.row();                        //-------
-        table.add(btnExit);                 //|EXIT|
+        table.add(Sokoban.TITLE);           			//Sokoban
+        table.row();                        			//-------
+        table.add(btnPlay).width(200).height(60);		//|PLAY|
+        table.row();                        			//-------
+        table.add(btnEdit).width(200).height(60);		//|EDIT|
+        table.row();                        			//-------
+        table.add(btnSettings).width(200).height(60);	//|SETTINGS|
+        table.row();                        			//-------
+        table.add(btnExit).width(200).height(60);		//|EXIT|
         table.invalidateHierarchy();
 
         table.layout();

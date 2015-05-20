@@ -57,10 +57,9 @@ public class Game extends MyScreenAdapter
     	sprite.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         
         tableScreen = new Table(skin);
-        tableScreen.setBounds(0,0, Gdx.graphics.getWidth()-200, Gdx.graphics.getHeight());
+        tableScreen.setBounds(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         tableMenu = new Table(skin);
-        tableMenu.setBounds(Gdx.graphics.getWidth()-200,0, 200, Gdx.graphics.getHeight());
 
         this.level = new Level(leveldata, skin);
 
@@ -97,23 +96,10 @@ public class Game extends MyScreenAdapter
             }
         });
 
-        tableScreen.add();
-        tableScreen.add(leveldata.name).colspan(2);
-        tableScreen.add();
+        tableScreen.add(leveldata.name).colspan(2).center().height(70);
         tableScreen.row();
 
-        tableScreen.add().colspan(4);
-        tableScreen.row();
-
-        tableScreen.add();
-        tableScreen.add(level.getTable()).colspan(2).expandX().expandY();
-        tableScreen.add();
-        tableScreen.row();
-
-        /*tableScreen.add().colspan(3);
-        tableScreen.add(btnBack);*/
-
-        tableScreen.invalidateHierarchy();
+        tableScreen.add(level.getTable()).width(Gdx.graphics.getWidth()-200).expandX().expandY();
 
         tableMenu.add(new Label(Lan.g("Score")+":", skin)).colspan(2).center();
         tableMenu.row();
@@ -134,18 +120,21 @@ public class Game extends MyScreenAdapter
         tableMenu.row();
         tableMenu.add(lblUndoRedo).colspan(2).center();
         tableMenu.row();
+        tableMenu.add().height(10);
+        tableMenu.row();
+        tableMenu.add(btnSave).colspan(2).center().width(150);
+        tableMenu.row();
         tableMenu.add();
         tableMenu.row();
-        tableMenu.add(btnSave).colspan(2).center();
-        tableMenu.row();
-        tableMenu.add();
-        tableMenu.row();
-        tableMenu.add(btnBack).colspan(2).center();
+        tableMenu.add(btnBack).colspan(2).center().width(150);
         tableMenu.invalidateHierarchy();
 
+        tableScreen.add(tableMenu).width(200);
+        tableScreen.row();
+        tableScreen.invalidateHierarchy();
+        
         stage.addActor(level);
         stage.addActor(tableScreen);
-        stage.addActor(tableMenu);
 
         Gdx.graphics.setTitle(Sokoban.TITLE+" - "+leveldata.name);
     }

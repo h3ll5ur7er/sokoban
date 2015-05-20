@@ -11,6 +11,7 @@ public class DesktopLauncher {
         config.vSyncEnabled = true;
         config.width = 1200;
         config.height = 720;
+        config.resizable = false;
 		new LwjglApplication(new Sokoban(), config);
 	}
 }

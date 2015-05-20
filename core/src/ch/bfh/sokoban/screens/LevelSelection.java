@@ -88,32 +88,25 @@ public class LevelSelection extends MyScreenAdapter
         btnBack.pad(13);
 
         Table inner = new Table(skin);
-        inner.add(btnPlay).row();
-        inner.add(btnBack);
+        inner.add(btnPlay).width(200).row();
+        inner.add(btnBack).width(200);
 
-
+        /*
         table.add().width(300);
         table.add(Lan.g("SelectLevel")).width(600).colspan(2);
         table.add().width(300).row();
-
-        table.add("Levelpack").width(300);
-        table.add("Level").width(300);
+		*/
+        table.add("Levelpack").width(300).height(98).center();
+        table.add("Level").width(300).center();
         table.add().width(600).colspan(2).row();
 
 
         table.add(scroll1).width(300);
         table.add(scroll2).width(300).expandY();
-        table.add(inner).width(300);
-        //table.add("highscore").width(300).row();
-        table.add(highscoresContainer).width(300).row();
-
-        //table.add().width(300);
-        //table.add().width(300);
-        //table.add(btnPlay).width(300);
-        //table.add(btnBack).width(300).bottom().right()
-        //        .expandX().expandY();
+        table.add(inner).padTop(-30).width(300).height(300);
+        table.add(highscoresContainer).padTop(-30).width(300).row();
         table.invalidateHierarchy();
-//        table.debug();
+        table.debug();
 
         stage.addActor(table);
 
