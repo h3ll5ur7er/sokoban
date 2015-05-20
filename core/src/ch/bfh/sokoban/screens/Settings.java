@@ -118,15 +118,10 @@ public class Settings extends MyScreenAdapter
             }
         });
 
-        float w = table.getWidth() / 5;
-        table.add().width(w);
-        table.add().width(w);
-        table.add(Lan.g("Settings")).width(w);
-        table.add().width(w);
-        table.add().width(w);
+        table.add(Lan.g("Settings")).colspan(5).center();
         table.row();
 
-        table.add();
+        table.add().width(table.getWidth() / 5);
         table.add(Lan.g("TileSize"), "small").left();
         table.add(tileSizeSlider).expandX().expandY().left();
         table.add(tileSizeDisplay).pad(10).left();
