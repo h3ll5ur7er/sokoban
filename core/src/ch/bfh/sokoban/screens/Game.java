@@ -25,6 +25,7 @@ public class Game extends MyScreenAdapter
     private Table tableMenu;
     private Level level;
     private LevelData leveldata;
+    boolean saved = false;
     boolean completed = false;
     int navigationCountdown = 30;
 
@@ -74,25 +75,24 @@ public class Game extends MyScreenAdapter
 
         TextButton btnBack = new TextButton(Lan.g("Back"), skin, Settings.get("BackButtonSize"));
         btnBack.pad(20);
-        btnBack.addListener(new ClickListener()
-        {
+        btnBack.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                if(!saved) Settings.set("StoredLevel", "");
                 new LevelSelection().activate();
             }
         });
 
         TextButton btnSave = new TextButton(Lan.g("Save"), skin, Settings.get("SaveButtonSize"));
         btnSave.pad(22);
-        btnSave.addListener(new ClickListener()
-        {
+        btnSave.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
                 // Save data
-
-                String data = leveldata.id+":"+level.serialze(':');
+                level.save();
+                saved = true;
             }
         });
 
@@ -106,7 +106,7 @@ public class Game extends MyScreenAdapter
         tableMenu.add(lblScore).colspan(2).center();
         tableMenu.row();
         tableMenu.add(new Label(Lan.g("Moves")+":   ", skin, "small"));
-        tableMenu.add(new Label(Lan.g("Pushes")+":", skin, "small"));
+        tableMenu.add(new Label(Lan.g("Pushes") + ":", skin, "small"));
         tableMenu.row();
         tableMenu.add(lblMoves).center();
         tableMenu.add(lblPushes).center();

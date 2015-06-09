@@ -279,6 +279,7 @@ public class Settings extends MyScreenAdapter
             Settings.set("NextButtonSize", "small");
             Settings.set("TileSize", "50");
             Settings.set("EULA", "0");
+            Settings.set("StoredLevel", "");
             //TODO
             Settings.set("MenuTitle", Sokoban.TITLE + " v"+Sokoban.VERSION);
             Settings.set("LvlSelTitle", Sokoban.TITLE+" - "+"Level Selection");

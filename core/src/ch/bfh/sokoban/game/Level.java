@@ -37,6 +37,7 @@ public class Level extends Actor implements TileBasedMap
     int tileSize;
     private final String levelId;
 
+    private String stepsString = "";
     private Stack<Commands> steps;
     private Stack<Commands> undone;
 
@@ -63,6 +64,7 @@ public class Level extends Actor implements TileBasedMap
 
     Table table;
     Skin skin;
+    private boolean saved = false;
 
     public Level(String id, String name, int width, int height, String[] data, Skin skin)
     {
@@ -132,6 +134,45 @@ public class Level extends Actor implements TileBasedMap
         table = t;
 
         Gdx.graphics.setTitle(name);
+        if(Settings.get("StoredLevel").startsWith(id))
+        {
+            String storedPath = Settings.get("StoredLevel").substring(id.length()+1);
+
+            for (int i = 0; i<storedPath.length();i++)
+            {
+                walk(storedPath.charAt(i));
+            }
+        }
+
+    }
+
+    private void walk(char c)
+    {
+        switch(c)
+        {
+            case 'u':
+            case 'U':
+                up();
+                break;
+            case 'd':
+            case 'D':
+                down();
+                break;
+            case 'l':
+            case 'L':
+                left();
+                break;
+            case 'r':
+            case 'R':
+                right();
+                break;
+            case '<':
+                undo();
+                break;
+            case '>':
+                redo();
+                break;
+        }
     }
 
     public Level(LevelData lvl, Skin skin)
@@ -150,12 +191,14 @@ public class Level extends Actor implements TileBasedMap
         {
             player = player.move(Directions.up);
             pushCommand(Commands.MoveUp);
+            stepsString+='u';
             moves++;
         }
         else if (player.canPush(Directions.up))
         {
             player = player.push(Directions.up);
             pushCommand(Commands.PushUp);
+            stepsString+='U';
             pushes++;
         }
         moving = false;
@@ -173,12 +216,14 @@ public class Level extends Actor implements TileBasedMap
         {
             player = player.move(Directions.down);
             pushCommand(Commands.MoveDown);
+            stepsString+='d';
             moves++;
         }
         else if (player.canPush(Directions.down))
         {
             player = player.push(Directions.down);
             pushCommand(Commands.PushDown);
+            stepsString+='D';
             pushes++;
         }
         moving = false;
@@ -196,12 +241,14 @@ public class Level extends Actor implements TileBasedMap
         {
             player = player.move(Directions.left);
             pushCommand(Commands.MoveLeft);
+            stepsString+='l';
             moves++;
         }
         else if (player.canPush(Directions.left))
         {
             player = player.push(Directions.left);
             pushCommand(Commands.PushLeft);
+            stepsString+='L';
             pushes++;
         }
         moving = false;
@@ -219,12 +266,14 @@ public class Level extends Actor implements TileBasedMap
         {
             player = player.move(Directions.right);
             pushCommand(Commands.MoveRight);
+            stepsString+='r';
             moves++;
         }
         else if (player.canPush(Directions.right))
         {
             player = player.push(Directions.right);
             pushCommand(Commands.PushRight);
+            stepsString+='R';
             pushes++;
         }
         moving = false;
@@ -236,7 +285,7 @@ public class Level extends Actor implements TileBasedMap
      **/
     public boolean undo()
     {
-        if(terminating) return false;
+        if (terminating) return false;
         if (steps.size() <1) return false;
         undoing = true;
         Commands step = steps.pop();
@@ -258,6 +307,7 @@ public class Level extends Actor implements TileBasedMap
         }
 
         undone.push(step);
+        stepsString+='<';
         undoRedo++;
         return true;
     }
@@ -268,7 +318,7 @@ public class Level extends Actor implements TileBasedMap
      **/
     public void redo()
     {
-        if(terminating) return;
+        if (terminating) return;
         if (undone.size() <1) return;
         undoing = true;
         Commands step = undone.pop();
@@ -288,6 +338,7 @@ public class Level extends Actor implements TileBasedMap
                 right();
                 break;
         }
+        stepsString+='>';
         undoRedo++;
     }
 
@@ -338,6 +389,7 @@ public class Level extends Actor implements TileBasedMap
                 new Splash("CompletedSplashScreen", 1.0f, .2f, LevelSelection.class).activate();
             }
             if (gettingTextInput) return;
+            Settings.set("StoredLevel", "");
             if(Highscore.get(levelId).isHighscore(getScore()))
             {
                 gettingTextInput = true;
@@ -358,12 +410,14 @@ public class Level extends Actor implements TileBasedMap
                         Highscore.get(levelId).add(levelId, getScore(), "AAA");
                     }
                 }, "You earned a Highscore!", "", "Please enter your name (3 digits only, the rest will be ignored)");
-                ;
             }
-
+            else
+                terminating = true;
         }
         else
+        {
             new LevelSelection().activate();
+        }
     }
 
     /**
@@ -505,6 +559,12 @@ public class Level extends Actor implements TileBasedMap
         return 1;
     }
 
+    public void save()
+    {
+        Settings.set("StoredLevel",serialze(':'));
+        saved = true;
+    }
+
     /**
      * Mover used for Pathfinding supposed to move on floor only
      * (since there is only one mover so far the if's are commented out but can be used as soon as we go ahead to the solver..)
@@ -515,17 +575,7 @@ public class Level extends Actor implements TileBasedMap
 
     public String serialze(char c)
     {
-        String data = "";
-        for (int u = 0; u < steps.size(); u++)
-        {
-            data+=steps.pop().toChar();
-        }
-        data +=":";
-        for (int r = 0; r < undone.size(); r++)
-        {
-            data+=undone.pop();
-        }
-        return data;
+        return levelId+c+stepsString;
     }
 
     /**
