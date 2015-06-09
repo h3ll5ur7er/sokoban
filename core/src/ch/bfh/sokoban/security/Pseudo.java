@@ -50,6 +50,10 @@ public class Pseudo
         ObjectMap<String, String> outMap = new ObjectMap<String, String>();
         try
         {
+            if(!target.exists())
+            {
+                return new ObjectMap<String, String>();
+            }
             PropertiesUtils.load(map, target.reader());
 
             for(ObjectMap.Entry<String, String> entry : map)

@@ -230,7 +230,8 @@ public class Settings extends MyScreenAdapter
 
     private static class Manager
     {
-        private static final String settingsPath = "SokobanSettings";
+        private static final String storageRoot = "MyGames/Sokoban";
+        private static final String settingsPath = "SokobanSettings.jssd";
         private ObjectMap<String, String> map = new ObjectMap<String, String>();
 
         //SINGLETON
@@ -270,8 +271,8 @@ public class Settings extends MyScreenAdapter
             Settings.set("LevelEditorScreen", "img/LevelEditorScreen.png");
             Settings.set("SettingsScreen", "img/SettingsScreen.png");
             Settings.set("CompletedSplashScreen", "img/levelCompleted.png");
-            Settings.set("LevelDataExternalPath", "SokobanLevelData.jsld");
-            Settings.set("CustomLevelDataExternalPath", "SokobanCustomLevelData.jscd");
+            Settings.set("LevelDataExternalPath", storageRoot + "/" + "SokobanLevelData.jsld");
+            Settings.set("CustomLevelDataExternalPath", storageRoot + "/" + "SokobanCustomLevelData.jscd");
             Settings.set("BackButtonSize", "small");
             Settings.set("PlayButtonSize", "small");
             Settings.set("SaveButtonSize", "small");
@@ -288,12 +289,12 @@ public class Settings extends MyScreenAdapter
         }
         public static void save()
         {
-            Pseudo.storeMap(getInstance().map, Gdx.files.external(settingsPath));
+            Pseudo.storeMap(getInstance().map, Gdx.files.external(storageRoot + "/" + settingsPath));
         }
         public static void load()
         {
-            if(Gdx.files.external(settingsPath).exists())
-                getInstance().map = Pseudo.loadMap(Gdx.files.external(settingsPath));
+            if(Gdx.files.external(storageRoot+"/"+settingsPath).exists())
+                getInstance().map = Pseudo.loadMap(Gdx.files.external(storageRoot+"/"+settingsPath));
             else
             {
                 create();

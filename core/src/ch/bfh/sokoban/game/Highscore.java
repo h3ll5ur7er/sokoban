@@ -20,14 +20,14 @@ public class Highscore
     {
         map = new ObjectMap<String, LevelHighScore>();
 
-        FileHandle file = Gdx.files.external("SokobanHighscores");
+        FileHandle file = Gdx.files.external("MyGames/Sokoban/SokobanHighscores.jshd");
         if(file.exists())
             load(Pseudo.loadMap(file));
     }
 
     public static void save()
     {
-        Pseudo.storeMap(instance().store(), Gdx.files.external("SokobanHighscores"));
+        Pseudo.storeMap(instance().store(), Gdx.files.external("MyGames/Sokoban/SokobanHighscores.jshd"));
     }
 
     private void load(ObjectMap<String, String> data)

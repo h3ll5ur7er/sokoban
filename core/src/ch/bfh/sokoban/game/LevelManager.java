@@ -51,20 +51,6 @@ public class LevelManager
      **/
     public void load()
     {
-        if(Gdx.files.external(Settings.get("LevelDataExternalPath")).exists())
-        {
-            data = new Json()
-                    .fromJson(
-                            LevelPackDataCollection.class,
-                            Pseudo.decrypt(
-                                    Gdx.files.external(Settings.get("LevelDataExternalPath"))
-                                            .readString()));
-        }
-        else
-        {
-            reset();
-        }
-
         if(Gdx.files.external(Settings.get("CustomLevelDataExternalPath")).exists())
         {
             custom = new Json()
@@ -77,6 +63,19 @@ public class LevelManager
         else
         {
             custom = new CustomLevelDataCollection();
+        }
+        if(Gdx.files.external(Settings.get("LevelDataExternalPath")).exists())
+        {
+            data = new Json()
+                    .fromJson(
+                            LevelPackDataCollection.class,
+                            Pseudo.decrypt(
+                                    Gdx.files.external(Settings.get("LevelDataExternalPath"))
+                                            .readString()));
+        }
+        else
+        {
+            reset();
         }
     }
     /**
