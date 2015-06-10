@@ -155,7 +155,7 @@ public class LevelEditor extends MyScreenAdapter {
         errorTextTitle4.setWrap(true);
         Label errorText4 = new Label(Lan.g("CantGoNextStep4"), skin, "default_black");
         errorText4.setWrap(true);
-        dialogTable4.add(errorTextTitle3).width(400).row();
+        dialogTable4.add(errorTextTitle4).width(400).row();
         dialogTable4.add(" ").row();
         dialogTable4.add(errorText4).width(400).row();
         errorDialog4.getContentTable().add(dialogTable4).expandX().expandY();
