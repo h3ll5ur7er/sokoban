@@ -15,7 +15,7 @@ public class Lan
     {
         try
         {
-            PropertiesUtils.load(d, Gdx.files.internal("lang/"+ Settings.get("SelectedLanguage")+".sdic").reader());
+            PropertiesUtils.load(d, Gdx.files.internal("lang/"+ Settings.get("SelectedLanguage")+".sdic").reader("UTF-8"));
         }
         catch (IOException e)
         {
