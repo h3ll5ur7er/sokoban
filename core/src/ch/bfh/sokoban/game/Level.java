@@ -743,7 +743,9 @@ public class Level extends Actor implements TileBasedMap
             this.x = x;
             this.y = y;
 
-            setSize(tileSize, tileSize);
+            int size = calculateSize(width,height,tileSize);
+
+            setSize(size, size);
 
             addListener(new ClickListener()
             {
@@ -754,6 +756,18 @@ public class Level extends Actor implements TileBasedMap
                     Level.this.tryMoveTo(Tile.this.x, Tile.this.y);
                 }
             });
+        }
+
+        private int calculateSize(int x, int y, int tileSize)
+        {
+            int dx = 1000/x;
+            int dy = 650/y;
+            if(dx<=dy && dx<=tileSize)
+                return dx;
+            if(dy<dx && dy<tileSize)
+                return dy;
+            return tileSize;
+
         }
 
         private Tile get(Directions direction)
