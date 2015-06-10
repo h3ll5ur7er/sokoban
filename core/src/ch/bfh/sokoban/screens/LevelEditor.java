@@ -76,11 +76,18 @@ public class LevelEditor extends MyScreenAdapter {
         Label desc = new Label(Lan.g("DescStep1"), skin, "small");
         desc.setWrap(true);
         
-        
-        Dialog errorDialog1 = new Dialog(Lan.g("WentWrong"), skin);
+        Dialog errorDialog1 = new Dialog("", skin);
+        errorDialog1.setWidth(400);
+        errorDialog1.setHeight(500);
+        Table dialogTable1 = new Table(skin);
+        Label errorTextTitle1 = new Label(Lan.g("WentWrong"), skin, "default_black");
+        errorTextTitle1.setWrap(true);
         Label errorText1 = new Label(Lan.g("CantGoNextStep1"), skin);
         errorText1.setWrap(true);
-        errorDialog1.getContentTable().add(errorText1).width(400).height(500).expandX().expandY();
+        dialogTable1.add(errorTextTitle1).width(400).expandX().expandY().row();
+        dialogTable1.add(" ").width(400).expandX().expandY().row();
+        dialogTable1.add(errorText1).width(400).height(500).expandX().expandY();
+        errorDialog1.getContentTable().add(dialogTable1).expandX().expandY();
         
         TextButton btnCloseErrorWindow1 = new TextButton(Lan.g("Exit"), skin);
         btnCloseErrorWindow1.addListener(new ClickListener() {
@@ -92,12 +99,19 @@ public class LevelEditor extends MyScreenAdapter {
         });
         errorDialog1.getButtonTable().add(btnCloseErrorWindow1);
         
-
-        Dialog errorDialog2 = new Dialog(Lan.g("WentWrong"), skin);
-        Label errorText2 = new Label(Lan.g("CantGoNextStep2"), skin);
+        Dialog errorDialog2 = new Dialog("", skin);
+        errorDialog2.setWidth(400);
+        errorDialog2.setHeight(200);
+        Table dialogTable2 = new Table(skin);
+        Label errorTextTitle2 = new Label(Lan.g("WentWrong"), skin, "default_black");
+        errorTextTitle2.setWrap(true);
+        Label errorText2 = new Label(Lan.g("CantGoNextStep2"), skin, "default_black");
         errorText2.setWrap(true);
-        errorDialog2.getContentTable().add(errorText2).width(400).height(150).expandX().expandY();
-        
+        dialogTable2.add(errorTextTitle2).width(400).row();
+        dialogTable2.add(" ").row();
+        dialogTable2.add(errorText2).width(400).row();
+        errorDialog2.getContentTable().add(dialogTable2).expandX().expandY();
+
         TextButton btnCloseErrorWindow2 = new TextButton(Lan.g("Exit"), skin);
         btnCloseErrorWindow2.addListener(new ClickListener() {
             @Override
@@ -109,10 +123,18 @@ public class LevelEditor extends MyScreenAdapter {
         errorDialog2.getButtonTable().add(btnCloseErrorWindow2);
         
         
-        Dialog errorDialog3 = new Dialog(Lan.g("WentWrong"), skin);
-        Label errorText3 = new Label(Lan.g("CantGoNextStep3"), skin);
+        Dialog errorDialog3 = new Dialog("", skin);
+        errorDialog3.setWidth(400);
+        errorDialog3.setHeight(200);
+        Table dialogTable3 = new Table(skin);
+        Label errorTextTitle3 = new Label(Lan.g("WentWrong"), skin, "default_black");
+        errorTextTitle3.setWrap(true);
+        Label errorText3 = new Label(Lan.g("CantGoNextStep3"), skin, "default_black");
         errorText3.setWrap(true);
-        errorDialog3.getContentTable().add(errorText3).width(400).height(150).expandX().expandY();
+        dialogTable3.add(errorTextTitle3).width(400).row();
+        dialogTable3.add(" ").row();
+        dialogTable3.add(errorText3).width(400).row();
+        errorDialog3.getContentTable().add(dialogTable3).expandX().expandY();
         
         TextButton btnCloseErrorWindow3 = new TextButton(Lan.g("Exit"), skin);
         btnCloseErrorWindow3.addListener(new ClickListener() {
@@ -125,10 +147,18 @@ public class LevelEditor extends MyScreenAdapter {
         errorDialog3.getButtonTable().add(btnCloseErrorWindow3);
         
         
-        Dialog errorDialog4 = new Dialog(Lan.g("WentWrong"), skin);
-        Label errorText4 = new Label(Lan.g("CantGoNextStep4"), skin);
-        errorText4.setWrap(true);        
-        errorDialog4.getContentTable().add(errorText4).width(400).height(150).expandX().expandY();
+        Dialog errorDialog4 = new Dialog("", skin);
+        errorDialog4.setWidth(400);
+        errorDialog4.setHeight(200);
+        Table dialogTable4 = new Table(skin);
+        Label errorTextTitle4 = new Label(Lan.g("WentWrong"), skin, "default_black");
+        errorTextTitle4.setWrap(true);
+        Label errorText4 = new Label(Lan.g("CantGoNextStep4"), skin, "default_black");
+        errorText4.setWrap(true);
+        dialogTable4.add(errorTextTitle3).width(400).row();
+        dialogTable4.add(" ").row();
+        dialogTable4.add(errorText4).width(400).row();
+        errorDialog4.getContentTable().add(dialogTable4).expandX().expandY();
         
         TextButton btnCloseErrorWindow4 = new TextButton(Lan.g("Exit"), skin);
         btnCloseErrorWindow4.addListener(new ClickListener() {

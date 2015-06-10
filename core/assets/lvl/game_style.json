@@ -22,6 +22,7 @@
   "com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle":
   {
     "default": { "font": "white32", "fontColor": "white"},
+    "default_black": { "font": "black32", "fontColor": "black"},
     "big":     { "font": "white64", "fontColor": "white"},
     "small":   { "font": "white16", "fontColor": "white"},
     "lcd":     { "font": "lcd", "fontColor": "lime"}
@@ -42,7 +43,7 @@
   },
   "com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle":
   {
-    "default": { "font": "white32", "checkboxOn": "ui.checkbox.on", "checkboxOff": "ui.checkbox.off", "checkboxOver": "ui.checkbox.over" }
+    "default": { "font": "black32", "checkboxOn": "ui.checkbox.on", "checkboxOff": "ui.checkbox.off", "checkboxOver": "ui.checkbox.over" }
   },
   "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle":
   {

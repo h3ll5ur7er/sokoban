@@ -166,7 +166,7 @@ public class LevelManager
      */
     private void notifyUser(String title, String content)
     {
-        Dialog d = new Dialog(title, GlobalAssets.getInstance().getSkin());
+        Dialog d = new Dialog(title, GlobalAssets.getInstance().getSkin(), "default_black");
         d.add(content);
         d.addListener(new ClickListener()
         {

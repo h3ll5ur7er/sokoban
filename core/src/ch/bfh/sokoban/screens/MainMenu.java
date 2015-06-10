@@ -87,24 +87,29 @@ public class MainMenu extends MyScreenAdapter
         if(eulaShown) return;
         eulaShown = true;
 
-        Dialog eulaDialog = new Dialog(Lan.g("EulaTitle"), skin);
+        Dialog eulaDialog = new Dialog(""/*Lan.g("EulaTitle")*/, skin);
         eulaDialog.setWidth(680);
         Table eulaText = new Table(skin);
-        Label movText = new Label(Lan.g("WalkControl"), skin);
+        Label eulaTitleText = new Label(Lan.g("EulaTitle"), skin, "default_black");
+        eulaTitleText.setWrap(true);
+        Label movText = new Label(Lan.g("WalkControl"), skin, "default_black");
         movText.setWrap(true);
-        Label undoText = new Label(Lan.g("UndoControl"), skin);
+        Label undoText = new Label(Lan.g("UndoControl"), skin, "default_black");
         undoText.setWrap(true);
-        Label resetText = new Label(Lan.g("ResetControl"), skin);
+        Label resetText = new Label(Lan.g("ResetControl"), skin, "default_black");
         resetText.setWrap(true);
-        Label autoMovText = new Label(Lan.g("AutomoveControl"), skin);
+        Label autoMovText = new Label(Lan.g("AutomoveControl"), skin, "default_black");
         autoMovText.setWrap(true);
         
-        eulaText.add(movText).width(650).row();
-        eulaText.add(undoText).width(650).row();
-        eulaText.add(resetText).width(650).row();
-        eulaText.add(autoMovText).width(650).row();
+        eulaText.add().width(325).row();
+        eulaText.add(eulaTitleText).row();
+        eulaText.add().width(400).row();
+        eulaText.add(" ").width(650).colspan(3).row();
+        eulaText.add(movText).width(650).colspan(3).row();
+        eulaText.add(undoText).width(650).colspan(3).row();
+        eulaText.add(resetText).width(650).colspan(3).row();
+        eulaText.add(autoMovText).width(650).colspan(3).row();
         eulaText.top().left();
-        eulaDialog.invalidateHierarchy();
         
         CheckBox notShowEula = new CheckBox(Lan.g("NotShowAgain"), skin);
         notShowEula.addListener(new ChangeListener() {
