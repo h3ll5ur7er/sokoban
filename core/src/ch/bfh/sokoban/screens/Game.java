@@ -79,7 +79,6 @@ public class Game extends MyScreenAdapter
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                if(!saved) Settings.set("StoredLevel", "");
                 new LevelSelection().activate();
             }
         });
@@ -185,7 +184,7 @@ public class Game extends MyScreenAdapter
             else if(pressed(S, DOWN)){ level.down(); }
             else if(pressed(D, RIGHT)){ level.right(); }
             else if(pressed(BACKSPACE)){ level.undo(); }
-            else if(pressed(ESCAPE)){ while(level.undo()){} }
+            else if(pressed(ESCAPE)){ level.reset(); }
         }
     }
 

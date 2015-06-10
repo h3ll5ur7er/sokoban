@@ -83,9 +83,10 @@ public class Level extends Actor implements TileBasedMap
         steps = new Stack<Commands>();
         undone = new Stack<Commands>();
 
+        //for (int y = 0; y < data.length; y++)
         for (int y = data.length-1; y >= 0; y--)
         {
-            tiles[(data.length-1)-y] = new Tile[width];
+            tiles[data.length-1-y] = new Tile[width];
             char[] chars = data[y].toCharArray();
             for (int x = 0; x < data[y].length(); x++)
             {
@@ -420,6 +421,15 @@ public class Level extends Actor implements TileBasedMap
         }
     }
 
+    public void reset()
+    {
+        Settings.set("StoredLevel", "");
+        while(undo()){}
+        stepsString = "";
+
+        //TODO: reset score values
+    }
+
     /**
      * Helper method that  pushes a performed command to the steps stack
      *
@@ -507,8 +517,8 @@ public class Level extends Actor implements TileBasedMap
         Path.Step step = currentPath.getStep(pathIndex++);
         if(step.getX()<player.x) left();
         else if(step.getX()>player.x) right();
-        else if(step.getY()<player.y) down();
-        else if(step.getY()>player.y) up();
+        else if(step.getY()<player.y) up();
+        else if(step.getY()>player.y) down();
     }
 
     /**
@@ -544,7 +554,7 @@ public class Level extends Actor implements TileBasedMap
     @Override
     public boolean blocked(Mover mover, int x, int y)
     {
-        Tile t = tiles[y][x];
+        Tile t = tiles[height-1-y][x];
         //if(mover instanceof FloorMover)
         return t.isBox() || t.isWall();
     }
