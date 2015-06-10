@@ -58,7 +58,7 @@ public class LevelManager
                             CustomLevelDataCollection.class,
                             Pseudo.decrypt(
                                     Gdx.files.external(Settings.get("CustomLevelDataExternalPath"))
-                                            .readString()));
+                                            .readString("UTF-8")));
         }
         else
         {
@@ -71,7 +71,7 @@ public class LevelManager
                             LevelPackDataCollection.class,
                             Pseudo.decrypt(
                                     Gdx.files.external(Settings.get("LevelDataExternalPath"))
-                                            .readString()));
+                                            .readString("UTF-8")));
         }
         else
         {
@@ -83,8 +83,8 @@ public class LevelManager
      **/
     public void save()
     {
-         Gdx.files.external(Settings.get("LevelDataExternalPath")).writeString(Pseudo.crypt(new Json().toJson(data)), false);
-         Gdx.files.external(Settings.get("CustomLevelDataExternalPath")).writeString(Pseudo.crypt(new Json().toJson(custom)), false);
+         Gdx.files.external(Settings.get("LevelDataExternalPath")).writeString(Pseudo.crypt(new Json().toJson(data)), false, "UTF-8");
+         Gdx.files.external(Settings.get("CustomLevelDataExternalPath")).writeString(Pseudo.crypt(new Json().toJson(custom)), false, "UTF-8");
     }
 
     /**

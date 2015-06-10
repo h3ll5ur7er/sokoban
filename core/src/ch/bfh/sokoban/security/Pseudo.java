@@ -54,7 +54,7 @@ public class Pseudo
             {
                 return new ObjectMap<String, String>();
             }
-            PropertiesUtils.load(map, target.reader());
+            PropertiesUtils.load(map, target.reader("UTF-8"));
 
             for(ObjectMap.Entry<String, String> entry : map)
             {

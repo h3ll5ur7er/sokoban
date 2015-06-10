@@ -230,7 +230,7 @@ public class Settings extends MyScreenAdapter
 
     private static class Manager
     {
-        private static final String storageRoot = "MyGames/Sokoban";
+        private static final String storageRoot = "Documents/My Games/Sokoban";
         private static final String settingsPath = "SokobanSettings.jssd";
         private ObjectMap<String, String> map = new ObjectMap<String, String>();
 
