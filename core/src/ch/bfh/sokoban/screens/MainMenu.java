@@ -111,7 +111,7 @@ public class MainMenu extends MyScreenAdapter
         eulaText.add(autoMovText).width(650).colspan(3).row();
         eulaText.top().left();
         
-        CheckBox notShowEula = new CheckBox(Lan.g("NotShowAgain"), skin);
+        CheckBox notShowEula = new CheckBox(Lan.g("NotShowAgain"), skin, "default_black");
         notShowEula.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {

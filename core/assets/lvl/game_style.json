@@ -43,7 +43,8 @@
   },
   "com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle":
   {
-    "default": { "font": "black32", "checkboxOn": "ui.checkbox.on", "checkboxOff": "ui.checkbox.off", "checkboxOver": "ui.checkbox.over" }
+    "default": { "font": "white32", "checkboxOn": "ui.checkbox.on", "checkboxOff": "ui.checkbox.off", "checkboxOver": "ui.checkbox.over" }
+    "default_black": { "font": "black32", "checkboxOn": "ui.checkbox.on", "checkboxOff": "ui.checkbox.off", "checkboxOver": "ui.checkbox.over" }
   },
   "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle":
   {
