@@ -88,9 +88,20 @@ public class MainMenu extends MyScreenAdapter
         eulaShown = true;
 
         Dialog eulaDialog = new Dialog(Lan.g("EulaTitle"), skin);
-
-        Label eulaText = new Label(Lan.g("EULA"), skin);
-        eulaText.setWrap(true);
+        Table eulaText = new Table(skin);
+        Label movText = new Label(Lan.g("WalkControl"), skin);
+        movText.setWrap(true);
+        Label undoText = new Label(Lan.g("UndoControl"), skin);
+        undoText.setWrap(true);
+        Label resetText = new Label(Lan.g("ResetControl"), skin);
+        resetText.setWrap(true);
+        Label autoMovText = new Label(Lan.g("AutomoveControl"), skin);
+        autoMovText.setWrap(true);
+        
+        eulaText.add(movText).row();
+        eulaText.add(undoText).row();
+        eulaText.add(resetText).row();
+        eulaText.add(autoMovText).row();
 
         CheckBox notShowEula = new CheckBox(Lan.g("NotShowAgain"), skin);
         notShowEula.addListener(new ChangeListener() {
