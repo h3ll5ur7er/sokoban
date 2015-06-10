@@ -88,6 +88,7 @@ public class MainMenu extends MyScreenAdapter
         eulaShown = true;
 
         Dialog eulaDialog = new Dialog(Lan.g("EulaTitle"), skin);
+        eulaDialog.setWidth(680);
         Table eulaText = new Table(skin);
         Label movText = new Label(Lan.g("WalkControl"), skin);
         movText.setWrap(true);
@@ -98,11 +99,13 @@ public class MainMenu extends MyScreenAdapter
         Label autoMovText = new Label(Lan.g("AutomoveControl"), skin);
         autoMovText.setWrap(true);
         
-        eulaText.add(movText).row();
-        eulaText.add(undoText).row();
-        eulaText.add(resetText).row();
-        eulaText.add(autoMovText).row();
-
+        eulaText.add(movText).width(650).row();
+        eulaText.add(undoText).width(650).row();
+        eulaText.add(resetText).width(650).row();
+        eulaText.add(autoMovText).width(650).row();
+        eulaText.top().left();
+        eulaDialog.invalidateHierarchy();
+        
         CheckBox notShowEula = new CheckBox(Lan.g("NotShowAgain"), skin);
         notShowEula.addListener(new ChangeListener() {
             @Override
