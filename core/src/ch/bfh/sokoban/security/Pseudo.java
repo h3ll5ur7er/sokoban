@@ -37,7 +37,7 @@ public class Pseudo
         }
         try
         {
-            PropertiesUtils.store(outMap, target.writer(false), "");
+            PropertiesUtils.store(outMap, target.writer(false, "UTF-8"), "");
         }
         catch (IOException e)
         {
