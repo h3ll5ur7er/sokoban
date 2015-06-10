@@ -83,14 +83,14 @@ public class Level extends Actor implements TileBasedMap
         steps = new Stack<Commands>();
         undone = new Stack<Commands>();
 
-        for (int y = 0; y < data.length; y++)
+        for (int y = data.length-1; y >= 0; y--)
         {
-            tiles[y] = new Tile[width];
+            tiles[(data.length-1)-y] = new Tile[width];
             char[] chars = data[y].toCharArray();
             for (int x = 0; x < data[y].length(); x++)
             {
                 Tile t = new Tile(chars[x], x, y);
-                tiles[y][x] = t;
+                tiles[(data.length-1)-y][x] = t;
                 if(t.isPlayer())
                 {
                     player = t;
