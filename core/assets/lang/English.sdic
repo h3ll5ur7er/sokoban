@@ -34,6 +34,7 @@ EnterNameTitle=Enter your name
 EnterNameHelp=name
 EulaTitle=Enduser license agreement
 ShowEulaOnStartup=Show EULA on startup
-EULA=Whatever Curabitur arcu erat, accumsan id imperdiet et, porttitor at sem. Nulla quis lorem ut libero malesuada feugiat. Vestibulum ac diam sit amet quam vehicula elementum sed sit amet dui. Vivamus magna justo, lacinia eget consectetur sed, convallis at tellus. Nulla quis lorem ut libero malesuada feugiat. Pellentesque in ipsum id orci porta dapibus. Praesent sapien massa, convallis a pellentesque nec, egestas non nisi. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae; Donec velit neque, auctor sit amet aliquam vel, ullamcorper sit amet ligula. Nulla porttitor accumsan tincidunt. Donec rutrum congue leo eget malesuada.
+EULA=This End-User License Agreement (EULA) is a legal agreement between you and ERK-Games Production. By pressing the EXIT-Button, you agree to be bounded by the terms of this EULA. If you do not agree to the terms of this EULA, do not press the EXIT-Button and close the the SOFTWARE PRODUCT. Sokoban is being distributed as Freeware for personal purpose. You are NOT allowed to make a charge for distributing this Software whether as a stand-alone product, or as part of a compilation or anthology, nor to use it for supporting your business or customers. This EULA grants you the following rights: Start, play and have fun. You may use an unlimited number of copies of the SOFTWARE PRODUCT.
+
 NotShowAgain=Don't show again
 ShowEulaTitle=Show hint on startup
