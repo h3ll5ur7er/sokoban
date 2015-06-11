@@ -1,13 +1,13 @@
 #Mon Apr 13 20:54:35 CEST 2015
 #Thanks to Christiano for the translations
 
-Play=Jouer
-Editor=Editeur
-Settings=Paramètre
-Exit=Sortie
-Next=Suivant
-Create=Créer
-LevelEditor=Editeur de niveau
+Play=JOUER
+Editor=EDITEUR
+Settings=PARAMÈTRE
+Exit=SORTIE
+Next=SUIVANT
+Create=CRÉER
+LevelEditor=EDITEUR DE NIVEAU
 DescStep1=Clicker sur la tuile pour les tourner (sol/mur).Si vous clicker sur un coin il s'élargira la zone de jeu. Si la zone de jeu dépasse la fenêtre d’édition glisser et déposer pour le bouger.
 DescStep2=Placer les zone d'arriver ou vous le souhaiter. Elles doivent êtres placer sur le sol.
 DescStep3=Placer au tends de boite que de zone d'arriver. Elles peuvent êtres placer sur une zone d'arriver ou sur le sol. Au moins une zone d'arriver ne doit pas contenir de boite.
@@ -19,11 +19,11 @@ CantGoNextStep3=Le nombre de zones et de boites n'est pas les même, ou toute le
 CantGoNextStep4=Aucun joueur n'a été ajouter
 TileSize=Taille de grille
 Language=Langage
-AddLevelPack=Ajouter un pack de niveau
-ResetLevelPacks=Redémarrer le pack de niveau
+AddLevelPack=Ajouter packs
+ResetLevelPacks=Redémarrer packs
 Back=Retour
 RestartRequired=Tu doit recommencer
-SelectLevel=Choix du Niveau
+SelectLevel=CHOIX DU NIVEAU
 Score=Score
 Moves=Déplacement
 Pushes=Pousser
@@ -34,7 +34,7 @@ EnterPathHelp=chemin
 EnterNameTitle=Entrée votre nom
 EnterNameHelp=nom
 EulaTitle=Controle
-ShowEulaOnStartup=Afficher CLUF au démarrage
+ShowEulaOnStartup=Afficher des aides
 WalkControl=Déplacement: W, A, S, D ou Touche directionnelle
 UndoControl=Retour: Retour arrière
 ResetControl=Recommencer le niveau: Esc-Key
