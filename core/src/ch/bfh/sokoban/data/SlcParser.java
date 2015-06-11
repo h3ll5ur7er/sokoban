@@ -1,3 +1,8 @@
+//*********************************************************//
+// Author: Käser Robin, Knecht Emanuel                     //
+// Berner Fachhochschule                                   //
+//*********************************************************//
+
 package ch.bfh.sokoban.data;
 
 import com.badlogic.gdx.Gdx;

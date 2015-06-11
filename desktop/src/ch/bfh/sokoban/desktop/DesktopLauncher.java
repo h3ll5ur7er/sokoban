@@ -1,3 +1,8 @@
+//*********************************************************//
+// Author: Käser Robin, Knecht Emanuel                     //
+// Berner Fachhochschule                                   //
+//*********************************************************//
+
 package ch.bfh.sokoban.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;

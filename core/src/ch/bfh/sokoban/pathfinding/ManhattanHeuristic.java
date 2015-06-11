@@ -1,3 +1,8 @@
+//*********************************************************//
+// Author: Käser Robin, Knecht Emanuel, Kevin Glass        //
+// Berner Fachhochschule                                   //
+//*********************************************************//
+
 package ch.bfh.sokoban.pathfinding;
 
 public class ManhattanHeuristic implements AStarHeuristic

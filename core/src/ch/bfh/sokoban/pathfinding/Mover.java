@@ -1,3 +1,8 @@
+//*********************************************************//
+// Author: Käser Robin, Knecht Emanuel, Kevin Glass        //
+// Berner Fachhochschule                                   //
+//*********************************************************//
+
 package ch.bfh.sokoban.pathfinding;
 /**
  * A tagging interface for an object representing the entity in the game that

@@ -10,6 +10,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 import java.util.Arrays;
+//*********************************************************//
+//Author: Käser Robin, Knecht Emanuel                     //
+//Berner Fachhochschule                                   //
+//*********************************************************//
 
 /**
  * Splash screen that fades in and out a image and navigates to a given screen
