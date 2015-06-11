@@ -427,7 +427,10 @@ public class Level extends Actor implements TileBasedMap
         while(undo()){}
         stepsString = "";
 
-        //TODO: reset score values
+        moves = 0;
+        pushes = 0;
+        undoRedo = 0;
+        score = 0;
     }
 
     /**

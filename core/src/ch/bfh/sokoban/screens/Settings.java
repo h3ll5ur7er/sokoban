@@ -54,7 +54,7 @@ public class Settings extends MyScreenAdapter
         tileSizeDisplay = new Label(Integer.toString(tileSize), skin);
 
         languagesBox = new SelectBox<String>(skin);
-        languagesBox.setItems("Deutsch", "FranÃ§ais", "English");
+        languagesBox.setItems("Deutsch", "Français", "English");
         languagesBox.setSelected(get("SelectedLanguage"));
         languagesBox.addListener(e ->
         {

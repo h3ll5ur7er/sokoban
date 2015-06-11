@@ -106,7 +106,7 @@ public class LevelSelection extends MyScreenAdapter
         table.add(inner).padTop(-30).width(300).height(300);
         table.add(highscoresContainer).padTop(-30).width(300).row();
         table.invalidateHierarchy();
-        table.debug();
+        //table.debug();
 
         stage.addActor(table);
 
