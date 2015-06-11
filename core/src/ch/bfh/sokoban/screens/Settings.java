@@ -51,7 +51,7 @@ public class Settings extends MyScreenAdapter
                 }
         );
 
-        tileSizeDisplay = new Label(Integer.toString(tileSize), skin);
+        tileSizeDisplay = new Label(Integer.toString(tileSize), skin, "small");
 
         languagesBox = new SelectBox<String>(skin);
         languagesBox.setItems("Deutsch", "Français", "English");
@@ -62,7 +62,7 @@ public class Settings extends MyScreenAdapter
             return true;
         });
 
-        TextButton btnAdd = new TextButton(Lan.g("AddLevelPack"), skin);
+        TextButton btnAdd = new TextButton(Lan.g("AddLevelPack"), skin, "small");
         btnAdd.pad(20);
         btnAdd.addListener(new ClickListener()
         {
@@ -87,7 +87,7 @@ public class Settings extends MyScreenAdapter
             }
         });
 
-        TextButton btnReset = new TextButton(Lan.g("ResetLevelPacks"), skin);
+        TextButton btnReset = new TextButton(Lan.g("ResetLevelPacks"), skin, "small");
         btnReset.pad(20);
         btnReset.addListener(new ClickListener()
         {
@@ -110,7 +110,7 @@ public class Settings extends MyScreenAdapter
             }
         });
 
-        CheckBox notShowEula = new CheckBox(Lan.g("ShowEulaOnStartup"), skin);
+        CheckBox notShowEula = new CheckBox(Lan.g("ShowEulaOnStartup"), skin, "small");
         notShowEula.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
@@ -118,7 +118,7 @@ public class Settings extends MyScreenAdapter
             }
         });
 
-        table.add(Lan.g("Settings")).colspan(5).center();
+        table.add(Lan.g("Settings"), "small").pad(10, 0, 0, 0).colspan(5).center();
         table.row();
 
         table.add().width(table.getWidth() / 5);
@@ -145,7 +145,7 @@ public class Settings extends MyScreenAdapter
         table.add();
         table.add(Lan.g("Language"), "small").left();
         table.add(languagesBox).pad(10).expandX().expandY().left();
-        table.add(Lan.g("RestartRequired")).left();
+        table.add(Lan.g("RestartRequired"), "small").left();
         table.add();
         table.row();
 

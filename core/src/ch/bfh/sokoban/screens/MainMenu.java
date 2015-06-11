@@ -40,22 +40,22 @@ public class MainMenu extends MyScreenAdapter
         table = new Table(skin);
         table.setBounds(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
-        TextButton btnPlay = new TextButton(Lan.g("Play"), skin);
+        TextButton btnPlay = new TextButton(Lan.g("Play"), skin, "small");
         btnPlay.pad(20);
         btnPlay.setSize(300, 100);
         btnPlay.addListener(playListener());
 
-        TextButton btnEdit = new TextButton(Lan.g("Editor"), skin);
+        TextButton btnEdit = new TextButton(Lan.g("Editor"), skin, "small");
         btnEdit.pad(22);
         btnEdit.setSize(300, 100);
         btnEdit.addListener(editorListener());
 
-        TextButton btnSettings = new TextButton(Lan.g("Settings"), skin);
+        TextButton btnSettings = new TextButton(Lan.g("Settings"), skin, "small");
         btnSettings.pad(22);
         btnSettings.setSize(300, 100);
         btnSettings.addListener(settingsListener());
 
-        TextButton btnExit = new TextButton(Lan.g("Exit"), skin);
+        TextButton btnExit = new TextButton(Lan.g("Exit"), skin, "small");
         btnExit.pad(24);
         btnExit.setSize(300, 100);
         btnExit.addListener(exitListener());
@@ -119,7 +119,7 @@ public class MainMenu extends MyScreenAdapter
             }
         });
 
-        TextButton btnClose = new TextButton(Lan.g("Exit"), skin);
+        TextButton btnClose = new TextButton(Lan.g("OK"), skin);
         btnClose.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {

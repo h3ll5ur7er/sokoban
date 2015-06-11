@@ -40,3 +40,4 @@ ResetControl=Reset Level: Esc-Key
 AutomoveControl=To move the shortest way from A to B click on the field you wish to move
 NotShowAgain=Don't show again
 ShowEulaTitle=Show hint on startup
+OK=OK

@@ -43,8 +43,9 @@
   },
   "com.badlogic.gdx.scenes.scene2d.ui.CheckBox$CheckBoxStyle":
   {
-    "default": { "font": "white32", "checkboxOn": "ui.checkbox.on", "checkboxOff": "ui.checkbox.off", "checkboxOver": "ui.checkbox.over" }
-    "default_black": { "font": "black32", "checkboxOn": "ui.checkbox.on", "checkboxOff": "ui.checkbox.off", "checkboxOver": "ui.checkbox.over" }
+    "default": { "font": "white32", "checkboxOn": "ui.checkbox.on", "checkboxOff": "ui.checkbox.off", "checkboxOver": "ui.checkbox.over" },
+    "default_black": { "font": "black32", "checkboxOn": "ui.checkbox.on", "checkboxOff": "ui.checkbox.off", "checkboxOver": "ui.checkbox.over" },
+    "small": { "font": "white16", "checkboxOn": "ui.checkbox.on", "checkboxOff": "ui.checkbox.off", "checkboxOver": "ui.checkbox.over" }
   },
   "com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle":
   {
@@ -60,7 +61,7 @@
   },
   "com.badlogic.gdx.scenes.scene2d.ui.SelectBox$SelectBoxStyle":
   {
-    "default": { "font":"white32", "fontColor":"white", "scrollStyle":"default", "listStyle":"default" }
+    "default": { "font":"white16", "fontColor":"white", "scrollStyle":"default", "listStyle":"default" }
   },
   "com.badlogic.gdx.scenes.scene2d.ui.Image":
   {
